@@ -100,10 +100,17 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-admin.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-auth.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athletes.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-tokens.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
-        
+        include_once( STWATT_ABSPATH . 'includes/functions.php' );
+                
         // eventually rolled into api class
         $this->auth = new STWATT_Auth();
+        
+        // db
+        $this->athletes_db = new STWATT_DB_Athletes();
+        $this->tokens_db = new STWATT_DB_Tokens();
     }
 
     /**

@@ -28,7 +28,7 @@ class STWATT_Auth {
     }
 
     public function token_exchange_check() {
-        if (!isset($_GET['page']) || 'strava-api-settings' != $_GET['page'])
+        if (!isset($_GET['page']) || 'stwatts-settings' != $_GET['page'])
             return;
     
         if (!isset($_GET['code']) || '' == $_GET['code'])
@@ -73,11 +73,23 @@ class STWATT_Auth {
     
         $response_obj = json_decode($response);
         
-        $this->store_token_data($response_obj->refresh_token, $response_obj->access_token, $response_obj->expires_at);
-        
-        //$this->stwatt_store_athlete_data($response_obj->athlete);   
+        $this->store_token_data($response_obj);
+           
+        stwatt_add_athlete($response_obj->athlete);
     }
     
-    private function store_token_data($refresh, $access, $expires) {}
+    private function store_token_data($data) {
+        $insert_data = array(
+            'athlete_id' => $data->athlete->id,
+            'scope' => 'read',
+            'refresh_token' => $data->refresh_token,
+            'access_token' => $data->access_token,
+            'expires_at' => $data->expires_at,                         
+        );
+        
+        stwatt()->tokens_db->insert($insert_data, 'token');
+        
+        wp_redirect( admin_url( 'options-general.php?page=stwatts-settings') );
+    }
 
 }

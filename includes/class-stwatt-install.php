@@ -60,14 +60,20 @@ class STWATT_Install {
             athlete_id int(11) DEFAULT NULL,
             first_name varchar(60) DEFAULT NULL,
             gender varchar(1) DEFAULT NULL,
-            last_name varchar(64) DEFAULT NULL,
+            last_name varchar(64) DEFAULT NULL,             
+            PRIMARY KEY (id)
+        ) $charset_collate;";
+
+        $sql[] = "CREATE TABLE stwatt_tokens (
+            id int(11) unsigned NOT NULL AUTO_INCREMENT,
+            athlete_id int(11) DEFAULT NULL,
             scope tinyint(1) DEFAULT NULL,
             refresh_token varchar(255) DEFAULT NULL, 
             access_token varchar(255) DEFAULT NULL,
             expires_at int(11) DEFAULT NULL,             
             PRIMARY KEY (id)
         ) $charset_collate;";
-
+        
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
