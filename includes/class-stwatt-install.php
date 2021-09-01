@@ -67,16 +67,6 @@ class STWATT_Install {
             expires_at int(11) DEFAULT NULL,             
             PRIMARY KEY (id)
         ) $charset_collate;";
-        
-        $sql[] = "CREATE TABLE stwatt_athlete_meta (
-            meta_id int(11) unsigned NOT NULL AUTO_INCREMENT,
-            athlete_id int(11) DEFAULT NULL,
-            meta_key varchar(255) DEFAULT NULL,
-            meta_value longtext DEFAULT NULL,
-            PRIMARY KEY (meta_id),
-            KEY athlete_id (athlete_id),
-            KEY meta_key (meta_key(191)) 
-        ) $charset_collate;";  
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
