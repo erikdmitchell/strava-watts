@@ -1,0 +1,140 @@
+.stwatt-wrapper {
+    width: 100%;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    margin-right: auto;
+    margin-left: auto; 
+}
+
+/*
+    @include min-width(0px) {
+        max-width: 96%;
+    } 
+    
+    @include min-width(576px) {
+        max-width: 570px;
+    }   
+
+    @include min-width(768px) {
+        max-width: 720px;
+    }
+    
+    @include min-width(992px) {
+        max-width: 960px;
+    }
+    
+    @include min-width(1200px) {
+        max-width: 1140px;
+    }        
+
+    @include min-width(1400px) {
+        max-width: 1320px;
+    } 
+*/
+
+.stwatt-row {
+    margin-right: calc(1.5rem / -2);
+    margin-left: calc(1.5rem / -2);    
+}
+
+.stwatt-cols {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: calc(1.5rem / -2);
+    margin-left: calc(1.5rem / -2); 
+    flex: 0 0 auto;   
+}
+
+.stwatt-cols > * {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(1.5rem / 2);
+  padding-left: calc(1.5rem / 2);
+  margin-top: 1.5rem;
+}
+
+.stwatt-col {
+  flex: 1 0 0%;
+}
+
+.stwatt-col-1 {
+    flex-basis: 8.333333%;
+    max-width: 8.333333%;
+}
+
+.stwatt-col-2 {
+    flex-basis: 16.666666%;
+    max-width: 16.666666%;
+}
+
+.stwatt-col-3 {
+    flex-basis: 25%;
+    max-width: 25%;
+}
+
+.stwatt-col-4 {
+    flex-basis: 33.333333%;
+    max-width: 33.333333%;
+}
+
+/*
+.stwatt-col-5 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+*/
+
+.stwatt-col-6 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+
+/*
+.stwatt-col-7 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+*/
+
+.stwatt-col-8 {
+    flex-basis: 66.666666%;
+    max-width: 66.666666%;
+}
+
+.stwatt-col-9 {
+    flex-basis: 75%;
+    max-width: 75%;
+}
+
+/*
+.stwatt-col-10 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+*/
+
+/*
+.stwatt-col-11 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+*/
+
+.stwatt-col-12 {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+.stwatt-wrapper label {
+    font-weight: bold;
+}
+
+.stwatt-wrapper input[type="text"] {
+    width: 100%;
+}
+
+.stwatt-wrapper input.code {
+    
+}
