@@ -100,10 +100,17 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-admin.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-auth.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athletes.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-tokens.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
-        
+        include_once( STWATT_ABSPATH . 'includes/functions.php' );
+
         // eventually rolled into api class
         $this->auth = new STWATT_Auth();
+
+        // db
+        $this->athletes_db = new STWATT_DB_Athletes();
+        $this->tokens_db = new STWATT_DB_Tokens();
     }
 
     /**
@@ -114,16 +121,14 @@ final class STWATT {
      */
     private function init_hooks() {
         register_activation_hook( STWATT_PLUGIN_FILE, array( 'STWATT_Install', 'install' ) );
-        
+
         add_action( 'init', array( $this, 'init' ), 0 );
         add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts_styles' ) );
     }
-    
+
     public function init() {}
-    
+
     public function frontend_scripts_styles() {}
-    
-    private function stwatt_store_athlete_data($data) {} 
 
 }
 

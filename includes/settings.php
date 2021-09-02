@@ -22,10 +22,10 @@
             </div>
             <div class="stwatt-row stwatt-cols">
                 <div class="stwatt-col-2">
-                    <label for="user-token">User Token</label> N/A?
+                    <label for="athlete-id">Athlete ID</label>
                 </div>
                 <div class="stwatt-col-8">
-                    <input type="text" name="stwatt_settings[user_token]" class="code" id="user-token" value="<?php echo get_option( "{$prefix}user_token", '' ); ?>" />
+                    <input type="text" name="stwatt_settings[athlete_id]" class="code" id="athlete-id" value="<?php echo get_option( "{$prefix}athlete_id", '' ); ?>" />
                 </div>
             </div>  
             <div class="stwatt-row stwatt-cols">
@@ -42,7 +42,10 @@
                     <label for="">Validate</label>
                 </div>
                 <div class="stwatt-col-4">
-                    <?php echo stwatt()->auth->auth_button(); ?> ARE YOU AUTH?
+                    <?php echo stwatt()->auth->auth_button(); ?> 
+                    <?php if ( stwatt_is_athlete_authorized( get_option( "{$prefix}athlete_id", '' ) ) ) : ?>
+                        <span class="authorized">You are authorized</span>
+                    <?php endif; ?>
                 </div>
             </div>
     
