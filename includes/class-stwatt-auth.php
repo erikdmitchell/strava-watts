@@ -14,10 +14,11 @@ class STWATT_Auth {
 
     // Authorize button.
     public function auth_button() {
+        $scope = 'read,read_all,activity:read,activity:read_all';
         $prefix = '_stwatt_';
         $client_id = get_option( "{$prefix}client_id", '' );
         $redirect_uri = admin_url( 'options-general.php?page=stwatts-settings' );
-        $auth_url = "http://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect_uri}&approval_prompt=force&scope=read";
+        $auth_url = "http://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect_uri}&approval_prompt=force&scope={$scope}";
 
         $html = '<a href="' . $auth_url . '" class="button">Authorize</a>';
 
@@ -81,6 +82,7 @@ class STWATT_Auth {
     }
 
     private function store_token_data( $data ) {
+        $scope = 'read,read_all,activity:read,activity:read_all';
         $insert_data = array(
             'refresh_token' => $data->refresh_token,
             'access_token' => $data->access_token,
@@ -93,7 +95,7 @@ class STWATT_Auth {
             $this->update_token( $data->athlete->id, $insert_data );
         } else {
             $insert_data['athlete_id'] = $data->athlete->id;
-            $insert_data['scope'] = 'read';
+            $insert_data['scope'] = $scope;
 
             $this->add_token( $insert_data );
         }

@@ -53,3 +53,8 @@
         </form>
     </div>
 </div>
+
+<div>
+    <?php $athlete = new STWATT_Athlete( 4334 ); ?>
+<?php print_r( $athlete ); ?>    
+</div>
