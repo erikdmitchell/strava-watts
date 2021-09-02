@@ -24,9 +24,10 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         return array(
             'id' => '%d',
             'activity_id' => '%d',
+            'athlete_id' => '%d',
             'name' => '%s',
             'distance' => '%d',
-            'moving_time' => '%d',
+            'time' => '%d',
             'elevation' => '%d',
             'date' => '%s',
             'bike_type' => '%s',
@@ -42,13 +43,20 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
     public function get_column_defaults() {
         return array(
             'activity_id' => 0,
+            'athlete_id' => 0,
             'name' => '',
             'distance' => 0,
-            'moving_time' => 0,
+            'time' => 0,
             'elevation' => 0,
             'date' => date( 'Y-m-d H:i:s' ),
-            'bike_type' => '',            
+            'bike_type' => '',
         );
+    }
+
+    public function get_activities( $athlete_id = 0 ) {
+        global $wpdb;
+
+        return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s", $athlete_id ) );
     }
 
     /**

@@ -11,12 +11,20 @@ class STWATT_Athlete {
         $this->id = $id;
         $this->token = $this->get_token();
         // $this->activities = $this->get_activities();
-        $this->act = $this->process_activities();
+        // $this->get_strava_activities();
+        // testing
+        /*
+        $file = STWATT_ABSPATH . 'activities.json';
+        $contents = file_get_contents( $file );
+        $activities = json_decode( $contents ); // will be passed
+
+        $this->process_activities($activities);
+        */
     }
 
-    protected function get_activities( $id = 0, $params = array() ) {
+    protected function get_strava_activities( $id = 0, $params = array() ) {
         if ( $id ) {
-            return $this->get_activity( $id );
+            return $this->get_strava_activity( $id );
         }
 
         $default_params = array(
@@ -55,7 +63,7 @@ class STWATT_Athlete {
         return json_decode( $response );
     }
 
-    protected function get_activity( $id = 0 ) {
+    protected function get_strava_activity( $id = 0 ) {
         $curl = curl_init();
 
         curl_setopt_array(
@@ -92,10 +100,10 @@ class STWATT_Athlete {
         return http_build_query( $clean_params );
     }
 
-    protected function process_activities() {
-        $file = STWATT_ABSPATH . 'activities.json';
-        $contents = file_get_contents( $file );
-        $activities = json_decode( $contents ); // will be passed
+    protected function process_activities( $activities = '' ) {
+        if ( empty( $activities ) ) {
+            return;
+        }
 
         foreach ( $activities as $activity ) {
             $this->process_activity( $activity );
@@ -123,19 +131,25 @@ class STWATT_Athlete {
         // get bike type from gear.
         $gear = $this->get_gear( $activity_details['gear_id'] );
         $activity_details['bike_type'] = $gear->bike_type;
-        /*
-        Array
-        (
-        [name] => I’m beginning to regret this block
-        [distance] => 39964.1
-        [moving_time] => 5173
-        [total_elevation_gain] => 576
-        [id] => 5894343616
-        [start_date_local] => 2021-09-02T11:53:28Z
-        [gear_id] => b6540497
-        [bike_type] => road
-        )
-        */
+
+        // clean up keys for our db.
+        $data = array(
+            'activity_id' => $activity_details['id'],
+            'athlete_id' => $this->id,
+            'name' => $activity_details['name'],
+            'distance' => $activity_details['distance'],
+            'time' => $activity_details['moving_time'],
+            'elevation' => $activity_details['total_elevation_gain'],
+            'date' => $activity_details['start_date_local'],
+            'bike_type' => $activity_details['bike_type'],
+        );
+        // we need a check for dups.
+        return stwatt()->athlete_activities_db->insert( $data, 'athlete_activity' );
+    }
+
+    // non strava stuff.
+    protected function get_activities() {
+        return stwatt()->athlete_activities_db->get_activities( $this->id );
     }
 
     // move to gear class?

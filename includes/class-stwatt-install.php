@@ -77,10 +77,11 @@ class STWATT_Install {
 
         $sql[] = "CREATE TABLE stwatt_athlete_activities (
             id int(11) unsigned NOT NULL AUTO_INCREMENT,
-            activity_id int(11) DEFAULT NULL,
+            activity_id bigint(8) DEFAULT NULL,
+            athlete_id int(11) DEFAULT NULL,
             name varchar(255) DEFAULT NULL,
             distance decimal(10,1),
-            moving_time int (11),
+            time int (11),
             elevation int (11),
             date datetime NOT NULL,
             bike_type varchar(64) DEFAULT NULL,
