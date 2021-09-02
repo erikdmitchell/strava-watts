@@ -43,15 +43,17 @@
                 </div>
                 <div class="stwatt-col-4">
                     <?php echo stwatt()->auth->auth_button(); ?> 
-                    <?php 
-                        if (stwatt_is_athlete_authorized(get_option( "{$prefix}athlete_id", '' ) ) ) {
-                            echo "authorized";
-                        }
-                    ?>
+                    <?php if (stwatt_is_athlete_authorized(get_option( "{$prefix}athlete_id", '' ) ) ) : ?>
+                        <span class="authorized">You are authorized</span>
+                    <?php endif; ?>
                 </div>
             </div>
     
             <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
         </form>
+    </div>
+    
+    <div class="stwatt-wrapper">
+        <h2>Athlete Token Check</h2>
     </div>
 </div>

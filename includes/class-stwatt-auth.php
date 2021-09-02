@@ -80,14 +80,22 @@ class STWATT_Auth {
     
     private function store_token_data($data) {
         $insert_data = array(
-            'athlete_id' => $data->athlete->id,
-            'scope' => 'read',
             'refresh_token' => $data->refresh_token,
             'access_token' => $data->access_token,
             'expires_at' => $data->expires_at,                         
         );
         
-        stwatt()->tokens_db->insert($insert_data, 'token');
+        // check if we already have the token data, then we just update the token info.
+        if (stwatt_is_athlete_authorized($data->athlete->id)) {
+            $row_id = stwatt_get_athlete_token_id($data->athlete->id);
+            
+            stwatt()->tokens_db->update( $row_id, $insert_data );             
+        } else {
+            $insert_data['athlete_id'] = $data->athlete->id;
+            $insert_data['scope'] = 'read';
+                    
+            stwatt()->tokens_db->insert($insert_data, 'token');            
+        }
         
         wp_redirect( admin_url( 'options-general.php?page=stwatts-settings') );
     }
