@@ -9,6 +9,7 @@ class STWATT_Auth {
      */
     public function __construct() {
         add_action( 'admin_init', array( $this, 'token_exchange_check' ), 0 );
+        add_action( 'stwatt_user_token_check', array($this, 'update_tokens' ) );
     }
 
     public function init() {}
@@ -103,6 +104,12 @@ class STWATT_Auth {
         }
 
         wp_redirect( admin_url( 'options-general.php?page=stwatts-settings' ) );
+    }
+    
+    public function update_tokens() {
+        // is token expiration in the past?
+        $tokens = stwatt()->tokens_db->get_tokens();
+print_r($tokens);        
     }
 
 }

@@ -28,6 +28,7 @@ class STWATT_DB_Tokens extends STWATT_DB {
             'refresh_token' => '%s',
             'access_token' => '%s',
             'expires_at' => '%d',
+            'last_updated' => '%s',
         );
     }
 
@@ -44,7 +45,14 @@ class STWATT_DB_Tokens extends STWATT_DB {
             'refresh_token' => '',
             'access_token' => '',
             'expires_at' => 0,
+            'last_updated' => date( 'Y-m-d H:i:s' ),
         );
+    }
+    
+    public function get_tokens() {
+        global $wpdb;
+
+        return $wpdb->get_results( "SELECT * FROM $this->table_name" );       
     }
 
     /**

@@ -70,7 +70,8 @@ class STWATT_Install {
             scope varchar(32) DEFAULT NULL,
             refresh_token varchar(255) DEFAULT NULL, 
             access_token varchar(255) DEFAULT NULL,
-            expires_at int(11) DEFAULT NULL,             
+            expires_at int(11) DEFAULT NULL, 
+            last_updated datetime NOT NULL,            
             PRIMARY KEY (id)
         ) $charset_collate;";
 
