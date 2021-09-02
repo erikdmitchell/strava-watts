@@ -52,11 +52,4 @@
             <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
         </form>
     </div>
-    
-    <div class="stwatt-wrapper">
-        <h2>Athlete Token Check</h2>
-        <pre>
-        <?php stwatt()->auth->update_tokens(); ?>
-        </pre>
-    </div>
 </div>
