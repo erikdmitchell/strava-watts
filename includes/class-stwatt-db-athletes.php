@@ -27,7 +27,7 @@ class STWATT_DB_Athletes extends STWATT_DB {
             'athlete_id' => '%d',
             'first_name' => '%s',
             'gender' => '%s',
-            'last_name' => '%s',                                   
+            'last_name' => '%s',
         );
     }
 
@@ -43,7 +43,7 @@ class STWATT_DB_Athletes extends STWATT_DB {
             'athlete_id' => 0,
             'first_name' => '',
             'gender' => '',
-            'last_name' => '',            
+            'last_name' => '',
         );
     }
 

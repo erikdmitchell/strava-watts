@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:     Strava Watts
- * Plugin URI:      
+ * Plugin URI:
  * Description:     Add cool Strava graphs and information to your WordPress site.
  * Author:          Erik Mitchell
  * Author URI:      https://erikmitchell.net
@@ -11,7 +11,7 @@
  *
  * @package         stwatt
  */
- 
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
     die;

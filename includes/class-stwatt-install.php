@@ -36,7 +36,7 @@ class STWATT_Install {
         self::create_tables();
         self::update_version();
         self::maybe_update_db_version();
-        //self::setup_cron_jobs();
+        // self::setup_cron_jobs();
 
         delete_transient( 'stwatt_installing' );
     }
@@ -73,7 +73,7 @@ class STWATT_Install {
             expires_at int(11) DEFAULT NULL,             
             PRIMARY KEY (id)
         ) $charset_collate;";
-        
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
@@ -88,7 +88,7 @@ class STWATT_Install {
         // no updates yet
     }
 
-/*
+    /*
     public static function setup_cron_jobs() {
         // Use wp_next_scheduled to check if the event is already scheduled
         $timestamp = wp_next_scheduled( 'stwatt_user_token_check' );
@@ -99,7 +99,7 @@ class STWATT_Install {
             wp_schedule_event( time(), 'daily', 'stwatt_user_token_check' );
         }
     }
-*/
+    */
 
 }
 

@@ -43,7 +43,7 @@
                 </div>
                 <div class="stwatt-col-4">
                     <?php echo stwatt()->auth->auth_button(); ?> 
-                    <?php if (stwatt_is_athlete_authorized(get_option( "{$prefix}athlete_id", '' ) ) ) : ?>
+                    <?php if ( stwatt_is_athlete_authorized( get_option( "{$prefix}athlete_id", '' ) ) ) : ?>
                         <span class="authorized">You are authorized</span>
                     <?php endif; ?>
                 </div>

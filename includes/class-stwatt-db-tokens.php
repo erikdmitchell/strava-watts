@@ -27,7 +27,7 @@ class STWATT_DB_Tokens extends STWATT_DB {
             'scope' => '%s',
             'refresh_token' => '%s',
             'access_token' => '%s',
-            'expires_at' => '%d',                                    
+            'expires_at' => '%d',
         );
     }
 
@@ -43,7 +43,7 @@ class STWATT_DB_Tokens extends STWATT_DB {
             'scope' => '',
             'refresh_token' => '',
             'access_token' => '',
-            'expires_at' => 0,             
+            'expires_at' => 0,
         );
     }
 
