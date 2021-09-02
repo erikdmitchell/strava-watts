@@ -55,5 +55,8 @@
     
     <div class="stwatt-wrapper">
         <h2>Athlete Token Check</h2>
+        <pre>
+        <?php stwatt()->auth->update_tokens(); ?>
+        </pre>
     </div>
 </div>

@@ -48,11 +48,11 @@ class STWATT_DB_Tokens extends STWATT_DB {
             'last_updated' => date( 'Y-m-d H:i:s' ),
         );
     }
-    
+
     public function get_tokens() {
         global $wpdb;
 
-        return $wpdb->get_results( "SELECT * FROM $this->table_name" );       
+        return $wpdb->get_results( "SELECT * FROM $this->table_name" );
     }
 
     /**
