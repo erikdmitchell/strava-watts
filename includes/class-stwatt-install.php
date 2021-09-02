@@ -88,6 +88,19 @@ class STWATT_Install {
             PRIMARY KEY (id)
         ) $charset_collate;";
 
+        $sql[] = "CREATE TABLE stwatt_athlete_activities (
+            id int(11) unsigned NOT NULL AUTO_INCREMENT,
+            athlete_id int(11) DEFAULT NULL,
+            elevation int(11) DEFAULT NULL,
+            distance decimal(10,1) DEFAULT NULL,
+            distance_road decimal(10,1) DEFAULT NULL,
+            distance_cross decimal(10,1) DEFAULT NULL,  
+            distance_mtb decimal(10,1) DEFAULT NULL,
+            distance_tt decimal(10,1) DEFAULT NULL,
+            distance_gravel decimal(10,1) DEFAULT NULL,                                              
+            PRIMARY KEY (id)
+        ) $charset_collate;";
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
