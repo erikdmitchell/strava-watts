@@ -26,7 +26,7 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
             'activity_id' => '%d',
             'athlete_id' => '%d',
             'name' => '%s',
-            'distance' => '%d',
+            'distance' => '%s',
             'time' => '%d',
             'elevation' => '%d',
             'date' => '%s',
