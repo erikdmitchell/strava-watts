@@ -36,7 +36,7 @@ class STWATT_Install {
         self::create_tables();
         self::update_version();
         self::maybe_update_db_version();
-        // self::setup_cron_jobs();
+        self::setup_cron_jobs();
 
         delete_transient( 'stwatt_installing' );
     }
@@ -67,7 +67,7 @@ class STWATT_Install {
         $sql[] = "CREATE TABLE stwatt_tokens (
             id int(11) unsigned NOT NULL AUTO_INCREMENT,
             athlete_id int(11) DEFAULT NULL,
-            scope tinyint(1) DEFAULT NULL,
+            scope varchar(32) DEFAULT NULL,
             refresh_token varchar(255) DEFAULT NULL, 
             access_token varchar(255) DEFAULT NULL,
             expires_at int(11) DEFAULT NULL,             
@@ -88,7 +88,6 @@ class STWATT_Install {
         // no updates yet
     }
 
-    /*
     public static function setup_cron_jobs() {
         // Use wp_next_scheduled to check if the event is already scheduled
         $timestamp = wp_next_scheduled( 'stwatt_user_token_check' );
@@ -99,7 +98,6 @@ class STWATT_Install {
             wp_schedule_event( time(), 'daily', 'stwatt_user_token_check' );
         }
     }
-    */
 
 }
 
