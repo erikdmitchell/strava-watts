@@ -130,8 +130,6 @@ final class STWATT {
 
     public function frontend_scripts_styles() {}
 
-    private function stwatt_store_athlete_data( $data ) {}
-
 }
 
 /**
