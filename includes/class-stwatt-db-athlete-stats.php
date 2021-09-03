@@ -69,8 +69,6 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
     }
 
     public function update_stats( $athlete_id = 0, $activity_id = 0 ) {
-        global $wpdb; // check we need this!
-
         // get activity.
         $activity = stwatt()->athlete_activities_db->get_activity( $activity_id );
 
@@ -81,26 +79,35 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
             'time' => $activity->time,
             "distance_{$activity->bike_type}" => $activity->distance,
         );
-        print_r( $data );
 
         // check athlete exists and update, otherwise, insert.
-        if ( $this->stats_exist( $athlete_id ) ) {
-            echo 'update';
-            // update( $row_id, $data = array(), $where = '' )
+        if ( $row_id = $this->athlete_stats_exist( $athlete_id ) ) {
+            // update data values.
+            foreach ($data as $key => $value) {
+                $data[$key] = $this->calculate_stat( $key, $value, $athlete_id );
+            }
+
+            $this->update( $row_id, $data );
         } else {
             $data['athlete_id'] = $athlete_id;
 
             $this->insert( $data, 'athlete_stats' );
         }
-        // use built in insert?
+
+        return;
     }
 
-    protected function calculate_stat( $field = '', $value = '', $type = 'int' ) {
-        // maybe replace type with column value
-        echo "$field | $value";
+    protected function calculate_stat( $field = '', $value = '', $athlete_id = 0 ) {
+        if (empty($field) || empty($value) || !$athlete_id)
+            return;
+            
+        $db_value = $this->get_column_by( $field, 'athlete_id', $athlete_id );  
+        $new_value = $value + $db_value;
+        
+        return $new_value;
     }
 
-    public function stats_exist( $athlete_id = 0 ) {
+    public function athlete_stats_exist( $athlete_id = 0 ) {
         return $this->get_column_by( 'id', 'athlete_id', $athlete_id );
     }
 
