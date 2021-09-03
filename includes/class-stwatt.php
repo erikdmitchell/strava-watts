@@ -115,7 +115,7 @@ final class STWATT {
         $this->athletes_db = new STWATT_DB_Athletes();
         $this->tokens_db = new STWATT_DB_Tokens();
         $this->athlete_activities_db = new STWATT_DB_Athlete_Activities();
-        $this->athlete_stats = new STWATT_DB_Athlete_Stats();
+        $this->athlete_stats_db = new STWATT_DB_Athlete_Stats();
     }
 
     /**
