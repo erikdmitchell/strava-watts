@@ -18,7 +18,7 @@ class STWATT_Athlete {
         $contents = file_get_contents( $file );
         $activities = json_decode( $contents ); // will be passed
 
-        $this->process_activities($activities);
+        $this->add_activities($activities);
         */
     }
 
@@ -100,19 +100,19 @@ class STWATT_Athlete {
         return http_build_query( $clean_params );
     }
 
-    protected function process_activities( $activities = '' ) {
+    protected function add_activities( $activities = '' ) {
         if ( empty( $activities ) ) {
             return;
         }
 
         foreach ( $activities as $activity ) {
-            $this->process_activity( $activity );
+            $this->add_activity( $activity );
         }
 
         return;
     }
 
-    protected function process_activity( $activity = '' ) {
+    protected function add_activity( $activity = '' ) {
         if ( empty( $activity ) ) {
             return;
         }
@@ -126,6 +126,8 @@ class STWATT_Athlete {
             'start_date_local',
             'gear_id',
         );
+
+        // get just the data we need.
         $activity_details = array_intersect_key( get_object_vars( $activity ), array_flip( $keys_to_use ) );
 
         // get bike type from gear.
@@ -143,12 +145,19 @@ class STWATT_Athlete {
             'date' => $activity_details['start_date_local'],
             'bike_type' => $activity_details['bike_type'],
         );
+
         // we need a check for dups.
-        return stwatt()->athlete_activities_db->insert( $data, 'athlete_activity' );
+        // add to db.
+        stwatt()->athlete_activities_db->insert( $data, 'athlete_activity' );
+
+        // add to athlete stats.
+        stwatt()->athlete_stats_db->update_stats( $data['athlete_id'], $data['activity_id'] );
+
+        return;
     }
 
     // non strava stuff.
-    protected function get_activities() {
+    public function get_activities() {
         return stwatt()->athlete_activities_db->get_activities( $this->id );
     }
 
