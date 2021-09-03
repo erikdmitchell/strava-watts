@@ -59,6 +59,12 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s", $athlete_id ) );
     }
 
+    public function get_activity( $activity_id = 0 ) {
+        global $wpdb;
+
+        return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE activity_id = %s LIMIT 1", $activity_id ) );
+    }
+
     /**
      * Create the table
      *
