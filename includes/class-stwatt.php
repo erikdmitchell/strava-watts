@@ -98,8 +98,10 @@ final class STWATT {
      */
     public function includes() {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-admin.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-auth.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athlete-activities.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athletes.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-tokens.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
@@ -111,6 +113,7 @@ final class STWATT {
         // db
         $this->athletes_db = new STWATT_DB_Athletes();
         $this->tokens_db = new STWATT_DB_Tokens();
+        $this->athlete_activities_db = new STWATT_DB_Athlete_Activities();
     }
 
     /**
