@@ -83,8 +83,8 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
         // check athlete exists and update, otherwise, insert.
         if ( $row_id = $this->athlete_stats_exist( $athlete_id ) ) {
             // update data values.
-            foreach ($data as $key => $value) {
-                $data[$key] = $this->calculate_stat( $key, $value, $athlete_id );
+            foreach ( $data as $key => $value ) {
+                $data[ $key ] = $this->calculate_stat( $key, $value, $athlete_id );
             }
 
             $this->update( $row_id, $data );
@@ -98,12 +98,13 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
     }
 
     protected function calculate_stat( $field = '', $value = '', $athlete_id = 0 ) {
-        if (empty($field) || empty($value) || !$athlete_id)
+        if ( empty( $field ) || empty( $value ) || ! $athlete_id ) {
             return;
-            
-        $db_value = $this->get_column_by( $field, 'athlete_id', $athlete_id );  
+        }
+
+        $db_value = $this->get_column_by( $field, 'athlete_id', $athlete_id );
         $new_value = $value + $db_value;
-        
+
         return $new_value;
     }
 
