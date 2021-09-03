@@ -93,6 +93,7 @@ class STWATT_Install {
             athlete_id int(11) DEFAULT NULL,
             elevation int(11) DEFAULT NULL,
             distance decimal(10,1) DEFAULT NULL,
+            time int (11),
             distance_road decimal(10,1) DEFAULT NULL,
             distance_cross decimal(10,1) DEFAULT NULL,  
             distance_mtb decimal(10,1) DEFAULT NULL,
