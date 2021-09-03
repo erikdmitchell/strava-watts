@@ -53,7 +53,7 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
         );
     }
 
-    public function get_activities( $athlete_id = 0 ) {
+    public function get_stats( $athlete_id = 0 ) {
         global $wpdb;
 
         return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s", $athlete_id ) );
