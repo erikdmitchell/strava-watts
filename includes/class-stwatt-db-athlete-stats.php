@@ -61,16 +61,21 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
     }
 
     /**
-     * Get all stats from db.
+     * Get stats.
      *
      * @access public
-     * @param int $athlete_id (default: 0)
+     * @param int    $athlete_id (default: 0)
+     * @param string $fields (default: '*')
      * @return void
      */
-    public function get_stats( $athlete_id = 0 ) {
+    public function get_stats( $athlete_id = 0, $fields = '*' ) {
         global $wpdb;
 
-        return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s LIMIT 1", $athlete_id ) );
+        if ( is_array( $fields ) ) {
+            $fields = implode( ', ', $fields );
+        }
+
+        return $wpdb->get_row( $wpdb->prepare( "SELECT $fields FROM $this->table_name WHERE athlete_id = %s LIMIT 1", $athlete_id ) );
     }
 
     // may not be needed.

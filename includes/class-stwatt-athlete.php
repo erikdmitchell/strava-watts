@@ -13,7 +13,7 @@ class STWATT_Athlete {
     public function __construct( $id = 0 ) {
         $this->id = $id;
         $this->token = $this->get_token(); // not public?
-        $this->activities = $this->get_activities();
+        // $this->activities = $this->get_activities();
         $this->stats = $this->get_stats();
         // $this->get_strava_activities();
         // testing
