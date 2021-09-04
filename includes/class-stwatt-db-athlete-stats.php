@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * STWATT_DB_Athlete_Stats class.
+ *
+ * @extends STWATT_DB
+ */
 class STWATT_DB_Athlete_Stats extends STWATT_DB {
 
     /**
@@ -55,19 +60,34 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
         );
     }
 
+    /**
+     * Get all stats from db.
+     *
+     * @access public
+     * @param int $athlete_id (default: 0)
+     * @return void
+     */
     public function get_stats( $athlete_id = 0 ) {
         global $wpdb;
 
-        return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s", $athlete_id ) );
+        return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s LIMIT 1", $athlete_id ) );
     }
 
-    // may not be nedded.
+    // may not be needed.
     public function get_row_id( $athlete_id = 0 ) {
         global $wpdb;
 
         return $wpdb->get_results( $wpdb->prepare( "SELECT id FROM $this->table_name WHERE athlete_id = %s", $athlete_id ) );
     }
 
+    /**
+     * Update stats in db.
+     *
+     * @access public
+     * @param int $athlete_id (default: 0)
+     * @param int $activity_id (default: 0)
+     * @return void
+     */
     public function update_stats( $athlete_id = 0, $activity_id = 0 ) {
         // get activity.
         $activity = stwatt()->athlete_activities_db->get_activity( $activity_id );
@@ -97,6 +117,15 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
         return;
     }
 
+    /**
+     * Calculate stats.
+     *
+     * @access protected
+     * @param string $field (default: '')
+     * @param string $value (default: '')
+     * @param int    $athlete_id (default: 0)
+     * @return void
+     */
     protected function calculate_stat( $field = '', $value = '', $athlete_id = 0 ) {
         if ( empty( $field ) || empty( $value ) || ! $athlete_id ) {
             return;
@@ -108,6 +137,13 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
         return $new_value;
     }
 
+    /**
+     * Check if we have stats in db.
+     *
+     * @access public
+     * @param int $athlete_id (default: 0)
+     * @return void
+     */
     public function athlete_stats_exist( $athlete_id = 0 ) {
         return $this->get_column_by( 'id', 'athlete_id', $athlete_id );
     }
