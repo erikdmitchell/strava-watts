@@ -1,5 +1,4 @@
 <?php $athlete = stwatt_athlete(); ?>
-Shortcode
 <span class="material-icons">
 pedal_bike
 </span>

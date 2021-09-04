@@ -13,7 +13,6 @@ class STWATT_Athlete_Stats {
      */
     public function __construct() {}
 
-    // protect?
     public function stats( $athlete_id = 0, $fields = array(), $format = true ) {
         $default_fields = array( 'elevation', 'distance', 'time', 'distance_road', 'distance_cross', 'distance_mtb', 'distance_tt', 'distance_gravel' );
         $fields = wp_parse_args( $fields, $default_fields );
@@ -34,6 +33,14 @@ class STWATT_Athlete_Stats {
         return $stats;
     }
 
+    /**
+     * Format stat.
+     * 
+     * @access protected
+     * @param string $stat (default: '')
+     * @param string $type (default: 'distance')
+     * @return void
+     */
     protected function format( $stat = '', $type = 'distance' ) {
         if ( empty( $stat ) ) {
             return;
