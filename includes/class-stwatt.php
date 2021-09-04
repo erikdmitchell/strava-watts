@@ -99,6 +99,7 @@ final class STWATT {
     public function includes() {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-admin.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete-stats.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-auth.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athlete-activities.php' );
@@ -132,8 +133,20 @@ final class STWATT {
         add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts_styles' ) );
     }
 
+    /**
+     * Initialize stuff.
+     *
+     * @access public
+     * @return void
+     */
     public function init() {}
 
+    /**
+     * Frontend scripts/styles.
+     *
+     * @access public
+     * @return void
+     */
     public function frontend_scripts_styles() {}
 
 }

@@ -1,5 +1,5 @@
 <?php
-
+// roll into class?
 function stwatt_add_athlete( $data = '' ) {
     if ( empty( $data ) ) {
         return;
@@ -40,4 +40,27 @@ function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
     }
 
     return false;
+}
+
+function stwatt_athlete( $athlete_id = 0 ) {
+    $prefix = '_stwatt_';
+    $athlete_id = intval( $athlete_id );
+
+    if ( ! $athlete_id ) {
+        $athlete_id = get_option( "{$prefix}athlete_id", 0 );
+    }
+
+    return new STWATT_Athlete( $athlete_id );
+}
+
+function stwatt_format_time() {
+
+}
+
+function stwatt_format_elevation() {
+
+}
+
+function stwatt_format_distance() {
+
 }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * STWATT_Athlete class.
+ */
 class STWATT_Athlete {
     /**
      * Construct class.
@@ -9,8 +12,9 @@ class STWATT_Athlete {
      */
     public function __construct( $id = 0 ) {
         $this->id = $id;
-        $this->token = $this->get_token();
+        $this->token = $this->get_token(); // not public?
         $this->activities = $this->get_activities();
+        $this->stats = $this->get_stats();
         // $this->get_strava_activities();
         // testing
         /*
@@ -159,6 +163,12 @@ class STWATT_Athlete {
     // non strava stuff.
     public function get_activities() {
         return stwatt()->athlete_activities_db->get_activities( $this->id );
+    }
+
+    public function get_stats() {
+        $athlete_stats = new STWATT_Athlete_Stats();
+
+        return $athlete_stats->stats( $this->id );
     }
 
     // move to gear class?
