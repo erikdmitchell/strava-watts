@@ -108,7 +108,7 @@ class STWATT_Auth {
     }
 
     private function update_token( $athlete_id = 0, $data = '' ) {
-        $row_id = stwatt_get_athlete_token_id( $athlete_id );
+        $row_id = $this->get_athlete_token_id( $athlete_id );
 
         return stwatt()->tokens_db->update( $row_id, $data );
     }
@@ -180,5 +180,16 @@ class STWATT_Auth {
 
         return true;
     }
+    
+    private function get_athlete_token_id( $athlete_id = 0 ) {
+        $token_id = stwatt()->athletes_db->get_column_by( 'id', 'athlete_id', $athlete_id );
+    
+        if ( $token_id ) {
+            return $token_id;
+        }
+    
+        return 0;
+    }
+
 
 }

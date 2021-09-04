@@ -41,13 +41,3 @@ function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
 
     return false;
 }
-
-function stwatt_get_athlete_token_id( $athlete_id = 0 ) {
-    $token_id = stwatt()->athletes_db->get_column_by( 'id', 'athlete_id', $athlete_id );
-
-    if ( $token_id ) {
-        return $token_id;
-    }
-
-    return 0;
-}
