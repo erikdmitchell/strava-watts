@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * STWATT_Admin class.
+ */
 class STWATT_Admin {
 
     /**
@@ -13,14 +17,32 @@ class STWATT_Admin {
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
     }
 
+    /**
+     * Include scripts and styles.
+     *
+     * @access public
+     * @return void
+     */
     public function scripts_styles() {
         wp_enqueue_style( 'stwatt-grid-style', STWATT_ASSETS_URL . 'css/grid.css', '', STWATT_VERSION );
     }
 
+    /**
+     * Add to admin settings menu.
+     *
+     * @access public
+     * @return void
+     */
     public function admin_menu() {
         add_options_page( 'Strava Settings', 'Strava Settings', 'manage_options', 'stwatts-settings', array( $this, 'admin_page' ) );
     }
 
+    /**
+     * Load admin page.
+     *
+     * @access public
+     * @return void
+     */
     public function admin_page() {
         $path = STWATT_ABSPATH . 'includes/settings.php';
         $args = array(
@@ -35,6 +57,12 @@ class STWATT_Admin {
         }
     }
 
+    /**
+     * Update settings.
+     *
+     * @access public
+     * @return void
+     */
     public function update_settings() {
         if ( ! isset( $_POST['stwatt_settings_nonce'] ) || ! wp_verify_nonce( $_POST['stwatt_settings_nonce'], 'update_settings' ) ) {
             return;
