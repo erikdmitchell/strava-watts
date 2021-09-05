@@ -52,15 +52,3 @@ function stwatt_athlete( $athlete_id = 0 ) {
 
     return new STWATT_Athlete( $athlete_id );
 }
-
-function stwatt_format_time() {
-
-}
-
-function stwatt_format_elevation() {
-
-}
-
-function stwatt_format_distance() {
-
-}
