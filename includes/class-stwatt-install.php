@@ -9,7 +9,7 @@ class STWATT_Install {
 
     /**
      * Initalize.
-     * 
+     *
      * @access public
      * @static
      * @return void
@@ -20,7 +20,7 @@ class STWATT_Install {
 
     /**
      * Check plugin versoin.
-     * 
+     *
      * @access public
      * @static
      * @return void
@@ -33,7 +33,7 @@ class STWATT_Install {
 
     /**
      * Run install process/functions.
-     * 
+     *
      * @access public
      * @static
      * @return void
@@ -61,7 +61,7 @@ class STWATT_Install {
 
     /**
      * Create db tables.
-     * 
+     *
      * @access public
      * @static
      * @return void
@@ -135,7 +135,7 @@ class STWATT_Install {
 
     /**
      * Update version of plugin option.
-     * 
+     *
      * @access public
      * @static
      * @return void
@@ -146,7 +146,7 @@ class STWATT_Install {
 
     /**
      * Check if we need to update db version.
-     * 
+     *
      * @access public
      * @static
      * @return void
@@ -155,6 +155,13 @@ class STWATT_Install {
         // no updates yet
     }
 
+    /**
+     * Setup token check cron job.
+     *
+     * @access public
+     * @static
+     * @return void
+     */
     public static function setup_cron_jobs() {
         // Use wp_next_scheduled to check if the event is already scheduled
         $timestamp = wp_next_scheduled( 'stwatt_user_token_check' );
