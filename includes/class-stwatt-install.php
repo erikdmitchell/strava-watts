@@ -8,18 +8,36 @@ defined( 'ABSPATH' ) || exit;
 class STWATT_Install {
 
     /**
-     * Hook in tabs.
+     * Initalize.
+     * 
+     * @access public
+     * @static
+     * @return void
      */
     public static function init() {
         add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
     }
 
+    /**
+     * Check plugin versoin.
+     * 
+     * @access public
+     * @static
+     * @return void
+     */
     public static function check_version() {
         if ( version_compare( STWATT_VERSION, get_option( 'stwatt_version', 0 ), '>' ) ) {
             self::install();
         }
     }
 
+    /**
+     * Run install process/functions.
+     * 
+     * @access public
+     * @static
+     * @return void
+     */
     public static function install() {
         if ( ! is_blog_installed() ) {
             return;
@@ -41,6 +59,13 @@ class STWATT_Install {
         delete_transient( 'stwatt_installing' );
     }
 
+    /**
+     * Create db tables.
+     * 
+     * @access public
+     * @static
+     * @return void
+     */
     public static function create_tables() {
         global $wpdb;
 
@@ -108,10 +133,24 @@ class STWATT_Install {
         update_option( 'stwatt_db_version', STWATT_DB_VERSION );
     }
 
+    /**
+     * Update version of plugin option.
+     * 
+     * @access public
+     * @static
+     * @return void
+     */
     public static function update_version() {
         update_option( 'stwatt_version', STWATT_VERSION );
     }
 
+    /**
+     * Check if we need to update db version.
+     * 
+     * @access public
+     * @static
+     * @return void
+     */
     public static function maybe_update_db_version() {
         // no updates yet
     }
@@ -123,7 +162,7 @@ class STWATT_Install {
         // If $timestamp == false schedule daily backups since it hasn't been done previously
         if ( $timestamp == false ) {
             // Schedule the event for right now, then to repeat daily using the hook 'stwatt_user_token_check'
-            wp_schedule_event( time(), 'daily', 'stwatt_user_token_check' );
+            wp_schedule_event( time(), 'twicedaily', 'stwatt_user_token_check' );
         }
     }
 
