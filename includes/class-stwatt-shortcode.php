@@ -23,6 +23,10 @@ class STWATT_Shortcode {
      */
     public function scripts_styles() {
         wp_enqueue_script( 'stwatt-fa-script', 'https://kit.fontawesome.com/f866e14327.js', '', '5.5.14', true ); 
+
+        // http://flexboxgrid.com/
+        wp_enqueue_style( 'flexboxgrid-style', STWATT_ASSETS_URL . 'css/flexboxgrid.min.css', '', '6.3.2' );        
+        wp_enqueue_style( 'stwatt-shortcode-style', STWATT_ASSETS_URL . 'css/shortcode.css', '', STWATT_VERSION );
     }
 
     /**

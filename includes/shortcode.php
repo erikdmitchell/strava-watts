@@ -1,18 +1,34 @@
 <?php $athlete = stwatt_athlete(); ?>
-<span class="material-icons">
-pedal_bike
-</span>
 
+<div class="stwatt-wrapper">
+    <div class="row">
+        <div class="col-xs-2 time">
+            <i class="far fa-clock"></i>
+        </div>
+        <div class="col-xs-2 elevation">
+            <i class="fas fa-building"></i>
+        </div>
+        <div class="col-xs-2 distance">        
+            <i class="fas fa-route"></i>
+        </div>
+        <div class="col-xs-2 road">        
+            <i class="fas fa-road"></i>
+        </div>
 <!--
-<span class="material-icons-outlined">
-terrain
-</span>
+        <div class="col-xs-2 mtb">        
+            <i class="fas fa-mountain"></i>
+        </div>
 -->
-
-<span class="material-icons">
-terrain
-</span>
-
-<pre>
-    <?php print_r( $athlete ); ?>
-</pre>
+        <div class="col-xs-2 tt">        
+            <i class="fas fa-stopwatch"></i>
+        </div>
+        <div class="col-xs-2 cx">        
+            <i class="fas fa-skull-crossbones"></i>
+        </div>
+<!--
+        <div class="col-xs-2 gravel">        
+            <i class="fas fa-gavel"></i>
+        </div>
+-->
+    </div>
+</div>
