@@ -4,15 +4,15 @@
  * STWATT_Athlete class.
  */
 class STWATT_Athlete {
-    
+
     public $id = 0;
-    
+
     public $activities = '';
-    
+
     public $stats = '';
-    
+
     private $token = '';
-    
+
     /**
      * Construct class.
      *
