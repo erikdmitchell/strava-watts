@@ -44,11 +44,7 @@ class STWATT_Admin {
      * @return void
      */
     public function admin_page() {
-        if ( isset( $_GET['subpage'] ) ) {
-            $path = STWATT_ABSPATH . 'includes/page-' . $_GET['subpage'] . '.php';
-        } else {
-            $path = STWATT_ABSPATH . 'includes/settings.php';
-        }
+        $path = STWATT_ABSPATH . 'includes/settings.php';
 
         $args = array(
             'page_url' => admin_url( 'options-general.php?page=stwatts-settings' ),

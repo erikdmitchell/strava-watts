@@ -11,7 +11,9 @@ class STWATT_Webhook {
      * @access public
      * @return void
      */
-    public function __construct() {}
+    public function __construct() {
+        add_action( 'admin_init', array( $this, 'request' ), 0 );
+    }
 
     /**
      * Webhook setup button.
@@ -22,7 +24,7 @@ class STWATT_Webhook {
      * @return void
      */
     public static function button( $echo = true ) {
-        $html = '<a href="' . admin_url( 'options-general.php?page=stwatts-settings&subpage=webhook' ) . '" class="button">Setup Webhook</a>';
+        $html = '<a href="' . admin_url( 'options-general.php?page=stwatts-settings&action=request_webhook' ) . '" class="button">Setup Webhook</a>';
 
         if ( $echo ) {
             echo $html;
@@ -62,26 +64,20 @@ class STWATT_Webhook {
     }
 
     /**
-     * Process webhook.
+     * Request webhook.
      *
      * @access public
-     * @static
      * @return void
      */
-    public static function webhook() {
-        if ( isset( $_GET['hub_challenge'] ) ) {
-            $data = array( 'hub.challenge' => $_GET['hub_challenge'] );
-            header( 'HTTP/1.1 200 OK' );
-            header( 'Content-Type: application/json; charset=utf-8' );
-            echo json_encode( $data );
-
-            exit;
+    public function request() {
+        if ( ! isset( $_GET['action'] ) || 'request_webhook' != $_GET['action'] ) {
+            return;
         }
 
         $prefix = '_stwatt_';
         $client_id = get_option( "{$prefix}client_id", '' );
         $client_secret = get_option( "{$prefix}client_secret", '' );
-        $callback_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $callback_url = STWATT_URL . 'includes/webhook/request.php';
         $verify_token = 'STRAVA';
 
         $curl = curl_init();
@@ -108,7 +104,7 @@ class STWATT_Webhook {
 
         // check webhook response.
         if ( isset( $response_obj->id ) ) {
-            self::store_id( $response_obj->id );
+            $this->store_id( $response_obj->id );
             $message_type = 'success';
             $message = urlencode( 'Received webhook id' );
         } else {
@@ -117,33 +113,18 @@ class STWATT_Webhook {
         }
 
         // redirect to admin url
-        // $url = admin_url( "options-general.php?page=stwatts-settings&message_type={$message_type}&message={$message}" );
-        // wp_redirect( admin_url( "options-general.php?page=stwatts-settings&message_type={$message_type}&message={$message}") );
-        // exit;
-
-        $url = esc_url(
-            add_query_arg(
-                array(
-                    'page' => 'stwatts-settings',
-                    'message_type' => $message_type,
-                    'message' => $message,
-                ),
-                admin_url( 'options-general.php' )
-            )
-        );
-
-        echo '<a href="' . $url . '">Click</a>';
+        wp_redirect( admin_url( "options-general.php?page=stwatts-settings&message_type={$message_type}&message={$message}" ) );
+        exit;
     }
 
     /**
-     * Store webhook id.
+     * Store Webhook id.
      *
      * @access private
-     * @static
      * @param mixed $id
      * @return void
      */
-    private static function store_id( $id ) {
+    private function store_id( $id ) {
         $prefix = '_stwatt_';
 
         return update_option( "{$prefix}webhook_id", $id );
