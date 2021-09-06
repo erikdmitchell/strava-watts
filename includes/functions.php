@@ -85,7 +85,7 @@ function stwatt_log( $message = '' ) {
     if ( is_array( $message ) ) {
         $message = json_encode( $message );
     }
-    $file = fopen( STWATT_PATH . 'log.log', 'a' );
+    $file = fopen( STWATT_PATH . 'stwatt.log', 'a' );
     echo fwrite( $file, "\n" . date( 'Y-m-d h:i:s' ) . ' :: ' . $message );
     fclose( $file );
 }
