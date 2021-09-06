@@ -109,6 +109,7 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-shortcode.php' );
         include_once( STWATT_ABSPATH . 'includes/functions.php' );
+        include_once( STWATT_ABSPATH . 'includes/webhook.php' );
 
         // eventually rolled into api class.
         $this->auth = new STWATT_Auth();
