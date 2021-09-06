@@ -135,6 +135,10 @@
     width: 100%;
 }
 
+.stwatt-wrapper input[type="text"].stwatt-webhook-id {
+    width: auto;
+}
+
 .stwatt-wrapper input.code {
     
 }
