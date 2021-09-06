@@ -17,7 +17,7 @@ class STWATT_Auth {
 
     /**
      * Generate authorize button.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -35,7 +35,7 @@ class STWATT_Auth {
 
     /**
      * Check if we are getting data from Strava API.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -53,7 +53,7 @@ class STWATT_Auth {
 
     /**
      * Exchange token via Strava API.
-     * 
+     *
      * @access private
      * @param string $code (default: '')
      * @return void
@@ -104,7 +104,7 @@ class STWATT_Auth {
 
     /**
      * Store token info via Strava callback.
-     * 
+     *
      * @access private
      * @param mixed $data
      * @return void
@@ -163,7 +163,7 @@ class STWATT_Auth {
      * @return void
      */
     public function update_tokens() {
-        stwatt_log('Begin token update via cron');
+        stwatt_log( 'Begin token update via cron' );
         // get tokens from db.
         $tokens = stwatt()->tokens_db->get_tokens();
 
