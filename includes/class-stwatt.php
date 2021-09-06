@@ -110,10 +110,13 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-shortcode.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-webhook.php' );
         include_once( STWATT_ABSPATH . 'includes/functions.php' );
-        
+
         // https://github.com/deliciousbrains/wp-background-processing.
         include_once( STWATT_ABSPATH . 'includes/background-processing/class-wp-async-request.php' );
-        include_once( STWATT_ABSPATH . 'includes/background-processing/class-wp-background-process.php' );        
+        include_once( STWATT_ABSPATH . 'includes/background-processing/class-wp-background-process.php' );
+
+        // example
+        include_once( STWATT_ABSPATH . 'includes/background-processing/class-stwatt-example-background-processing.php' );
 
         // eventually rolled into api class.
         $this->auth = new STWATT_Auth();
