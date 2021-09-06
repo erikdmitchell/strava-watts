@@ -1,4 +1,5 @@
 <?php
+return;
 
 if ( isset( $_GET['hub_challenge'] ) ) {
     $data = array( 'hub.challenge' => $_GET['hub_challenge'] );
