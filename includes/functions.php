@@ -52,3 +52,17 @@ function stwatt_athlete( $athlete_id = 0 ) {
 
     return new STWATT_Athlete( $athlete_id );
 }
+
+function stwatt_str_wrap($str = '', $wrap_start = '<span>', $wrap_end = '</span>') {
+    if (empty($str))
+        return;
+        
+    $wrapped = '';
+    $str_arr = str_split($str);
+
+    foreach ($str_arr as $char) {
+        $wrapped .= $wrap_start.$char.$wrap_end;
+    }
+    
+    echo $wrapped;        
+}
