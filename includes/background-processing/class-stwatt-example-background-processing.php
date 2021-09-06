@@ -25,18 +25,10 @@ class STWATT_Example_Background_Processing {
      */
     public function init() {
         include_once( STWATT_ABSPATH . 'includes/background-processing/class-stwatt-example-request.php' );
+        include_once( STWATT_ABSPATH . 'includes/background-processing/class-stwatt-example-process.php' );
 
         $this->process_single = new STWATT_Example_Request();
-        // $this->process_all    = new WP_Example_Process();
-    }
-
-    /**
-     * Admin bar
-     *
-     * @param WP_Admin_Bar $wp_admin_bar
-     */
-    public function admin_bar( $wp_admin_bar ) {
-        // 'href'   => wp_nonce_url( admin_url( '?process=single'), 'process' ),
+        $this->process_all = new STWATT_Example_Process();
     }
 
     /**
@@ -72,7 +64,18 @@ class STWATT_Example_Background_Processing {
      * Handle all
      */
     protected function handle_all() {
-        $names = $this->get_names();
+        $names = array(
+            'Kristyn Lile',
+            'Laure Lupercio',
+            'Marcel Holden',
+            'Sharyl Hargreaves',
+            'Pamila Dolce',
+            'Argelia Beeman',
+            'Doloris Reinert',
+            'Christoper Haughton',
+            'Malisa Salvaggio',
+            'Katelynn Mccaw',
+        );
 
         foreach ( $names as $name ) {
             $this->process_all->push_to_queue( $name );

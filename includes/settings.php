@@ -66,6 +66,17 @@
                 <?php endif; ?>
             </div>
         </div>        
+    </div>
 
+    <div class="stwatt-wrapper">
+        <div class="stwatt-row stwatt-cols">
+            <div class="stwatt-col-2">
+                <strong>Test BG Process</strong>
+            </div>
+            <div class="stwatt-col-4">
+                <a href="<?php echo wp_nonce_url( admin_url( '?process=single' ), 'process' ); ?>">Test single process</a><br />
+                <a href="<?php echo wp_nonce_url( admin_url( '?process=all' ), 'process' ); ?>">Test batch process</a>
+            </div>
+        </div>       
     </div>
 </div>

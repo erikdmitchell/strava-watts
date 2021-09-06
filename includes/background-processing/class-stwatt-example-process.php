@@ -1,11 +1,11 @@
 <?php
 
-class WP_Example_Process extends WP_Background_Process {
+class STWATT_Example_Process extends WP_Background_Process {
 
     /**
      * @var string
      */
-    protected $action = 'example_process';
+    protected $action = 'stwatt_example_process';
 
     /**
      * Task
@@ -20,10 +20,8 @@ class WP_Example_Process extends WP_Background_Process {
      * @return mixed
      */
     protected function task( $item ) {
-        $message = $this->get_message( $item );
-
-        $this->really_long_running_task();
-        $this->log( $message );
+        stwatt_log( 'stwatt_example_processt' );
+        stwatt_log( $item );
 
         return false;
     }
