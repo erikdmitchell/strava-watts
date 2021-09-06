@@ -2,8 +2,10 @@
   
 <div class="stwatt-wrapper">
     <div class="row">
-        <div class="col-xs-2 time">
-            <i class="far fa-clock"></i>
+        <div class="col-xs-4 time">
+            <div class="clock">
+                <?php stwatt_str_wrap($athlete->stats->time, '<span>', '</span>'); ?>
+            </div>
         </div>
         <div class="col-xs-2 elevation">
             <i class="fas fa-building"></i>
