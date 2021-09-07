@@ -1,34 +1,31 @@
 <?php $athlete = stwatt_athlete(); ?>
 
-<div class="stwatt-wrapper">
-    <div class="row">
-        <div class="col-xs-2 time">
-            <i class="far fa-clock"></i>
+<div id="computer-wrapper" class="computer-wrapper">
+    <div class="computer">
+        <div class="computer-row">
+            <div class="data align-center text-uppercase">2021 Stats</div>
         </div>
-        <div class="col-xs-2 elevation">
-            <i class="fas fa-building"></i>
+        <div class="computer-row">
+            <div class="data-wrap">
+                <div class="data-label">Time</div>
+                <div class="data"><?php stwatt_str_wrap($athlete->stats->time, '<span>', '</span>'); ?></div>
+            </div>
         </div>
-        <div class="col-xs-2 distance">        
-            <i class="fas fa-route"></i>
-        </div>
-        <div class="col-xs-2 road">        
-            <i class="fas fa-road"></i>
-        </div>
-<!--
-        <div class="col-xs-2 mtb">        
-            <i class="fas fa-mountain"></i>
-        </div>
--->
-        <div class="col-xs-2 tt">        
-            <i class="fas fa-stopwatch"></i>
-        </div>
-        <div class="col-xs-2 cx">        
-            <i class="fas fa-skull-crossbones"></i>
-        </div>
-<!--
-        <div class="col-xs-2 gravel">        
-            <i class="fas fa-gavel"></i>
-        </div>
--->
+        <div class="computer-row">
+            <div class="data-wrap">
+                <div class="data-label">Miles</div>
+                <div class="data"><?php stwatt_str_wrap($athlete->stats->distance, '<span>', '</span>'); ?></div>
+            </div>
+        </div> 
+
+        <div class="computer-row">
+            <div class="data-wrap">
+                <div class="data-label">Elev</div>
+                <div class="data"><?php stwatt_str_wrap($athlete->stats->elevation, '<span>', '</span>'); ?></div>
+            </div>
+        </div> 
     </div>
+    <div class="powered-by">
+        <img src="<?php echo STWATT_ASSETS_URL; ?>/images/pb-strava-horz-color.png" alt="powered by strava" />
+    </div>  
 </div>
