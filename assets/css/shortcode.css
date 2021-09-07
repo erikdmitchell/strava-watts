@@ -1,16 +1,39 @@
-.odometer {
-    color: #fff;
-    background: #222;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px -2px #000;
+.computer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 25%;
+    border: 15px solid #000;
+    background: #c0c0c0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: normal; 
+    border-radius: 15px; 
+    color: #000;  
 }
 
-.digit {
-    display: inline-block;
-    border-right: 1px solid rgba(255, 255, 255, 0.75);
-    padding: 0 0.2em;
+.computer-row {
+    flex: 1;
+    border-bottom: 1px solid #858585;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: center;
 }
 
-.digit:first-child {
-    border-left: 1px solid rgba(255, 255, 255, 0.75);
+.computer-row:last-child {
+    border-bottom: none;
+}
+
+.computer .data-label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-align: right;
+}
+
+.data.align-center {
+    text-align: center;
+}
+
+.data.text-uppercase {
+    text-transform: uppercase;
 }
