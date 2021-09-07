@@ -1,14 +1,20 @@
-.computer {
+#computer-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    width: 25%;
+    justify-content: center;    
     border: 15px solid #000;
+    border-radius: 15px;
+    width: 25%;  
+    padding: 0;
+    margin: 0;
+}
+
+.computer-wrapper .computer {
+    width: 100%;
     background: #c0c0c0;
     font-size: 1.25rem;
     font-weight: 700;
-    font-style: normal; 
-    border-radius: 15px; 
+    font-style: normal;
     color: #000;  
 }
 
@@ -35,5 +41,15 @@
 }
 
 .data.text-uppercase {
+    text-transform: uppercase;
+}
+
+.computer-wrapper .powered-by {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    padding-top: 15px;
+    text-align: right;
+    font-size: 0.7rem;
     text-transform: uppercase;
 }

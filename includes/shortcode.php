@@ -1,6 +1,6 @@
 <?php $athlete = stwatt_athlete(); ?>
 
-<div class="computer-wrapper">
+<div id="computer-wrapper" class="computer-wrapper">
     <div class="computer">
         <div class="computer-row">
             <div class="data align-center text-uppercase">2021 Stats</div>
@@ -24,5 +24,8 @@
                 <div class="data"><?php stwatt_str_wrap($athlete->stats->elevation, '<span>', '</span>'); ?></div>
             </div>
         </div> 
-    </div>   
+    </div>
+    <div class="powered-by">
+        Powered by <i class="fab fa-strava"></i>
+    </div>  
 </div>
