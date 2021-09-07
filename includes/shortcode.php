@@ -26,6 +26,6 @@
         </div> 
     </div>
     <div class="powered-by">
-        Powered by <i class="fab fa-strava"></i>
+        <img src="<?php echo STWATT_ASSETS_URL; ?>/images/pb-strava-horz-color.png" alt="powered by strava" />
     </div>  
 </div>

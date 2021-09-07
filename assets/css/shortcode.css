@@ -47,9 +47,11 @@
 .computer-wrapper .powered-by {
     width: 100%;
     background: #000;
-    color: #fff;
     padding-top: 15px;
     text-align: right;
-    font-size: 0.7rem;
-    text-transform: uppercase;
+    line-height: 1;
+}
+
+.computer-wrapper .powered-by img {
+    height: 25px;
 }
