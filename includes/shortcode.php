@@ -17,3 +17,21 @@
         </div>
     </div>
 </div>
+
+<div class="computer">
+    <div class="row1 roww">
+        <div class="data">
+            Data
+        </div>
+    </div>
+    <div class="row2 roww">
+        <div class="data">
+            Data
+        </div>
+    </div>
+    <div class="row2 roww">
+        <div class="data">
+            Data
+        </div>
+    </div>    
+</div>
