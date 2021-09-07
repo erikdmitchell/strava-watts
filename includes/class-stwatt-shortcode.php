@@ -23,7 +23,7 @@ class STWATT_Shortcode {
      */
     public function scripts_styles() {
         wp_enqueue_script( 'stwatt-fa-script', 'https://kit.fontawesome.com/f866e14327.js', '', '5.5.14', true ); 
-        
+
         wp_enqueue_style( 'stwatt-shortcode-style', STWATT_ASSETS_URL . 'css/shortcode.css', '', STWATT_VERSION );
     }
 

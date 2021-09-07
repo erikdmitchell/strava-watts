@@ -28,7 +28,8 @@ var buildInclude = [
         '!./{sass,sass/**/*}',
         '!./.stylelintrc',
         '!./{vendor,vendor/**/*}',
-        '!svn/**'
+        '!svn/**',
+        '!**/*.log',
     ];
     
 var phpSrc = [

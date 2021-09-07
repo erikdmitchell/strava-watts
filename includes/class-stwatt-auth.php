@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * STWATT_Auth class.
+ */
 class STWATT_Auth {
     /**
      * Construct class.
@@ -12,7 +15,12 @@ class STWATT_Auth {
         add_action( 'stwatt_user_token_check', array( $this, 'update_tokens' ) );
     }
 
-    // Authorize button.
+    /**
+     * Generate authorize button.
+     * 
+     * @access public
+     * @return void
+     */
     public function auth_button() {
         $scope = 'read,read_all,activity:read,activity:read_all';
         $prefix = '_stwatt_';
@@ -25,6 +33,12 @@ class STWATT_Auth {
         return $html;
     }
 
+    /**
+     * Check if we are getting data from Strava API.
+     * 
+     * @access public
+     * @return void
+     */
     public function token_exchange_check() {
         if ( ! isset( $_GET['page'] ) || 'stwatts-settings' != $_GET['page'] ) {
             return;
@@ -37,6 +51,13 @@ class STWATT_Auth {
         $this->token_exchange( $_GET['code'] );
     }
 
+    /**
+     * Exchange token via Strava API.
+     * 
+     * @access private
+     * @param string $code (default: '')
+     * @return void
+     */
     private function token_exchange( $code = '' ) {
         $prefix = '_stwatt_';
         $client_id = get_option( "{$prefix}client_id", '' );
@@ -81,6 +102,13 @@ class STWATT_Auth {
         stwatt_add_athlete( $response_obj->athlete );
     }
 
+    /**
+     * Store token info via Strava callback.
+     * 
+     * @access private
+     * @param mixed $data
+     * @return void
+     */
     private function store_token_data( $data ) {
         $scope = 'read,read_all,activity:read,activity:read_all';
         $insert_data = array(
@@ -103,17 +131,39 @@ class STWATT_Auth {
         wp_redirect( admin_url( 'options-general.php?page=stwatts-settings' ) );
     }
 
+    /**
+     * Add token to db.
+     *
+     * @access private
+     * @param string $data (default: '')
+     * @return void
+     */
     private function add_token( $data = '' ) {
         return stwatt()->tokens_db->insert( $data, 'token' );
     }
 
+    /**
+     * Update token in db.
+     *
+     * @access private
+     * @param int    $athlete_id (default: 0)
+     * @param string $data (default: '')
+     * @return void
+     */
     private function update_token( $athlete_id = 0, $data = '' ) {
         $row_id = $this->get_athlete_token_id( $athlete_id );
 
         return stwatt()->tokens_db->update( $row_id, $data );
     }
 
+    /**
+     * Update expired tokens.
+     *
+     * @access public
+     * @return void
+     */
     public function update_tokens() {
+        stwatt_log('Begin token update via cron');
         // get tokens from db.
         $tokens = stwatt()->tokens_db->get_tokens();
 
@@ -121,10 +171,19 @@ class STWATT_Auth {
         foreach ( $tokens as $token ) {
             if ( ! $this->is_token_valid( $token->expires_at ) ) {
                 $this->refresh_token( $token->refresh_token, $token->athlete_id );
+                stwatt_log( "{$token->athlete_id} token refreshed" );
             }
         }
     }
 
+    /**
+     * Refresh token via Strava API.
+     *
+     * @access private
+     * @param string $refresh_token (default: '')
+     * @param int    $athlete_id (default: 0)
+     * @return void
+     */
     private function refresh_token( $refresh_token = '', $athlete_id = 0 ) {
         $prefix = '_stwatt_';
         $client_id = get_option( "{$prefix}client_id", '' );
@@ -173,6 +232,13 @@ class STWATT_Auth {
         return $this->update_token( $athlete_id, $token_data );
     }
 
+    /**
+     * Check for valid token.
+     *
+     * @access protected
+     * @param string $expires_epoch (default: '')
+     * @return void
+     */
     protected function is_token_valid( $expires_epoch = '' ) {
         if ( time() >= $expires_epoch ) {
             return false;
@@ -181,6 +247,13 @@ class STWATT_Auth {
         return true;
     }
 
+    /**
+     * Retrieve athlete token row id.
+     *
+     * @access private
+     * @param int $athlete_id (default: 0)
+     * @return void
+     */
     private function get_athlete_token_id( $athlete_id = 0 ) {
         $token_id = stwatt()->athletes_db->get_column_by( 'id', 'athlete_id', $athlete_id );
 

@@ -35,7 +35,7 @@ class STWATT_Athlete_Stats {
 
     /**
      * Format stat.
-     * 
+     *
      * @access protected
      * @param string $stat (default: '')
      * @param string $type (default: 'distance')
