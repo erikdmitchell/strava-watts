@@ -74,7 +74,7 @@ function stwatt_athlete( $athlete_id = 0 ) {
     return new STWATT_Athlete( $athlete_id );
 }
 
-function stwatt_str_wrap($str = '', $wrap_start = '<span>', $wrap_end = '</span>') {
+function stwatt_str_wrap($str = '', $wrap_start = '<span>', $wrap_end = '</span>', $echo = true) {
     if (empty($str))
         return;
         
@@ -85,7 +85,10 @@ function stwatt_str_wrap($str = '', $wrap_start = '<span>', $wrap_end = '</span>
         $wrapped .= $wrap_start.$char.$wrap_end;
     }
     
-    echo $wrapped;        
+    if ($echo)
+        echo $wrapped;        
+        
+    return $wrapped;
 }
 
 /**

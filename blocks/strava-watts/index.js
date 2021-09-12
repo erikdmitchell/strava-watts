@@ -28,28 +28,10 @@ registerBlockType( 'stwatt/strava-watts', {
 	save: ( props ) => {
 		const {
 			className,
-			attributes: { title, mediaURL, bg_color },
+			attributes: {},
 		} = props;
 		return (
-			<div
-				className={ className }
-				style={ { backgroundColor: bg_color } }
-			>
-				<div className="tagline-wrapper">
-					{ mediaURL && (
-						<div className="image-wrapper">
-							<img
-								className="tagline-image"
-								src={ mediaURL }
-								alt={ __( 'tagline image', 'dwb' ) }
-							/>
-						</div>
-					) }
-					<div className="title-wrap">
-						<RichText.Content tagName="h1" value={ title } />
-					</div>
-				</div>
-			</div>
+            <>Can we disp compnenet?</>
 		);
 	},
 } );
