@@ -107,6 +107,7 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athletes.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-tokens.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-rest-api.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-shortcode.php' );
         include_once( STWATT_ABSPATH . 'includes/functions.php' );
 
