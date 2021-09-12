@@ -28,7 +28,7 @@ function stwatt_add_athlete( $data = '' ) {
 
 /**
  * Check if athlete exists.
- * 
+ *
  * @access public
  * @param int $athlete_id (default: 0)
  * @return void
@@ -43,7 +43,7 @@ function stwatt_athlete_exists( $athlete_id = 0 ) {
 
 /**
  * Is athlete authroized via Strava.
- * 
+ *
  * @access public
  * @param int $athlete_id (default: 0)
  * @return void
@@ -58,7 +58,7 @@ function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
 
 /**
  * Gets an athlete.
- * 
+ *
  * @access public
  * @param int $athlete_id (default: 0)
  * @return void
@@ -74,23 +74,28 @@ function stwatt_athlete( $athlete_id = 0 ) {
     return new STWATT_Athlete( $athlete_id );
 }
 
-function stwatt_str_wrap($str = '', $wrap_start = '<span>', $wrap_end = '</span>') {
-    if (empty($str))
+function stwatt_str_wrap( $str = '', $wrap_start = '<span>', $wrap_end = '</span>', $echo = true ) {
+    if ( empty( $str ) ) {
         return;
-        
-    $wrapped = '';
-    $str_arr = str_split($str);
-
-    foreach ($str_arr as $char) {
-        $wrapped .= $wrap_start.$char.$wrap_end;
     }
-    
-    echo $wrapped;        
+
+    $wrapped = '';
+    $str_arr = str_split( $str );
+
+    foreach ( $str_arr as $char ) {
+        $wrapped .= $wrap_start . $char . $wrap_end;
+    }
+
+    if ( $echo ) {
+        echo $wrapped;
+    }
+
+    return $wrapped;
 }
 
 /**
  * Write to plugin log.
- * 
+ *
  * @access public
  * @param string $message (default: '')
  * @return void
