@@ -64,33 +64,33 @@ var jsInclude = [
     ];    
 
 // Load plugins
-const gulp = require('gulp'),
-    autoprefixer = require('gulp-autoprefixer'), // Autoprefixing magic
-    minifycss = require('gulp-uglifycss'),
-    filter = require('gulp-filter'),
-    uglify = require('gulp-uglify'),
-    newer = require('gulp-newer'),
-    rename = require('gulp-rename'),
-    concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
-    runSequence = require('run-sequence'),
-    gulpsass = require('gulp-sass'),
-    plugins = require('gulp-load-plugins')({
-        camelize: true
-    }),
-    ignore = require('gulp-ignore'), // Helps with ignoring files and directories in our run tasks
-    plumber = require('gulp-plumber'), // Helps prevent stream crashing on errors
-    cache = require('gulp-cache'),
-    sourcemaps = require('gulp-sourcemaps'),
-    jshint = require('gulp-jshint'), // JSHint plugin
-    stylish = require('jshint-stylish'), // JSHint Stylish plugin
-    stylelint = require('gulp-stylelint'), // stylelint plugin
-    gulpphpcs = require('gulp-phpcs'), // Gulp plugin for running PHP Code Sniffer.
-    gphpcbf = require('gulp-phpcbf'), // PHP Code Beautifier
-    gutil = require('gulp-util'), // gulp util
-    gzip = require('gulp-zip'), // gulp zip
-    beautify = require('gulp-jsbeautifier'),
-    cssbeautify = require('gulp-cssbeautify');
+const gulp = require( 'gulp' ),
+	autoprefixer = require( 'gulp-autoprefixer' ), // Autoprefixing magic
+	minifycss = require( 'gulp-uglifycss' ),
+	filter = require( 'gulp-filter' ),
+	uglify = require( 'gulp-uglify' ),
+	newer = require( 'gulp-newer' ),
+	rename = require( 'gulp-rename' ),
+	concat = require( 'gulp-concat' ),
+	notify = require( 'gulp-notify' ),
+	runSequence = require( 'run-sequence' ),
+	gulpsass = require( 'gulp-sass' ),
+	plugins = require( 'gulp-load-plugins' )( {
+		camelize: true,
+	} ),
+	ignore = require( 'gulp-ignore' ), // Helps with ignoring files and directories in our run tasks
+	plumber = require( 'gulp-plumber' ), // Helps prevent stream crashing on errors
+	cache = require( 'gulp-cache' ),
+	sourcemaps = require( 'gulp-sourcemaps' ),
+	jshint = require( 'gulp-jshint' ), // JSHint plugin
+	stylish = require( 'jshint-stylish' ), // JSHint Stylish plugin
+	stylelint = require( 'gulp-stylelint' ), // stylelint plugin
+	gulpphpcs = require( 'gulp-phpcs' ), // Gulp plugin for running PHP Code Sniffer.
+	gphpcbf = require( 'gulp-phpcbf' ), // PHP Code Beautifier
+	gutil = require( 'gulp-util' ), // gulp util
+	gzip = require( 'gulp-zip' ), // gulp zip
+	beautify = require( 'gulp-jsbeautifier' ),
+	cssbeautify = require( 'gulp-cssbeautify' );
 
 /**
  * Styles
