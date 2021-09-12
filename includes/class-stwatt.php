@@ -72,6 +72,7 @@ final class STWATT {
         $this->define( 'STWATT_VERSION', $this->version );
         $this->define( 'STWATT_PATH', plugin_dir_path( __FILE__ ) );
         $this->define( 'STWATT_URL', plugin_dir_url( __FILE__ ) );
+        $this->define( 'STWATT_ABSURL', plugin_dir_url( STWATT_PLUGIN_FILE ) );
         $this->define( 'STWATT_ASSETS_URL', plugin_dir_url( __DIR__ ) . 'assets/' );
         $this->define( 'STWATT_DB_VERSION', '0.1.0' ); // may move to db class.
     }
@@ -109,6 +110,7 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-shortcode.php' );
         include_once( STWATT_ABSPATH . 'includes/functions.php' );
+        include_once( STWATT_ABSPATH . 'blocks/blocks.php' );        
 
         // eventually rolled into api class.
         $this->auth = new STWATT_Auth();
