@@ -91,6 +91,11 @@
   !*** ./blocks/index.js ***!
   \*************************/
 /*! no exports provided */
+
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/source-map-loader/index.js):\nError: ENOENT: no such file or directory, open '/Users/erikmitchell/vagrant-local/www/embike/public_html/wp-content/plugins/strava-watts/blocks/index.js'");
+
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -290,6 +295,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["registerBlockType"])('stw
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["i18n"]; }());
+
 
 /***/ })
 
