@@ -7,6 +7,8 @@ import {
 	ColorPalette,
 } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
+import edit from './edit';
+
 // Import the element creator function (React abstraction layer)
 const el = wp.element.createElement;
 
@@ -21,88 +23,8 @@ registerBlockType( 'stwatt/strava-watts', {
 	title: __( 'Strava Watts', 'stwatt' ),
 	icon: iconEl,
 	category: 'text',
-	attributes: {
-
-	},
-	edit: ( props ) => {
-		const {
-			className,
-			attributes: { title, mediaID, mediaURL, bg_color },
-			setAttributes,
-		} = props;
-
-		const onChangeTitle = ( value ) => {
-			setAttributes( { title: value } );
-		};
-
-		const onSelectImage = ( media ) => {
-			setAttributes( {
-				mediaURL: media.url,
-				mediaID: media.id,
-			} );
-		};
-
-		const onChangeBGColor = ( hexColor ) => {
-			setAttributes( { bg_color: hexColor } );
-		};
-
-		return (
-			<>
-				<InspectorControls key="setting">
-					<div id="digiwatt-tagline-controls">
-						<fieldset>
-							<legend className="blocks-base-control__label">
-								{ __( 'Background color', 'gutenpride' ) }
-							</legend>
-						</fieldset>						
-					</div>
-				</InspectorControls>
-
-				<div
-					className={ className }
-					style={ { backgroundColor: bg_color } }
-				>
-				    <div className="tagline-wrapper">
-						<MediaUpload
-							onSelect={ onSelectImage }
-							allowedTypes="image"
-							value={ mediaID }
-							render={ ( { open } ) => (
-								<Button
-									className={
-										mediaID
-											? 'image-button'
-											: 'button button-large'
-									}
-									onClick={ open }
-								>
-									{ ! mediaID ? (
-										__( 'Upload Image', 'dwb' )
-									) : (
-    									<div className="image-wrapper">
-    										<img
-    										    className="tagline-image"
-    											src={ mediaURL }
-    											alt={ __( 'tagline image', 'dwb' ) }
-    										/>
-										</div>
-									) }
-								</Button>
-							) }
-						/>
-                        <div className="title-wrap">
-        					<RichText
-        						tagName="h1"
-        						placeholder={ __( 'Tagline', 'dwb' ) }
-        						value={ title }
-        						onChange={ onChangeTitle }
-        					/>
-                        </div>
-                    </div>
-				</div>
-			</>
-		);
-	},
+	attributes: {},
+    edit,
 	save: ( props ) => {
 		const {
 			className,
