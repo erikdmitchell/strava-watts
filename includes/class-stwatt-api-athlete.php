@@ -31,9 +31,15 @@ class STWATT_API_Athlete {
      * @access public
      * @return void
      */
+/*
     public function __construct( $id = 0 ) {
         $this->id = $id;
         $this->token = $this->get_token();
+    }
+*/
+
+    public function __construct() {
+        
     }
     
     public function import_strava_activities() {
@@ -48,6 +54,39 @@ class STWATT_API_Athlete {
         $this->add_activities($activities);
         */        
     }
+
+    /**
+     * Add athlete to db.
+     * 
+     * @access public
+     * @param string $data (default: '').
+     * @return void
+     */
+    public function add_athlete( $data = '' ) {
+        if ( empty( $data ) ) {
+            return;
+        }
+    
+        if ( stwatt_athlete_exists( $data->id ) ) {
+            return;
+        }
+        /*
+        stdClass Object
+            (
+                [profile_medium] => https://dgalywyr863hv.cloudfront.net/pictures/athletes/4334/84512/1/medium.jpg
+                [profile] => https://dgalywyr863hv.cloudfront.net/pictures/athletes/4334/84512/1/large.jpg
+            )
+        */
+        $insert_data = array(
+            'age' => '',
+            'athlete_id' => $data->id,
+            'first_name' => $data->firstname,
+            'gender' => $data->sex,
+            'last_name' => $data->lastname,
+        );
+    
+        stwatt()->athletes_db->insert( $insert_data, 'athlete' );
+    }    
 
     protected function get_strava_activities( $id = 0, $params = array() ) {
         if ( $id ) {

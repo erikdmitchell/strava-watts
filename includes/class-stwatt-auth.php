@@ -99,7 +99,7 @@ class STWATT_Auth {
 
         $this->store_token_data( $response_obj );
 
-        stwatt_add_athlete( $response_obj->athlete );
+        stwatt()->api_athlete->add_athlete( $response_obj->athlete );
     }
 
     /**

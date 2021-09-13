@@ -113,8 +113,9 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/functions.php' );
         include_once( STWATT_ABSPATH . 'blocks/blocks.php' );
 
-        // eventually rolled into api class.
+        // eventually roll into api class.
         $this->auth = new STWATT_Auth();
+        $this->api_athlete = new STWATT_API_Athlete();
 
         // db - would love to clean.
         $this->athletes_db = new STWATT_DB_Athletes();
