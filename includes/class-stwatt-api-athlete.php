@@ -31,28 +31,15 @@ class STWATT_API_Athlete {
      * @access public
      * @return void
      */
-/*
-    public function __construct( $id = 0 ) {
-        $this->id = $id;
-        $this->token = $this->get_token();
-    }
-*/
-
-    public function __construct() {
-        
-    }
+    public function __construct() {}
     
-    public function import_strava_activities() {
+    public function import_strava_activities($athlete_id = 0) {
+        $this->id = $athlete_id;
+        $this->token = $this->get_token();        
 
-        // $this->get_strava_activities();
-        // testing
-        /*
-        $file = STWATT_ABSPATH . 'activities.json';
-        $contents = file_get_contents( $file );
-        $activities = json_decode( $contents ); // will be passed
+        $activities = $this->get_strava_activities();
 
-        $this->add_activities($activities);
-        */        
+        return $this->add_activities($activities);
     }
 
     /**
@@ -168,14 +155,14 @@ class STWATT_API_Athlete {
 
     protected function add_activities( $activities = '' ) {
         if ( empty( $activities ) ) {
-            return;
+            return false;
         }
 
         foreach ( $activities as $activity ) {
             $this->add_activity( $activity );
         }
 
-        return;
+        return true;
     }
 
     protected function add_activity( $activity = '' ) {

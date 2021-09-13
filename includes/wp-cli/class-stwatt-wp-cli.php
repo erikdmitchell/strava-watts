@@ -36,16 +36,14 @@ class STWATT_WP_CLI {
         );
 
         extract( $assoc_args );
+        
+        $return = stwatt()->api_athlete->import_strava_activities($id);
 
-        //$activities = $this->get_strava_activities($id);
-
-
-        if ( ! isset( $activities ) ) {
-            WP_CLI::error( 'No activities found.' );
+        if ( $return ) {
+            WP_CLI::success( 'Activities imported!' );
+        } else {
+            WP_CLI::error( 'There was an error importing activities.' );            
         }
-
-        //$this->add_activities($activities);
-        // success output? some sort of count?
     }
 }
 
