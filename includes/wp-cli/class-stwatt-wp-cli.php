@@ -26,23 +26,25 @@ class STWATT_WP_CLI {
      * wp stwatt import_athlete_activities --id=4334
      */
     public function import_athlete_activities( $args, $assoc_args ) {
+        $prefix = '_stwatt_';
+        
         $assoc_args = array_merge(
             array(
-                'id' => // get option,
+                'id' => get_option( "{$prefix}athlete_id", 0 ),
             ),
             $assoc_args
         );
 
         extract( $assoc_args );
 
-        // $activities = $this->get_strava_activities();
+        //$activities = $this->get_strava_activities($id);
 
-        //$this->add_activities($activities);
 
         if ( ! isset( $activities ) ) {
             WP_CLI::error( 'No activities found.' );
         }
 
+        //$this->add_activities($activities);
         // success output? some sort of count?
     }
 }
