@@ -99,6 +99,7 @@ final class STWATT {
      */
     public function includes() {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-admin.php' );
+        include_once( STWATT_ABSPATH . 'includes/class-stwatt-api-athlete.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete-stats.php' );
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-auth.php' );
