@@ -47,10 +47,22 @@ class STWATT_Athlete {
         $this->stats = $this->get_stats();
     }
 
+    /**
+     * Get athlete activities.
+     * 
+     * @access public
+     * @return object
+     */
     public function get_activities() {
         return stwatt()->athlete_activities_db->get_activities( $this->id );
     }
 
+    /**
+     * Get athlete stats.
+     * 
+     * @access public
+     * @return object
+     */
     public function get_stats() {
         $athlete_stats = new STWATT_Athlete_Stats();
 
