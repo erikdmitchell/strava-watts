@@ -34,6 +34,9 @@ class STWATT_API_Athlete {
     public function __construct( $id = 0 ) {
         $this->id = $id;
         $this->token = $this->get_token();
+    }
+    
+    public function import_strava_activities() {
 
         // $this->get_strava_activities();
         // testing
@@ -43,7 +46,7 @@ class STWATT_API_Athlete {
         $activities = json_decode( $contents ); // will be passed
 
         $this->add_activities($activities);
-        */
+        */        
     }
 
     protected function get_strava_activities( $id = 0, $params = array() ) {
