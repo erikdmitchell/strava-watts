@@ -111,7 +111,7 @@ final class STWATT {
         include_once( STWATT_ABSPATH . 'includes/class-stwatt-rest-api.php' );
         include_once( STWATT_ABSPATH . 'includes/functions.php' );
         include_once( STWATT_ABSPATH . 'blocks/blocks.php' );
-        
+
         // eventually rolled into api class.
         $this->auth = new STWATT_Auth();
 
@@ -120,7 +120,7 @@ final class STWATT {
         $this->tokens_db = new STWATT_DB_Tokens();
         $this->athlete_activities_db = new STWATT_DB_Athlete_Activities();
         $this->athlete_stats_db = new STWATT_DB_Athlete_Stats();
-        
+
         // load for wp cli.
         if ( defined( 'WP_CLI' ) && WP_CLI ) {
             include_once( STWATT_ABSPATH . 'wp-cli/class-stwatt-wp-cli.php' );

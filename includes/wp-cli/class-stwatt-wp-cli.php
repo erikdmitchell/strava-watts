@@ -17,99 +17,39 @@ class STWATT_WP_CLI {
      *
      * ## OPTIONS
      *
-     * [--endpoint=<endpoint>]
-     * : The API endpoint URL
-     *
-     * [--query=<query>]
-     * : The query to run
-     *
-     * [--auth_code=<auth_code>]
-     * : Encoded auth code string
-     *
-     * [--user_id=<user_id>]
-     * : User id
-     *
-     * [--show=<show>]
-     * : Show data (connectors)
+     * [--id=<id>]
+     * : The athlete id
      *
      * ## EXAMPLES
      *
-     * wp bconn graphql
-     * wp bconn graphql --query='{ listingEntries { listingEntryId name isFeatured shortDescription internalID type } }'
-     * wp bconn graphql --query='{ listingEntryCategories (listingEntryId: ["listingEntryId1", "listingEntryId2"]) { clistingEntryId { categoryName categoryId categoryIconUrl } } }'
-     * wp bconn graphql --query='{ listingCategories { id name iconUrl } }'
-     * wp bconn graphql --endpoint=https://boomi.com/graphql --query='{ listingEntries { listingEntryId name isFeatured shortDescription internalID learnMoreUrl } }' --auth_code=FOGENSMO4sdT789NOiNt --user_id=sampleuser-1234
+     * wp stwatt import_athlete_activities
+     * wp stwatt import_athlete_activities --id=4334
      */
-    public function graphql( $args, $assoc_args ) {
+    public function import_athlete_activities( $args, $assoc_args ) {
         $assoc_args = array_merge(
             array(
-                'endpoint' => boomi_connectors()->settings['graphql_url'],
-                'query' => '{ listingCategories{ id name } }',
-                'auth_code' => boomi_connectors_auth_code(),
-                'user_id' => boomi_connectors()->settings['id'],
-                'show' => true,
+                'id' => // get option,
             ),
             $assoc_args
         );
 
         extract( $assoc_args );
 
-        $data = boomi_connectors_graphql()->query( $endpoint, $query, $auth_code, $user_id );
+        // $activities = $this->get_strava_activities();
 
-        if ( ! isset( $data['data'] ) ) {
-            WP_CLI::error( 'No data found.' );
+        //$this->add_activities($activities);
+
+        if ( ! isset( $activities ) ) {
+            WP_CLI::error( 'No activities found.' );
         }
 
-        $data = $data['data'];
-
-        // sort through data and clean output.
-        if ( $show ) {
-            foreach ( $data as $key => $arr ) {
-                $formatted_array = array();
-                WP_CLI::log( $key . ' (' . count( $arr ) . ')' );
-                $keys = array();
-
-                foreach ( $arr as $values ) {
-                    $formatted_array[] = $values;
-
-                    if ( empty( $keys ) ) {
-                        $keys = array_keys( $values );
-                    }
-                }
-            }
-
-            WP_CLI\Utils\format_items( 'table', $formatted_array, $keys );
-        }
+        // success output? some sort of count?
     }
-
-    /**
-     * Run main connectors import function
-     *
-     * ## EXAMPLES
-     *
-     * wp bconn import
-     */
-    public function import( $args, $assoc_args ) {
-        $assoc_args = array_merge(
-            array(),
-            $assoc_args
-        );
-
-        extract( $assoc_args );
-
-        WP_CLI::log( 'Importing...' );
-
-        $data = boomi_connectors()->import->all();
-        // print_r( $data ); // needs cli output.
-
-        WP_CLI::success( 'Imported!' );
-    }
-
 }
 
 /**
  * Register WP CLI class.
- * 
+ *
  * @access public
  * @return void
  */
