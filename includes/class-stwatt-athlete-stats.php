@@ -49,6 +49,7 @@ class STWATT_Athlete_Stats {
         switch ( $type ) {
             case 'distance':
                 $formatted = round( $stat * 3.288 ); // meters to feet.
+                $formatted = round( $formatted * 0.000189394); // feet to miles
                 break;
             case 'time':
                 $seconds = $stat;
