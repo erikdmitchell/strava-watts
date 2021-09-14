@@ -1,10 +1,11 @@
-import Computer from './computer';
+import ComputerData from './computerdata';
 import apiFetch from '@wordpress/api-fetch';
 
 const { Component } = wp.element;
 import { Spinner } from '@wordpress/components';
 
 const apiPath = 'stwatt/v1/athlete';
+const assetsURL = '/wp-content/plugins/strava-watts/assets/';
 
 class App extends Component {
 	constructor( props ) {
@@ -32,15 +33,21 @@ class App extends Component {
 
 	render() {
 		return (
-			<div>
-				{ this.state.loading ? (
-					<Spinner />
-				) : (
-					<div className={ this.props.className }>
-						<Computer stats={ this.state.athleteData.stats } />
-					</div>
-				) }
-			</div>
+			<div id="computer-wrapper" className="computer-wrapper">
+			    <div id="computer" className="computer">
+    				{ this.state.loading ? (
+    					<Spinner />
+    				) : (
+    				    <ComputerData stats={ this.state.athleteData.stats } />
+    				) }
+    			     <div className="powered-by">
+        				<img
+        					src={ assetsURL + 'images/pb-strava-horz-color.png' }
+        					alt="powered by strava"
+        				/>
+        			</div>
+    			</div>
+            </div>
 		);
 	}
 }

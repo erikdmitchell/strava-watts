@@ -107,7 +107,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _computer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./computer */ "./app/computer.js");
+/* harmony import */ var _computerdata__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./computerdata */ "./app/computerdata.js");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
@@ -128,6 +128,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 var Component = wp.element.Component;
 
 var apiPath = 'stwatt/v1/athlete';
+var assetsURL = '/wp-content/plugins/strava-watts/assets/';
 
 var App = /*#__PURE__*/function (_Component) {
   _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_2___default()(App, _Component);
@@ -169,11 +170,20 @@ var App = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", null, this.state.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Spinner"], null) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
-        className: this.props.className
-      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_computer__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
+        id: "computer-wrapper",
+        className: "computer-wrapper"
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
+        id: "computer",
+        className: "computer"
+      }, this.state.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["Spinner"], null) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_computerdata__WEBPACK_IMPORTED_MODULE_6__["default"], {
         stats: this.state.athleteData.stats
-      })));
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
+        className: "powered-by"
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("img", {
+        src: assetsURL + 'images/pb-strava-horz-color.png',
+        alt: "powered by strava"
+      }))));
     }
   }]);
 
@@ -184,10 +194,10 @@ var App = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
-/***/ "./app/computer.js":
-/*!*************************!*\
-  !*** ./app/computer.js ***!
-  \*************************/
+/***/ "./app/computerdata.js":
+/*!*****************************!*\
+  !*** ./app/computerdata.js ***!
+  \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -217,27 +227,23 @@ function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflec
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 var Component = wp.element.Component;
-var assetsURL = '/wp-content/plugins/strava-watts/assets/';
 
-var Computer = /*#__PURE__*/function (_Component) {
-  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_2___default()(Computer, _Component);
+var ComputerData = /*#__PURE__*/function (_Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_2___default()(ComputerData, _Component);
 
-  var _super = _createSuper(Computer);
+  var _super = _createSuper(ComputerData);
 
-  function Computer(props) {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Computer);
+  function ComputerData(props) {
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, ComputerData);
 
     return _super.call(this, props);
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Computer, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(ComputerData, [{
     key: "render",
     value: function render() {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
-        id: "computer-wrapper",
-        className: "computer-wrapper"
-      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
-        className: "computer"
+        id: "computer-data"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
         className: "computer-row"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
@@ -266,19 +272,14 @@ var Computer = /*#__PURE__*/function (_Component) {
         className: "data-label"
       }, "Elev"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
         className: "data"
-      }, this.props.stats.elevation)))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("div", {
-        className: "powered-by"
-      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])("img", {
-        src: assetsURL + 'images/pb-strava-horz-color.png',
-        alt: "powered by strava"
-      })));
+      }, this.props.stats.elevation))));
     }
   }]);
 
-  return Computer;
+  return ComputerData;
 }(Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Computer);
+/* harmony default export */ __webpack_exports__["default"] = (ComputerData);
 
 /***/ }),
 
