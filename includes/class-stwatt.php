@@ -74,6 +74,7 @@ final class STWATT {
         $this->define( 'STWATT_URL', plugin_dir_url( __FILE__ ) );
         $this->define( 'STWATT_ABSURL', plugin_dir_url( STWATT_PLUGIN_FILE ) );
         $this->define( 'STWATT_ASSETS_URL', plugin_dir_url( __DIR__ ) . 'assets/' );
+        $this->define( 'STWATT_ASSETS_PATH', dirname( STWATT_PLUGIN_FILE ) . '/assets/' );
         $this->define( 'STWATT_DB_VERSION', '0.1.0' ); // may move to db class.
     }
 
@@ -156,7 +157,9 @@ final class STWATT {
      * @access public
      * @return void
      */
-    public function frontend_scripts_styles() {}
+    public function frontend_scripts_styles() {
+        wp_enqueue_script( 'stwatt-app', STWATT_ASSETS_URL . '/build/app.js', ['wp-element'], time(), true );       
+    }
 
 }
 

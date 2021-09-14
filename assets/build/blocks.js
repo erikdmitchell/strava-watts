@@ -571,4 +571,4 @@ module.exports["default"] = module.exports, module.exports.__esModule = true;
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=blocks.js.map

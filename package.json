@@ -10,7 +10,7 @@
     "format:js:src": "wp-scripts format-js",
     "lint:js:src": "wp-scripts lint-js",
     "packages-update": "wp-scripts packages-update",
-    "start": "wp-scripts start blocks/index.js"
+    "start": "wp-scripts start"
   },
   "repository": {
     "type": "git",

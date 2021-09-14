@@ -13,7 +13,7 @@ function stwatt_register_blocks() {
     }
 
     // automatically load dependencies and version
-    $asset_file = include( STWATT_ABSPATH . 'build/index.asset.php' );
+    $asset_file = include( STWATT_ASSETS_PATH . 'build/blocks.asset.php' );
 
     $block_slug = 'strava-watts';
     register_block_type(
@@ -25,7 +25,7 @@ function stwatt_register_blocks() {
                     'default' => 3,
                 ),
             ),
-            'render_callback' => 'render_block_stwatt_strava_watts',
+            //'render_callback' => 'render_block_stwatt_strava_watts',
             'editor_script' => "stwatt-{$block_slug}-block-script",
             'editor_style' => "stwatt-{$block_slug}-block-editor",
             'style' => "stwatt-{$block_slug}-block-style",
@@ -34,7 +34,7 @@ function stwatt_register_blocks() {
 
     wp_register_script(
         "stwatt-{$block_slug}-block-script",
-        STWATT_ABSURL . 'build/index.js',
+        STWATT_ASSETS_URL . 'build/blocks.js',
         $asset_file['dependencies'],
         $asset_file['version']
     );
