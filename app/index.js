@@ -1,5 +1,19 @@
+/*
+import App from './App';
+
+const { render } = wp.element;
+
+render(
+	<App />,
+	document.getElementById( 'strava-watts-block' )
+);
+*/
+
+import App from './App';
+
 const { render, useState } = wp.element;
 
+/*
 const Votes = () => {
   const [votes, setVotes] = useState(0);
   const addVote = () => {
@@ -14,4 +28,6 @@ const Votes = () => {
     </div>
   );
 };
-render(<Votes />, document.getElementById('strava-watts-block'));
+*/
+
+render(<App />, document.getElementById('strava-watts-block'));

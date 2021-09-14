@@ -158,7 +158,16 @@ final class STWATT {
      * @return void
      */
     public function frontend_scripts_styles() {
-        wp_enqueue_script( 'stwatt-app', STWATT_ASSETS_URL . '/build/app.js', ['wp-element'], time(), true );       
+        //wp_enqueue_script( 'stwatt-app', STWATT_ASSETS_URL . '/build/app.js', ['wp-element'], time(), true );  
+             
+        $build_path = 'assets/build/';
+        $script_asset_path = STWATT_ASSETS_PATH . 'build/app.asset.php';
+        $script_info = file_exists( $script_asset_path ) ? include $script_asset_path : array(
+            'dependencies' => array(),
+            'version' => $this->version,
+        );
+
+        wp_enqueue_script( 'stwatt-app' , STWATT_ASSETS_URL . 'build/app.js', $script_info['dependencies'], $script_info['version'], true );        
     }
 
 }
