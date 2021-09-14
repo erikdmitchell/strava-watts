@@ -22,6 +22,8 @@ class STWATT_Athlete_Stats {
             foreach ( $stats as $stat => $value ) {
                 if ( 'time' == $stat ) {
                     $type = 'time';
+                } elseif ('distance' == $stat) {
+                    $type = 'distance_mi';
                 } else {
                     $type = 'distance';
                 }
@@ -48,6 +50,9 @@ class STWATT_Athlete_Stats {
 
         switch ( $type ) {
             case 'distance':
+                $formatted = round( $stat * 3.288 ); // meters to feet.
+                break;
+            case 'distance_mi':
                 $formatted = round( $stat * 3.288 ); // meters to feet.
                 $formatted = round( $formatted * 0.000189394); // feet to miles
                 break;
