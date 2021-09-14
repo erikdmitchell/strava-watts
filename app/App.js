@@ -1,4 +1,5 @@
 import ComputerData from './computerdata';
+import Buttons from './buttons';
 import apiFetch from '@wordpress/api-fetch';
 
 const { Component } = wp.element;
@@ -40,7 +41,8 @@ class App extends Component {
     				) : (
     				    <ComputerData stats={ this.state.athleteData.stats } />
     				) }
-    			     <div className="powered-by">
+    				<Buttons />
+                    <div className="powered-by">
         				<img
         					src={ assetsURL + 'images/pb-strava-horz-color.png' }
         					alt="powered by strava"
