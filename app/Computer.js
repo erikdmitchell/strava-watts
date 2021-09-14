@@ -1,8 +1,5 @@
-import apiFetch from '@wordpress/api-fetch';
-
 const { Component } = wp.element;
 const assetsURL = '/wp-content/plugins/strava-watts/assets/';
-const apiPath = 'stwatt/v1/athlete';
 
 class Computer extends Component {
 	constructor( props ) {

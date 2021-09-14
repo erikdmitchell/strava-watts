@@ -127,7 +127,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 var Component = wp.element.Component;
 
-var assetsURL = '/wp-content/plugins/strava-watts/assets/';
 var apiPath = 'stwatt/v1/athlete';
 
 var App = /*#__PURE__*/function (_Component) {
@@ -206,8 +205,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -219,10 +216,8 @@ function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflec
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-
 var Component = wp.element.Component;
 var assetsURL = '/wp-content/plugins/strava-watts/assets/';
-var apiPath = 'stwatt/v1/athlete';
 
 var Computer = /*#__PURE__*/function (_Component) {
   _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_2___default()(Computer, _Component);
@@ -301,37 +296,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./app/App.js");
 
 
-/*
-import App from './App';
-
-const { render } = wp.element;
-
-render(
-	<App />,
-	document.getElementById( 'strava-watts-block' )
-);
-*/
-
-var _wp$element = wp.element,
-    render = _wp$element.render,
-    useState = _wp$element.useState;
-/*
-const Votes = () => {
-  const [votes, setVotes] = useState(0);
-  const addVote = () => {
-    setVotes(votes + 1);
-  };
-  return (
-    <div>
-      <h2>{votes} Votes</h2>
-      <p>
-        <button onClick={addVote}>Vote!</button>
-      </p>
-    </div>
-  );
-};
-*/
-
+var render = wp.element.render;
 render(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_App__WEBPACK_IMPORTED_MODULE_1__["default"], null), document.getElementById('strava-watts-block'));
 
 /***/ }),

@@ -4,7 +4,6 @@ import apiFetch from '@wordpress/api-fetch';
 const { Component } = wp.element;
 import { Spinner } from '@wordpress/components';
 
-const assetsURL = '/wp-content/plugins/strava-watts/assets/';
 const apiPath = 'stwatt/v1/athlete';
 
 class App extends Component {
