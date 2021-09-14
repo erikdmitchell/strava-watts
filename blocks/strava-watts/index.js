@@ -8,6 +8,7 @@ import {
 } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import edit from './edit';
+import save from './save';
 
 // Import the element creator function (React abstraction layer)
 const el = wp.element.createElement;
@@ -30,11 +31,5 @@ registerBlockType( 'stwatt/strava-watts', {
 	category: 'text',
 	attributes: {},
 	edit,
-	save: ( props ) => {
-		const {
-			className,
-			attributes: {},
-		} = props;
-		return <>Can we disp compnenet?</>;
-	},
+    save
 } );
