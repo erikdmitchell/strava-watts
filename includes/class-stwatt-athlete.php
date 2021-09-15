@@ -54,7 +54,7 @@ class STWATT_Athlete {
      * @return object
      */
     public function get_activities() {
-        return stwatt()->athlete_activities_db->get_activities( $this->id );
+        return stwatt()->athlete_activities_db->get_activities( array('athlete_id' => $this->id) );
     }
 
     /**
