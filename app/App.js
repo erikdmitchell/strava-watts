@@ -13,12 +13,16 @@ class App extends Component {
 		this.state = {
 			athleteData: [],
 			loading: true,
-			view: 'week',
-			displayText: 'This Week',
-			viewTypes: ['year', 'week', 'month'],
+			displayText: 'This Week', // text for ComputerData,
+			views: {
+    			'currentView': 'week',
+    			'prevView': 'year',
+    			'nextView': 'month',
+			},
 		};
 		
 		this.getApiUrl = this.getApiUrl.bind( this );
+        this.changeScreen = this.changeScreen.bind( this );		
 	}
 
 	componentDidMount() {
@@ -38,7 +42,7 @@ class App extends Component {
 	
 	getApiUrl() {
 		const params = [];
-		const view = 'default';
+		const view = this.state.views.currentView;
 
 		let apiURL = 'stwatt/v1/athlete';
 		
@@ -56,12 +60,39 @@ class App extends Component {
                 apiURL = apiURL;
         }		
 
-console.log('getApiUrl()');
-console.log('view: ' + this.state.view);
+//console.log('getApiUrl()');
+//console.log('view: ' + view);
 
 		return apiURL;
+	}
+	
+	changeScreen(viewDirection) {
+        // quick vars to help with moving things around.
+        let prev = this.state.views.prevView
+        let current = this.state.views.currentView;
+        let next = this.state.views.nextView;
+        
+        if (viewDirection == 'prev') {
+            this.setState({
+    			views: {
+        			'currentView': prev,
+        			'prevView': next,
+        			'nextView': current,
+    			},                                
+            });
+        } else if (viewDirection == 'next') {
+            this.setState({
+    			views: {
+        			'currentView': next,
+        			'prevView': current,
+        			'nextView': prev,
+    			},                                
+            });
+        }
+        // update view. 	
+console.log(this.state.views);
 	}	
-
+	
 	render() {
 		return (
 			<div id="computer-wrapper" className="computer-wrapper">
@@ -71,7 +102,7 @@ console.log('view: ' + this.state.view);
     				) : (
     				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.displayText } />
     				) }
-    				<Buttons />
+    				<Buttons changeScreen={ this.changeScreen } />
                     <div className="powered-by">
         				<img
         					src={ assetsURL + 'images/pb-strava-horz-color.png' }
