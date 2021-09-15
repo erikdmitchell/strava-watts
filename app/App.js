@@ -13,7 +13,7 @@ class App extends Component {
 		this.state = {
 			athleteData: [],
 			loading: true,
-			displayText: 'This Week', // text for ComputerData,
+			viewDislpayText: this.getDisplayText('week'),
 			views: {
     			'currentView': 'week',
     			'prevView': 'year',
@@ -22,6 +22,7 @@ class App extends Component {
 		};
 		
 		this.getApiUrl = this.getApiUrl.bind( this );
+        this.getDisplayText = this.getDisplayText.bind( this );		
         this.changeScreen = this.changeScreen.bind( this );		
 	}
 
@@ -66,6 +67,16 @@ class App extends Component {
 		return apiURL;
 	}
 	
+	getDisplayText(currentView) {
+		const viewText = {
+			'week': 'This Week',
+			'year': 'This Year',
+			'month': 'This Month',
+		};
+		
+        return viewText[currentView];
+	}
+	
 	changeScreen(viewDirection) {
         // quick vars to help with moving things around.
         let prev = this.state.views.prevView
@@ -78,7 +89,8 @@ class App extends Component {
         			'currentView': prev,
         			'prevView': next,
         			'nextView': current,
-    			},                                
+    			},
+                viewDislpayText: this.getDisplayText(prev),                               
             });
         } else if (viewDirection == 'next') {
             this.setState({
@@ -86,11 +98,10 @@ class App extends Component {
         			'currentView': next,
         			'prevView': current,
         			'nextView': prev,
-    			},                                
+    			},
+    			viewDislpayText: this.getDisplayText(next),                                
             });
         }
-        // update view. 	
-console.log(this.state.views);
 	}	
 	
 	render() {
@@ -100,7 +111,7 @@ console.log(this.state.views);
     				{ this.state.loading ? (
     					<Spinner />
     				) : (
-    				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.displayText } />
+    				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.viewDislpayText } />
     				) }
     				<Buttons changeScreen={ this.changeScreen } />
                     <div className="powered-by">
