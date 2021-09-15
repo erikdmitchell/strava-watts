@@ -53,10 +53,16 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         );
     }
 
-    public function get_activities( $athlete_id = 0 ) {
+    public function get_activities( $args = array() ) {
         global $wpdb;
+        
+        $default_args = array(
+            'athlete_id' => 0,
+        );
+        $args = wp_parse_args( $args, $default_args );
+        $select = '*';
 
-        return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $this->table_name WHERE athlete_id = %s", $athlete_id ) );
+        return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE athlete_id = %s", $args['athlete_id'] ) );
     }
 
     public function get_activity( $activity_id = 0 ) {
