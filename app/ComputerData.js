@@ -1,6 +1,5 @@
 const { Component } = wp.element;
 
-
 class ComputerData extends Component {
 	constructor( props ) {
 		super( props );
@@ -11,7 +10,7 @@ class ComputerData extends Component {
 			<div id="computer-data">
 				<div className="computer-row">
 					<div className="data align-center text-uppercase">
-						2021 Stats
+						{ this.props.displayText}
 					</div>
 				</div>
 				<div className="computer-row">
