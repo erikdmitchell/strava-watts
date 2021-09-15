@@ -148,11 +148,16 @@ var App = /*#__PURE__*/function (_Component) {
     _this.state = {
       athleteData: [],
       loading: true,
-      view: 'week',
-      displayText: 'This Week',
-      viewTypes: ['year', 'week', 'month']
+      viewDislpayText: _this.getDisplayText('week'),
+      views: {
+        'currentView': 'week',
+        'prevView': 'year',
+        'nextView': 'month'
+      }
     };
     _this.getApiUrl = _this.getApiUrl.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.getDisplayText = _this.getDisplayText.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.changeScreen = _this.changeScreen.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     return _this;
   }
 
@@ -179,7 +184,7 @@ var App = /*#__PURE__*/function (_Component) {
     key: "getApiUrl",
     value: function getApiUrl() {
       var params = [];
-      var view = 'default';
+      var view = this.state.views.currentView;
       var apiURL = 'stwatt/v1/athlete';
 
       switch (view) {
@@ -196,11 +201,49 @@ var App = /*#__PURE__*/function (_Component) {
             displayText: 'This Week'
           });
           apiURL = apiURL;
-      }
+      } //console.log('getApiUrl()');
+      //console.log('view: ' + view);
 
-      console.log('getApiUrl()');
-      console.log('view: ' + this.state.view);
+
       return apiURL;
+    }
+  }, {
+    key: "getDisplayText",
+    value: function getDisplayText(currentView) {
+      var viewText = {
+        'week': 'This Week',
+        'year': 'This Year',
+        'month': 'This Month'
+      };
+      return viewText[currentView];
+    }
+  }, {
+    key: "changeScreen",
+    value: function changeScreen(viewDirection) {
+      // quick vars to help with moving things around.
+      var prev = this.state.views.prevView;
+      var current = this.state.views.currentView;
+      var next = this.state.views.nextView;
+
+      if (viewDirection == 'prev') {
+        this.setState({
+          views: {
+            'currentView': prev,
+            'prevView': next,
+            'nextView': current
+          },
+          viewDislpayText: this.getDisplayText(prev)
+        });
+      } else if (viewDirection == 'next') {
+        this.setState({
+          views: {
+            'currentView': next,
+            'prevView': current,
+            'nextView': prev
+          },
+          viewDislpayText: this.getDisplayText(next)
+        });
+      }
     }
   }, {
     key: "render",
@@ -213,8 +256,10 @@ var App = /*#__PURE__*/function (_Component) {
         className: "computer"
       }, this.state.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["Spinner"], null) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_computerdata__WEBPACK_IMPORTED_MODULE_7__["default"], {
         stats: this.state.athleteData.stats,
-        displayText: this.state.displayText
-      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_buttons__WEBPACK_IMPORTED_MODULE_8__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("div", {
+        displayText: this.state.viewDislpayText
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_buttons__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        changeScreen: this.changeScreen
+      }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("div", {
         className: "powered-by"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("img", {
         src: assetsURL + 'images/pb-strava-horz-color.png',
@@ -278,20 +323,15 @@ var Buttons = /*#__PURE__*/function (_Component) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Buttons);
 
     _this = _super.call(this, props);
-    _this.btnNext = _this.btnNext.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
-    _this.btnPrev = _this.btnPrev.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.buttonClick = _this.buttonClick.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     return _this;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Buttons, [{
-    key: "btnNext",
-    value: function btnNext() {
-      console.log('btnNext');
-    }
-  }, {
-    key: "btnPrev",
-    value: function btnPrev() {
-      console.log('btnPrev');
+    key: "buttonClick",
+    value: function buttonClick(event) {
+      var id = event.target.id;
+      this.props.changeScreen(id);
     }
   }, {
     key: "render",
@@ -300,10 +340,10 @@ var Buttons = /*#__PURE__*/function (_Component) {
         className: "buttons"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("button", {
         id: "prev",
-        onClick: this.btnPrev
+        onClick: this.buttonClick
       }, "Prev"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("button", {
         id: "next",
-        onClick: this.btnNext
+        onClick: this.buttonClick
       }, "Next"));
     }
   }]);
