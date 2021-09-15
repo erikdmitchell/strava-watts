@@ -3,15 +3,21 @@ const { Component } = wp.element;
 class Buttons extends Component {
 	constructor( props ) {
 		super( props );
-		
-		this.state = {
-    		prevBtnType: 'year',
-    		nextBtnType: 'month',
-		}
-console.log(props);		
+
 		this.buttonClick = this.buttonClick.bind( this );
 		this.btnNext = this.btnNext.bind( this );		
 		this.btnPrev = this.btnPrev.bind( this );
+
+		let sortViewsArray = this.sortViewsArray(this.props.view, this.props.viewTypes);
+console.log(sortViewsArray);	
+
+		this.state = {
+    		currentType: this.props.view,
+    		prevBtnType: 'year',
+    		nextBtnType: 'month',
+		}
+		
+console.log(this.state);			
 	}
 
     buttonClick(event) {
@@ -34,6 +40,29 @@ console.log(props);
         console.log(this.state);
     }
     
+    sortViewsArray(elementToFind, arrayElements) {
+        let i;
+        let itemPos = 0;
+        let newFirstItem = arrayElements[0];
+
+//console.log(arrayElements);
+
+        for (i = 0; i < arrayElements.length; i += 1) {
+            if (arrayElements[i] === elementToFind) {
+                itemPos = i;
+            }            
+        }
+
+        newFirstItem = arrayElements[itemPos];        
+        
+        arrayElements.splice(itemPos, itemPos); // remove current item.
+        arrayElements.unshift(newFirstItem); // add current view to front.
+        
+//console.log(arrayElements);
+
+        return arrayElements;
+    }    
+    
 //     		this.props.updateConnectors( newFilter ); // updates parent component (CategoriesFilter)
 
 	render() {
@@ -47,6 +76,19 @@ console.log(props);
 }
 
 export default Buttons;
+/*
+    function getPosition(elementToFind, arrayElements) {
+    var i;
+    for (i = 0; i < arrayElements.length; i += 1) {
+        if (arrayElements[i] === elementToFind) {
+            return i;
+        }
+    }
+    return null; //not found
+}
+
+getPosition(3, [1, 2, 3, 4]);
+    */
 
 /**
    when we click a button we need to feed the new button to the api

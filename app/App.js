@@ -13,8 +13,9 @@ class App extends Component {
 		this.state = {
 			athleteData: [],
 			loading: true,
-			view: 'default',
+			view: 'week',
 			displayText: 'This Week',
+			viewTypes: ['year', 'week', 'month'],
 		};
 		
 		this.getApiUrl = this.getApiUrl.bind( this );
@@ -37,33 +38,29 @@ class App extends Component {
 	
 	getApiUrl() {
 		const params = [];
+		const view = 'default';
 
 		let apiURL = 'stwatt/v1/athlete';
+		
+        switch(view) {
+            case 'year':
+                // code block
+                break;
+            case 'month':
+                // code block
+                break;
+            case 'week':
+                this.setState( { 
+                    displayText: 'This Week' 
+                } );
+                apiURL = apiURL;
+        }		
 
 console.log('getApiUrl()');
 console.log('view: ' + this.state.view);
-/*
-		if ( this.props.options.showDcp ) {
-			connectorsURL =
-				'/wp-json/boomici/v1/connectors/dcp';
-			this.setState( { gridType: 'dcp' } );
-		} else if ( this.props.options.showDcpFeatured ) {
-			connectorsURL =
-				'/wp-json/boomici/v1/connectors/dcp/featured';
-			this.setState( { gridType: 'dcp-featured' } );
-		} else if ( this.props.options.showFeatured ) {
-			connectorsURL =
-				'/wp-json/boomici/v1/connectors/featured';
-			this.setState( { gridType: 'featured' } );
-		}
-
-		connectorsURL = connectorsURL + queryString;
-*/
 
 		return apiURL;
 	}	
-
-
 
 	render() {
 		return (
@@ -74,7 +71,7 @@ console.log('view: ' + this.state.view);
     				) : (
     				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.displayText } />
     				) }
-    				<Buttons view={this.state.view} />
+    				<Buttons view={this.state.view} viewTypes = { this.state.viewTypes } />
                     <div className="powered-by">
         				<img
         					src={ assetsURL + 'images/pb-strava-horz-color.png' }

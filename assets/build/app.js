@@ -148,8 +148,9 @@ var App = /*#__PURE__*/function (_Component) {
     _this.state = {
       athleteData: [],
       loading: true,
-      view: 'default',
-      displayText: 'This Week'
+      view: 'week',
+      displayText: 'This Week',
+      viewTypes: ['year', 'week', 'month']
     };
     _this.getApiUrl = _this.getApiUrl.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     return _this;
@@ -178,27 +179,27 @@ var App = /*#__PURE__*/function (_Component) {
     key: "getApiUrl",
     value: function getApiUrl() {
       var params = [];
+      var view = 'default';
       var apiURL = 'stwatt/v1/athlete';
+
+      switch (view) {
+        case 'year':
+          // code block
+          break;
+
+        case 'month':
+          // code block
+          break;
+
+        case 'week':
+          this.setState({
+            displayText: 'This Week'
+          });
+          apiURL = apiURL;
+      }
+
       console.log('getApiUrl()');
       console.log('view: ' + this.state.view);
-      /*
-      		if ( this.props.options.showDcp ) {
-      			connectorsURL =
-      				'/wp-json/boomici/v1/connectors/dcp';
-      			this.setState( { gridType: 'dcp' } );
-      		} else if ( this.props.options.showDcpFeatured ) {
-      			connectorsURL =
-      				'/wp-json/boomici/v1/connectors/dcp/featured';
-      			this.setState( { gridType: 'dcp-featured' } );
-      		} else if ( this.props.options.showFeatured ) {
-      			connectorsURL =
-      				'/wp-json/boomici/v1/connectors/featured';
-      			this.setState( { gridType: 'featured' } );
-      		}
-      
-      		connectorsURL = connectorsURL + queryString;
-      */
-
       return apiURL;
     }
   }, {
@@ -214,7 +215,8 @@ var App = /*#__PURE__*/function (_Component) {
         stats: this.state.athleteData.stats,
         displayText: this.state.displayText
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_buttons__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        view: this.state.view
+        view: this.state.view,
+        viewTypes: this.state.viewTypes
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("div", {
         className: "powered-by"
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("img", {
@@ -279,14 +281,19 @@ var Buttons = /*#__PURE__*/function (_Component) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Buttons);
 
     _this = _super.call(this, props);
-    _this.state = {
-      prevBtnType: 'year',
-      nextBtnType: 'month'
-    };
-    console.log(props);
     _this.buttonClick = _this.buttonClick.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     _this.btnNext = _this.btnNext.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     _this.btnPrev = _this.btnPrev.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+
+    var sortViewsArray = _this.sortViewsArray(_this.props.view, _this.props.viewTypes);
+
+    console.log(sortViewsArray);
+    _this.state = {
+      currentType: _this.props.view,
+      prevBtnType: 'year',
+      nextBtnType: 'month'
+    };
+    console.log(_this.state);
     return _this;
   }
 
@@ -312,6 +319,27 @@ var Buttons = /*#__PURE__*/function (_Component) {
     value: function btnPrev() {
       console.log('btnPrev');
       console.log(this.state);
+    }
+  }, {
+    key: "sortViewsArray",
+    value: function sortViewsArray(elementToFind, arrayElements) {
+      var i;
+      var itemPos = 0;
+      var newFirstItem = arrayElements[0]; //console.log(arrayElements);
+
+      for (i = 0; i < arrayElements.length; i += 1) {
+        if (arrayElements[i] === elementToFind) {
+          itemPos = i;
+        }
+      }
+
+      newFirstItem = arrayElements[itemPos];
+      arrayElements.splice(itemPos, itemPos); // remove current item.
+
+      arrayElements.unshift(newFirstItem); // add current view to front.
+      //console.log(arrayElements);
+
+      return arrayElements;
     } //     		this.props.updateConnectors( newFilter ); // updates parent component (CategoriesFilter)
 
   }, {
@@ -333,6 +361,20 @@ var Buttons = /*#__PURE__*/function (_Component) {
 }(Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Buttons);
+/*
+    function getPosition(elementToFind, arrayElements) {
+    var i;
+    for (i = 0; i < arrayElements.length; i += 1) {
+        if (arrayElements[i] === elementToFind) {
+            return i;
+        }
+    }
+    return null; //not found
+}
+
+getPosition(3, [1, 2, 3, 4]);
+    */
+
 /**
    when we click a button we need to feed the new button to the api
    then we need to adjust the buttons so the proper buttons display
