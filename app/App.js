@@ -71,7 +71,7 @@ console.log('view: ' + this.state.view);
     				) : (
     				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.displayText } />
     				) }
-    				<Buttons view={this.state.view} viewTypes = { this.state.viewTypes } />
+    				<Buttons />
                     <div className="powered-by">
         				<img
         					src={ assetsURL + 'images/pb-strava-horz-color.png' }
