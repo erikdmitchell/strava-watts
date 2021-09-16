@@ -37,6 +37,7 @@ class App extends Component {
 		wp.apiFetch( {
 			path: this.getApiUrl(),
 		} ).then( ( data ) => {
+console.log(data);    		
 			this.setState( {
 				athleteData: data,
 				loading: false,
@@ -62,9 +63,6 @@ class App extends Component {
             case 'week':
                 apiURL = apiURL;
         }
-        
-// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
-// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
 
 console.log('view: ' + view + ' url: ' + apiURL);
 
@@ -150,7 +148,7 @@ console.log('view: ' + view + ' url: ' + apiURL);
         			'nextView': current,
     			},
                 viewDislpayText: this.getDisplayText(prev),                              
-            }, this.getApiUrl);
+            }, this.runApiFetch);
         } else if (viewDirection == 'next') {
             this.setState({
     			views: {
@@ -159,7 +157,7 @@ console.log('view: ' + view + ' url: ' + apiURL);
         			'nextView': prev,
     			},
     			viewDislpayText: this.getDisplayText(next),
-            }, this.getApiUrl);         
+            }, this.runApiFetch);         
         }
 	}	
 	

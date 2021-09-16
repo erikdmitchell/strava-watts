@@ -177,6 +177,8 @@ var App = /*#__PURE__*/function (_Component) {
       wp.apiFetch({
         path: this.getApiUrl()
       }).then(function (data) {
+        console.log(data);
+
         _this2.setState({
           athleteData: data,
           loading: false
@@ -202,9 +204,7 @@ var App = /*#__PURE__*/function (_Component) {
 
         case 'week':
           apiURL = apiURL;
-      } // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
-      // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
-
+      }
 
       console.log('view: ' + view + ' url: ' + apiURL);
       return apiURL;
@@ -291,7 +291,7 @@ var App = /*#__PURE__*/function (_Component) {
             'nextView': current
           },
           viewDislpayText: this.getDisplayText(prev)
-        }, this.getApiUrl);
+        }, this.runApiFetch);
       } else if (viewDirection == 'next') {
         this.setState({
           views: {
@@ -300,7 +300,7 @@ var App = /*#__PURE__*/function (_Component) {
             'nextView': prev
           },
           viewDislpayText: this.getDisplayText(next)
-        }, this.getApiUrl);
+        }, this.runApiFetch);
       }
     }
   }, {
