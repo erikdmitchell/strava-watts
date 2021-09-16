@@ -6,13 +6,14 @@
 
 ```
 stwatt/v1/athlete/
+wp-json/stwatt/v1/athlete/ID/activities/
 ```
 
 ### To be built/supported
 
 ```
 wp-json/stwatt/v1/athlete/athlete_id
-wp-json/stwatt/v1/athlete/ID/activities/
+
 wp-json/stwatt/v1/athlete/ID/activities/ID
 wp-json/stwatt/v1/athlete/ID/stats/
 ```
