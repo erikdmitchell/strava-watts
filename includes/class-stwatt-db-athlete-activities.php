@@ -55,7 +55,7 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
 
     public function get_activities( $args = array() ) {
         global $wpdb;
-        
+
         $default_args = array(
             'athlete_id' => 0,
             'date' => '',
@@ -64,40 +64,50 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         $args = wp_parse_args( $args, $default_args );
         $select = '*';
         $where_params = array(
-            'athlete_id = ' . intval( $args['athlete_id'] ), // required
+            'athlete_id = ' . intval( $args['athlete_id'] ), // required.
         );
 
-        // add date.        
-        if (isset($args['date']) && '' !== $args['date']) {
+        // add date.
+        if ( isset( $args['date'] ) && '' !== $args['date'] ) {
             $min_time = '00:00:00';
             $max_time = '23:59:59';
-            //$where_params['date'] = $args['date'];
-            $where_params[] = "date >='{$args['date']} {$min_time}' AND date <'{$args['date']} {$max_time}'";
+            $date_params = explode( ',', $args['date'] );
+            sort( $date_params ); // sort so dates are in correct order.
+
+            if ( count( $date_params ) > 1 ) {
+                $start_date = $date_params[0];
+                $end_date = $date_params[1];
+            } else {
+                $start_date = $date_params[0];
+                $end_date = $date_params[0];
+            }
+
+            $where_params[] = "date >='{$start_date} {$min_time}' AND date <'{$end_date} {$max_time}'";
         }
-        
+
         // limit.
         $limit_num = intval( $args['limit'] );
-        if ($limit_num >= 0) {
+        if ( $limit_num >= 0 ) {
             $limit = " LIMIT {$limit_num}";
         } else {
             $limit = '';
         }
-                
-print_r($args);
-print_r($where_params);
-// IN THE DB DATE INCLUDES TIME
 
-        //$where = http_build_query($where_params, '', ' AND ');
-        $where = implode(' AND ', $where_params);
-//echo "where: $where\n";
-$query = "SELECT {$select} FROM $this->table_name WHERE {$where}{$limit}";
+        print_r( $args );
+        print_r( $where_params );
+        // IN THE DB DATE INCLUDES TIME
 
-// SELECT * FROM stwatt_athlete_activities WHERE athlete_id=4334 AND date >='2021-09-02 00:00:00' AND date <'2021-09-02 23:59:59'
+        // $where = http_build_query($where_params, '', ' AND ');
+        $where = implode( ' AND ', $where_params );
+        // echo "where: $where\n";
+        $query = "SELECT {$select} FROM $this->table_name WHERE {$where}{$limit}";
 
-echo "\n{$query}\n";
+        // SELECT * FROM stwatt_athlete_activities WHERE athlete_id=4334 AND date >='2021-09-02 00:00:00' AND date <'2021-09-02 23:59:59'
 
-        //return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE %s", $where ) );
-        return $wpdb->get_results($query);
+        echo "\n{$query}\n";
+
+        // return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE %s", $where ) );
+        return $wpdb->get_results( $query );
     }
 
     public function get_activity( $activity_id = 0 ) {
