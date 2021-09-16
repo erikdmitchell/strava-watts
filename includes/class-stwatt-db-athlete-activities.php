@@ -93,20 +93,10 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
             $limit = '';
         }
 
-        print_r( $args );
-        print_r( $where_params );
-        // IN THE DB DATE INCLUDES TIME
-
-        // $where = http_build_query($where_params, '', ' AND ');
         $where = implode( ' AND ', $where_params );
-        // echo "where: $where\n";
+        
         $query = "SELECT {$select} FROM $this->table_name WHERE {$where}{$limit}";
 
-        // SELECT * FROM stwatt_athlete_activities WHERE athlete_id=4334 AND date >='2021-09-02 00:00:00' AND date <'2021-09-02 23:59:59'
-
-        echo "\n{$query}\n";
-
-        // return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE %s", $where ) );
         return $wpdb->get_results( $query );
     }
 
