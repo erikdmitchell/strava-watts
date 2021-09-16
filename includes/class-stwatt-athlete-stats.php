@@ -15,11 +15,11 @@ class STWATT_Athlete_Stats {
 
     /**
      * Load stats from stats db.
-     * 
+     *
      * @access public
-     * @param int $athlete_id (default: 0)
+     * @param int   $athlete_id (default: 0)
      * @param array $fields (default: array())
-     * @param bool $format (default: true)
+     * @param bool  $format (default: true)
      * @return void
      */
     public function stats( $athlete_id = 0, $fields = array(), $format = true ) {
@@ -31,7 +31,7 @@ class STWATT_Athlete_Stats {
             foreach ( $stats as $stat => $value ) {
                 if ( 'time' == $stat ) {
                     $type = 'time';
-                } elseif ('distance' == $stat) {
+                } elseif ( 'distance' == $stat ) {
                     $type = 'distance_mi';
                 } else {
                     $type = 'distance';
@@ -63,7 +63,7 @@ class STWATT_Athlete_Stats {
                 break;
             case 'distance_mi':
                 $formatted = round( $stat * 3.288 ); // meters to feet.
-                $formatted = round( $formatted * 0.000189394); // feet to miles
+                $formatted = round( $formatted * 0.000189394 ); // feet to miles
                 break;
             case 'time':
                 $seconds = $stat;

@@ -7,9 +7,9 @@ class STWATT_Athlete {
 
     /**
      * id
-     * 
+     *
      * (default value: 0)
-     * 
+     *
      * @var int
      * @access public
      */
@@ -17,9 +17,9 @@ class STWATT_Athlete {
 
     /**
      * activities
-     * 
+     *
      * (default value: '')
-     * 
+     *
      * @var string
      * @access public
      */
@@ -27,9 +27,9 @@ class STWATT_Athlete {
 
     /**
      * stats
-     * 
+     *
      * (default value: '')
-     * 
+     *
      * @var string
      * @access public
      */
@@ -49,17 +49,17 @@ class STWATT_Athlete {
 
     /**
      * Get athlete activities.
-     * 
+     *
      * @access public
      * @return object
      */
     public function get_activities() {
-        return stwatt()->athlete_activities_db->get_activities( array('athlete_id' => $this->id) );
+        return stwatt()->athlete_activities_db->get_activities( array( 'athlete_id' => $this->id ) );
     }
 
     /**
      * Get athlete stats.
-     * 
+     *
      * @access public
      * @return object
      */
