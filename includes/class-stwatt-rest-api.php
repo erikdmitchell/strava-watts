@@ -32,6 +32,7 @@ function stwatt_athlete_rest_api_endpoints() {
     );
 */
 
+    // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02
     register_rest_route(
         $namespace,
         '/athlete/(?P<athlete_id>.+)/activities',
@@ -59,6 +60,7 @@ function stwatt_rest_route_athlete( $request ) {
 function stwatt_rest_route_athlete_activities( $request ) {
     $args = array(
         'athlete_id' => intval( $request['athlete_id'] ),
+        'date' => $request['date'], // optional
     );
 
     $response = stwatt_athlete_activities($args);
@@ -66,7 +68,7 @@ function stwatt_rest_route_athlete_activities( $request ) {
     return rest_ensure_response( $response );
 }
 
-// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02
+
 
 // --- Move to functions.php --- //
 function stwatt_athlete_activities( $args = array() ) {

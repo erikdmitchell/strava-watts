@@ -61,8 +61,26 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         );
         $args = wp_parse_args( $args, $default_args );
         $select = '*';
+        $where_params = array(
+            'athlete_id' => $args['athlete_id'], // required
+        );
 
-        return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE athlete_id = %s", $args['athlete_id'] ) );
+        // add date.        
+        if (isset($args['date']) && '' !== $args['date']) {
+            $where_params['date'] = $args['date'];
+        }
+        
+print_r($args);
+print_r($where_params);
+// IN THE DB DATE INCLUDES TIME
+
+        $where = http_build_query($where_params, '', ' AND ');
+
+echo "\n";
+
+echo "SELECT {$select} FROM $this->table_name WHERE $where";
+echo "\n";
+        return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE %s", $where ) );
     }
 
     public function get_activity( $activity_id = 0 ) {
