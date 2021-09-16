@@ -13,6 +13,15 @@ class STWATT_Athlete_Stats {
      */
     public function __construct() {}
 
+    /**
+     * Load stats from stats db.
+     *
+     * @access public
+     * @param int   $athlete_id (default: 0)
+     * @param array $fields (default: array())
+     * @param bool  $format (default: true)
+     * @return void
+     */
     public function stats( $athlete_id = 0, $fields = array(), $format = true ) {
         $default_fields = array( 'elevation', 'distance', 'time', 'distance_road', 'distance_cross', 'distance_mtb', 'distance_tt', 'distance_gravel' );
         $fields = wp_parse_args( $fields, $default_fields );
@@ -22,7 +31,7 @@ class STWATT_Athlete_Stats {
             foreach ( $stats as $stat => $value ) {
                 if ( 'time' == $stat ) {
                     $type = 'time';
-                } elseif ('distance' == $stat) {
+                } elseif ( 'distance' == $stat ) {
                     $type = 'distance_mi';
                 } else {
                     $type = 'distance';
@@ -54,7 +63,7 @@ class STWATT_Athlete_Stats {
                 break;
             case 'distance_mi':
                 $formatted = round( $stat * 3.288 ); // meters to feet.
-                $formatted = round( $formatted * 0.000189394); // feet to miles
+                $formatted = round( $formatted * 0.000189394 ); // feet to miles
                 break;
             case 'time':
                 $seconds = $stat;
