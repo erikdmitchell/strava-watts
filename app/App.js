@@ -6,6 +6,7 @@ const { Component } = wp.element;
 import { Spinner } from '@wordpress/components';
 
 const assetsURL = '/wp-content/plugins/strava-watts/assets/';
+const athleteId = 4334; // should not be hardcoded.
 
 class App extends Component {
 	constructor( props ) {
@@ -24,6 +25,8 @@ class App extends Component {
 		this.getApiUrl = this.getApiUrl.bind( this );
         this.getDisplayText = this.getDisplayText.bind( this );		
         this.changeScreen = this.changeScreen.bind( this );		
+        this.getDates = this.getDates.bind( this );	
+        this.formatDate = this.formatDate.bind( this );	
 	}
 
 	componentDidMount() {
@@ -47,12 +50,16 @@ class App extends Component {
 
 		let apiURL = 'stwatt/v1/athlete';
 		
+		const dates = this.getDates(view);
+// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
+// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
+		
         switch(view) {
             case 'year':
                 // code block
                 break;
             case 'month':
-                // code block
+                // code block                
                 break;
             case 'week':
                 this.setState( { 
@@ -61,10 +68,52 @@ class App extends Component {
                 apiURL = apiURL;
         }		
 
-//console.log('getApiUrl()');
-//console.log('view: ' + view);
+console.log('view: ' + view + ' url: ' + apiURL);
 
 		return apiURL;
+	}
+	
+	getDates(type) {
+    	const curr = new Date; // get current date.
+    	
+    	let dates = [];
+  	
+console.log(type);    		
+        switch(type) {
+            case 'year':
+                // code block
+                break;
+            case 'month':
+                // code block                
+                break;
+            case 'week':
+                let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week.
+                let last = first + 6; // last day is the first day + 6.
+                
+                first = new Date(curr.setDate(first));
+                last = new Date(curr.setDate(last));
+                
+                dates = {
+                    'first': this.formatDate(first),
+                    'last': this.formatDate(last),
+                }
+        }		
+
+		return dates;    	
+	}
+	
+	formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');    	
 	}
 	
 	getDisplayText(currentView) {
