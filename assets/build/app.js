@@ -186,26 +186,26 @@ var App = /*#__PURE__*/function (_Component) {
   }, {
     key: "getApiUrl",
     value: function getApiUrl() {
-      var view = this.state.views.currentView;
-      var params = [];
+      var view = this.state.views.currentView; //let params = [];
+
       var apiURL = 'stwatt/v1/athlete';
-      var dates = this.getDates(view); // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
-      // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
+      var dates = this.getDates(view);
 
       switch (view) {
         case 'year':
-          // code block
+          apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
           break;
 
         case 'month':
-          // code block                
+          apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
           break;
 
         case 'week':
           apiURL = apiURL;
-      }
+      } // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
+      // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
 
-      console.log('params: ' + params);
+
       console.log('view: ' + view + ' url: ' + apiURL);
       return apiURL;
     }

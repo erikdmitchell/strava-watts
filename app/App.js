@@ -47,24 +47,25 @@ class App extends Component {
 	getApiUrl() {
 		const view = this.state.views.currentView;
 
-		let params = [];
+		//let params = [];
 		let apiURL = 'stwatt/v1/athlete';
 		
 		const dates = this.getDates(view);
-// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
-// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
 		
         switch(view) {
             case 'year':
-                // code block
+                apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
                 break;
-            case 'month':
-                // code block                
+            case 'month':            
+                apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;      
                 break;
             case 'week':
                 apiURL = apiURL;
-        }		
-console.log('params: ' + params);
+        }
+        
+// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02		
+// http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02,2021-08-22
+
 console.log('view: ' + view + ' url: ' + apiURL);
 
 		return apiURL;
