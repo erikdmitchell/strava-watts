@@ -45,9 +45,9 @@ class App extends Component {
 	}	
 	
 	getApiUrl() {
-		const params = [];
 		const view = this.state.views.currentView;
 
+		let params = [];
 		let apiURL = 'stwatt/v1/athlete';
 		
 		const dates = this.getDates(view);
@@ -62,42 +62,51 @@ class App extends Component {
                 // code block                
                 break;
             case 'week':
-                this.setState( { 
-                    displayText: 'This Week' 
-                } );
                 apiURL = apiURL;
         }		
-
+console.log('params: ' + params);
 console.log('view: ' + view + ' url: ' + apiURL);
 
 		return apiURL;
 	}
 	
 	getDates(type) {
-    	const curr = new Date; // get current date.
+    	const currDate = new Date; // get current date.
+        let monthNumber = (currDate.getMonth() + 1).toString();
+        const yearNumber = currDate.getFullYear();
+        const daysInMonth = new Date(yearNumber, monthNumber, 0).getDate();
+
+        if (monthNumber.length < 2) {
+            monthNumber = '0' + monthNumber;            
+        }        
     	
     	let dates = [];
-  	
-console.log(type);    		
+	
         switch(type) {
             case 'year':
-                // code block
+                dates = {
+                    'first': yearNumber + '-01-01',
+                    'last': yearNumber + '-12-31',
+                }                 
                 break;
             case 'month':
-                // code block                
+                dates = {
+                    'first': yearNumber + '-' + monthNumber + '-' + '01',
+                    'last': yearNumber + '-' + monthNumber + '-' + daysInMonth,                   
+                }               
                 break;
             case 'week':
-                let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week.
+                let first = currDate.getDate() - currDate.getDay(); // First day is the day of the month - the day of the week.
                 let last = first + 6; // last day is the first day + 6.
                 
-                first = new Date(curr.setDate(first));
-                last = new Date(curr.setDate(last));
+                first = new Date(currDate.setDate(first));
+                last = new Date(currDate.setDate(last));
                 
                 dates = {
                     'first': this.formatDate(first),
                     'last': this.formatDate(last),
                 }
-        }		
+        }
 
 		return dates;    	
 	}
@@ -139,8 +148,8 @@ console.log(type);
         			'prevView': next,
         			'nextView': current,
     			},
-                viewDislpayText: this.getDisplayText(prev),                               
-            });
+                viewDislpayText: this.getDisplayText(prev),                              
+            }, this.getApiUrl);
         } else if (viewDirection == 'next') {
             this.setState({
     			views: {
@@ -148,8 +157,8 @@ console.log(type);
         			'prevView': current,
         			'nextView': prev,
     			},
-    			viewDislpayText: this.getDisplayText(next),                                
-            });
+    			viewDislpayText: this.getDisplayText(next),
+            }, this.getApiUrl);         
         }
 	}	
 	
