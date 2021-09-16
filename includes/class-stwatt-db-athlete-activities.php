@@ -58,11 +58,13 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         
         $default_args = array(
             'athlete_id' => 0,
+            'date' => '',
+            'limit' => 10,
         );
         $args = wp_parse_args( $args, $default_args );
         $select = '*';
         $where_params = array(
-            'athlete_id' => $args['athlete_id'], // required
+            'athlete_id' => intval( $args['athlete_id'] ), // required
         );
 
         // add date.        
@@ -70,17 +72,28 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
             $where_params['date'] = $args['date'];
         }
         
+        // limit.
+        $limit_num = intval( $args['limit'] );
+        if ($limit_num >= 0) {
+            $limit = " LIMIT {$limit_num}";
+        } else {
+            $limit = '';
+        }
+                
 print_r($args);
 print_r($where_params);
 // IN THE DB DATE INCLUDES TIME
 
         $where = http_build_query($where_params, '', ' AND ');
 
-echo "\n";
+$query = "SELECT {$select} FROM $this->table_name WHERE {$where}{$limit}";
 
-echo "SELECT {$select} FROM $this->table_name WHERE $where";
-echo "\n";
-        return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE %s", $where ) );
+
+
+echo "\n{$query}\n";
+
+        //return $wpdb->get_results( $wpdb->prepare( "SELECT {$select} FROM $this->table_name WHERE %s", $where ) );
+        return $wpdb->get_results($query);
     }
 
     public function get_activity( $activity_id = 0 ) {
