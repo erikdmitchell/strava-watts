@@ -6,6 +6,7 @@ const { Component } = wp.element;
 import { Spinner } from '@wordpress/components';
 
 const assetsURL = '/wp-content/plugins/strava-watts/assets/';
+const athleteId = 4334; // should not be hardcoded.
 
 class App extends Component {
 	constructor( props ) {
@@ -24,6 +25,8 @@ class App extends Component {
 		this.getApiUrl = this.getApiUrl.bind( this );
         this.getDisplayText = this.getDisplayText.bind( this );		
         this.changeScreen = this.changeScreen.bind( this );		
+        this.getDates = this.getDates.bind( this );	
+        this.formatDate = this.formatDate.bind( this );	
 	}
 
 	componentDidMount() {
@@ -33,7 +36,7 @@ class App extends Component {
 	runApiFetch() {
 		wp.apiFetch( {
 			path: this.getApiUrl(),
-		} ).then( ( data ) => {
+		} ).then( ( data ) => {   		
 			this.setState( {
 				athleteData: data,
 				loading: false,
@@ -42,29 +45,71 @@ class App extends Component {
 	}	
 	
 	getApiUrl() {
-		const params = [];
 		const view = this.state.views.currentView;
 
-		let apiURL = 'stwatt/v1/athlete';
+		//let params = [];
+		let apiURL = 'stwatt/v1/athlete/' + athleteId + '/summary/';
 		
-        switch(view) {
-            case 'year':
-                // code block
-                break;
-            case 'month':
-                // code block
-                break;
-            case 'week':
-                this.setState( { 
-                    displayText: 'This Week' 
-                } );
-                apiURL = apiURL;
-        }		
+		const dates = this.getDates(view);
 
-//console.log('getApiUrl()');
-//console.log('view: ' + view);
+        apiURL = apiURL + '?date=' + dates.first + ',' + dates.last;
 
 		return apiURL;
+	}
+	
+	getDates(type) {
+    	const currDate = new Date; // get current date.
+        let monthNumber = (currDate.getMonth() + 1).toString();
+        const yearNumber = currDate.getFullYear();
+        const daysInMonth = new Date(yearNumber, monthNumber, 0).getDate();
+
+        if (monthNumber.length < 2) {
+            monthNumber = '0' + monthNumber;            
+        }        
+    	
+    	let dates = [];
+	
+        switch(type) {
+            case 'year':
+                dates = {
+                    'first': yearNumber + '-01-01',
+                    'last': yearNumber + '-12-31',
+                }                 
+                break;
+            case 'month':
+                dates = {
+                    'first': yearNumber + '-' + monthNumber + '-' + '01',
+                    'last': yearNumber + '-' + monthNumber + '-' + daysInMonth,                   
+                }               
+                break;
+            case 'week':
+                let first = currDate.getDate() - currDate.getDay(); // First day is the day of the month - the day of the week.
+                let last = first + 6; // last day is the first day + 6.
+                
+                first = new Date(currDate.setDate(first));
+                last = new Date(currDate.setDate(last));
+                
+                dates = {
+                    'first': this.formatDate(first),
+                    'last': this.formatDate(last),
+                }
+        }
+
+		return dates;    	
+	}
+	
+	formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+    
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+    
+        return [year, month, day].join('-');    	
 	}
 	
 	getDisplayText(currentView) {
@@ -90,8 +135,8 @@ class App extends Component {
         			'prevView': next,
         			'nextView': current,
     			},
-                viewDislpayText: this.getDisplayText(prev),                               
-            });
+                viewDislpayText: this.getDisplayText(prev),                              
+            }, this.runApiFetch);
         } else if (viewDirection == 'next') {
             this.setState({
     			views: {
@@ -99,8 +144,8 @@ class App extends Component {
         			'prevView': current,
         			'nextView': prev,
     			},
-    			viewDislpayText: this.getDisplayText(next),                                
-            });
+    			viewDislpayText: this.getDisplayText(next),
+            }, this.runApiFetch);         
         }
 	}	
 	
@@ -111,7 +156,7 @@ class App extends Component {
     				{ this.state.loading ? (
     					<Spinner />
     				) : (
-    				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.viewDislpayText } />
+    				    <ComputerData stats={ this.state.athleteData } displayText = { this.state.viewDislpayText } />
     				) }
     				<Buttons changeScreen={ this.changeScreen } />
                     <div className="powered-by">

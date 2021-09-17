@@ -133,6 +133,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 var Component = wp.element.Component;
 
 var assetsURL = '/wp-content/plugins/strava-watts/assets/';
+var athleteId = 4334; // should not be hardcoded.
 
 var App = /*#__PURE__*/function (_Component) {
   _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default()(App, _Component);
@@ -158,6 +159,8 @@ var App = /*#__PURE__*/function (_Component) {
     _this.getApiUrl = _this.getApiUrl.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     _this.getDisplayText = _this.getDisplayText.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     _this.changeScreen = _this.changeScreen.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.getDates = _this.getDates.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
+    _this.formatDate = _this.formatDate.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this));
     return _this;
   }
 
@@ -183,29 +186,68 @@ var App = /*#__PURE__*/function (_Component) {
   }, {
     key: "getApiUrl",
     value: function getApiUrl() {
-      var params = [];
-      var view = this.state.views.currentView;
-      var apiURL = 'stwatt/v1/athlete';
+      var view = this.state.views.currentView; //let params = [];
 
-      switch (view) {
+      var apiURL = 'stwatt/v1/athlete/' + athleteId + '/summary/';
+      var dates = this.getDates(view);
+      apiURL = apiURL + '?date=' + dates.first + ',' + dates.last;
+      return apiURL;
+    }
+  }, {
+    key: "getDates",
+    value: function getDates(type) {
+      var currDate = new Date(); // get current date.
+
+      var monthNumber = (currDate.getMonth() + 1).toString();
+      var yearNumber = currDate.getFullYear();
+      var daysInMonth = new Date(yearNumber, monthNumber, 0).getDate();
+
+      if (monthNumber.length < 2) {
+        monthNumber = '0' + monthNumber;
+      }
+
+      var dates = [];
+
+      switch (type) {
         case 'year':
-          // code block
+          dates = {
+            'first': yearNumber + '-01-01',
+            'last': yearNumber + '-12-31'
+          };
           break;
 
         case 'month':
-          // code block
+          dates = {
+            'first': yearNumber + '-' + monthNumber + '-' + '01',
+            'last': yearNumber + '-' + monthNumber + '-' + daysInMonth
+          };
           break;
 
         case 'week':
-          this.setState({
-            displayText: 'This Week'
-          });
-          apiURL = apiURL;
-      } //console.log('getApiUrl()');
-      //console.log('view: ' + view);
+          var first = currDate.getDate() - currDate.getDay(); // First day is the day of the month - the day of the week.
 
+          var last = first + 6; // last day is the first day + 6.
 
-      return apiURL;
+          first = new Date(currDate.setDate(first));
+          last = new Date(currDate.setDate(last));
+          dates = {
+            'first': this.formatDate(first),
+            'last': this.formatDate(last)
+          };
+      }
+
+      return dates;
+    }
+  }, {
+    key: "formatDate",
+    value: function formatDate(date) {
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+      return [year, month, day].join('-');
     }
   }, {
     key: "getDisplayText",
@@ -233,7 +275,7 @@ var App = /*#__PURE__*/function (_Component) {
             'nextView': current
           },
           viewDislpayText: this.getDisplayText(prev)
-        });
+        }, this.runApiFetch);
       } else if (viewDirection == 'next') {
         this.setState({
           views: {
@@ -242,7 +284,7 @@ var App = /*#__PURE__*/function (_Component) {
             'nextView': prev
           },
           viewDislpayText: this.getDisplayText(next)
-        });
+        }, this.runApiFetch);
       }
     }
   }, {
@@ -255,7 +297,7 @@ var App = /*#__PURE__*/function (_Component) {
         id: "computer",
         className: "computer"
       }, this.state.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["Spinner"], null) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_computerdata__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        stats: this.state.athleteData.stats,
+        stats: this.state.athleteData,
         displayText: this.state.viewDislpayText
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_buttons__WEBPACK_IMPORTED_MODULE_8__["default"], {
         changeScreen: this.changeScreen
