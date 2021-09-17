@@ -104,7 +104,7 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
     public function get_summary($args = array()) {
         $summary_data = array(
             'time' => 0,
-            'miles' => 0,
+            'distance' => 0,
             'elevation' => 0,
         );
         $activities = $this->get_activities( $args );
@@ -112,7 +112,7 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         
         foreach ($activities as $activity) {
             $summary_data['time'] = $summary_data['time'] + $activity->time;
-            $summary_data['miles'] = $summary_data['miles'] + $activity->distance;
+            $summary_data['distance'] = $summary_data['distance'] + $activity->distance;
             $summary_data['elevation'] = $summary_data['elevation'] + $activity->elevation;    
         }
         
@@ -123,7 +123,7 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
         $secs = floor( $seconds % 60 );
         
         $summary_data['time'] = sprintf( '%02d:%02d:%02d', $hours, $mins, $secs );        
-        $summary_data['miles'] = round( round( $summary_data['miles'] * 3.288 ) * 0.000189394 ); // meters to feet, then feet to miles.
+        $summary_data['distance'] = round( round( $summary_data['distance'] * 3.288 ) * 0.000189394 ); // meters to feet, then feet to miles.
         $summary_data['elevation'] = round( $summary_data['elevation'] * 3.288 ); // meters to feet.
 
         return $summary_data;
