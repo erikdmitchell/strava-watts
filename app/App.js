@@ -36,8 +36,7 @@ class App extends Component {
 	runApiFetch() {
 		wp.apiFetch( {
 			path: this.getApiUrl(),
-		} ).then( ( data ) => {
-console.log(data);    		
+		} ).then( ( data ) => {   		
 			this.setState( {
 				athleteData: data,
 				loading: false,
@@ -52,21 +51,8 @@ console.log(data);
 		let apiURL = 'stwatt/v1/athlete/' + athleteId + '/summary/';
 		
 		const dates = this.getDates(view);
-		
-/*
-        switch(view) {
-            case 'year':
-                apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
-                break;
-            case 'month':            
-                apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;      
-                break;
-            case 'week':
-                apiURL = apiURL;
-        }
-*/
 
-console.log('view: ' + view + ' url: ' + apiURL);
+        apiURL = apiURL + '?date=' + dates.first + ',' + dates.last;
 
 		return apiURL;
 	}

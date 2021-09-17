@@ -177,8 +177,6 @@ var App = /*#__PURE__*/function (_Component) {
       wp.apiFetch({
         path: this.getApiUrl()
       }).then(function (data) {
-        console.log(data);
-
         _this2.setState({
           athleteData: data,
           loading: false
@@ -190,23 +188,9 @@ var App = /*#__PURE__*/function (_Component) {
     value: function getApiUrl() {
       var view = this.state.views.currentView; //let params = [];
 
-      var apiURL = 'stwatt/v1/athlete';
+      var apiURL = 'stwatt/v1/athlete/' + athleteId + '/summary/';
       var dates = this.getDates(view);
-
-      switch (view) {
-        case 'year':
-          apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
-          break;
-
-        case 'month':
-          apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
-          break;
-
-        case 'week':
-          apiURL = apiURL;
-      }
-
-      console.log('view: ' + view + ' url: ' + apiURL);
+      apiURL = apiURL + '?date=' + dates.first + ',' + dates.last;
       return apiURL;
     }
   }, {
@@ -313,7 +297,7 @@ var App = /*#__PURE__*/function (_Component) {
         id: "computer",
         className: "computer"
       }, this.state.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["Spinner"], null) : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_computerdata__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        stats: this.state.athleteData.stats,
+        stats: this.state.athleteData,
         displayText: this.state.viewDislpayText
       }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_buttons__WEBPACK_IMPORTED_MODULE_8__["default"], {
         changeScreen: this.changeScreen
