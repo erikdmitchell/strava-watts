@@ -7,9 +7,9 @@ class STWATT_Athlete {
 
     /**
      * id
-     * 
+     *
      * (default value: 0)
-     * 
+     *
      * @var int
      * @access public
      */
@@ -17,9 +17,9 @@ class STWATT_Athlete {
 
     /**
      * activities
-     * 
+     *
      * (default value: '')
-     * 
+     *
      * @var string
      * @access public
      */
@@ -27,9 +27,9 @@ class STWATT_Athlete {
 
     /**
      * stats
-     * 
+     *
      * (default value: '')
-     * 
+     *
      * @var string
      * @access public
      */
@@ -49,7 +49,7 @@ class STWATT_Athlete {
 
     /**
      * Get athlete activities.
-     * 
+     *
      * @access public
      * @return object
      */
@@ -59,7 +59,7 @@ class STWATT_Athlete {
 
     /**
      * Get athlete stats.
-     * 
+     *
      * @access public
      * @return object
      */

@@ -50,12 +50,12 @@ function stwatt_athlete( $athlete_id = 0 ) {
 
 /**
  * Custom wrap string.
- * 
+ *
  * @access public
  * @param string $str (default: '').
  * @param string $wrap_start (default: '<span>').
  * @param string $wrap_end (default: '</span>').
- * @param bool $echo (default: true).
+ * @param bool   $echo (default: true).
  * @return string
  */
 function stwatt_str_wrap( $str = '', $wrap_start = '<span>', $wrap_end = '</span>', $echo = true ) {
