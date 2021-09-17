@@ -49,10 +49,11 @@ console.log(data);
 		const view = this.state.views.currentView;
 
 		//let params = [];
-		let apiURL = 'stwatt/v1/athlete';
+		let apiURL = 'stwatt/v1/athlete/' + athleteId + '/summary/';
 		
 		const dates = this.getDates(view);
 		
+/*
         switch(view) {
             case 'year':
                 apiURL = 'stwatt/v1/athlete/4334/activities/?date=' + dates.first + ',' + dates.last;
@@ -63,6 +64,7 @@ console.log(data);
             case 'week':
                 apiURL = apiURL;
         }
+*/
 
 console.log('view: ' + view + ' url: ' + apiURL);
 
@@ -168,7 +170,7 @@ console.log('view: ' + view + ' url: ' + apiURL);
     				{ this.state.loading ? (
     					<Spinner />
     				) : (
-    				    <ComputerData stats={ this.state.athleteData.stats } displayText = { this.state.viewDislpayText } />
+    				    <ComputerData stats={ this.state.athleteData } displayText = { this.state.viewDislpayText } />
     				) }
     				<Buttons changeScreen={ this.changeScreen } />
                     <div className="powered-by">
