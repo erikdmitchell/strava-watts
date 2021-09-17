@@ -236,7 +236,9 @@ class STWATT_API_Athlete {
         $response_obj = json_decode( $response );
 
         // add bike type.
-        $response_obj->bike_type = $this->get_bike_type( $response_obj->frame_type );
+        if ( isset( $response_obj->frame_type ) ) {
+            $response_obj->bike_type = $this->get_bike_type( $response_obj->frame_type );
+        }
 
         return $response_obj;
     }
