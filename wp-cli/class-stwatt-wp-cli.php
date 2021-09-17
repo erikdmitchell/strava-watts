@@ -27,7 +27,7 @@ class STWATT_WP_CLI {
      */
     public function import_athlete_activities( $args, $assoc_args ) {
         $prefix = '_stwatt_';
-        
+
         $assoc_args = array_merge(
             array(
                 'id' => get_option( "{$prefix}athlete_id", 0 ),
@@ -36,13 +36,13 @@ class STWATT_WP_CLI {
         );
 
         extract( $assoc_args );
-        
-        $return = stwatt()->api_athlete->import_strava_activities($id);
+
+        $return = stwatt()->api_athlete->import_strava_activities( $id );
 
         if ( $return ) {
             WP_CLI::success( 'Activities imported!' );
         } else {
-            WP_CLI::error( 'There was an error importing activities.' );            
+            WP_CLI::error( 'There was an error importing activities.' );
         }
     }
 }
