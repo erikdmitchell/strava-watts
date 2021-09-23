@@ -32,7 +32,7 @@ function stwatt_athlete_rest_api_endpoints() {
     );
     */
 
-    // http://bike.test/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02
+    // URL/wp-json/stwatt/v1/athlete/4334/activities/?date=2021-09-02
     register_rest_route(
         $namespace,
         '/athlete/(?P<athlete_id>.+)/activities',
@@ -49,7 +49,7 @@ function stwatt_athlete_rest_api_endpoints() {
         )
     );
 
-    // http://bike.test/wp-json/stwatt/v1/athlete/4334/summary/?date=2021-09-02
+    // URL/wp-json/stwatt/v1/athlete/4334/summary/?date=2021-09-02
     register_rest_route(
         $namespace,
         '/athlete/(?P<athlete_id>.+)/summary',
