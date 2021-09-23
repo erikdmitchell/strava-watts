@@ -240,11 +240,15 @@ class STWATT_API_Athlete {
             'bike_type' => $activity_details['bike_type'],
         );
 
-        // we need a check for dups.
+        // check for dups.
+        if ( stwatt_activity_exists( $activity_details['id'] ) ) {
+            return;
+        }
+
         // add to db.
         stwatt()->athlete_activities_db->insert( $data, 'athlete_activity' );
 
-        // add to athlete stats.
+        // add to athlete stats. MAY NOT NEED (see 0.1.0 project on github).
         stwatt()->athlete_stats_db->update_stats( $data['athlete_id'], $data['activity_id'] );
 
         return;

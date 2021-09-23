@@ -116,6 +116,7 @@ class STWATT_WP_CLI {
         */
 
         foreach ( $all_activities as $activity ) {
+            $in_db = false;
             $keys_to_use = array(
                 'name',
                 'id',
@@ -125,11 +126,15 @@ class STWATT_WP_CLI {
             // get just the data we need.
             $activity_details = array_intersect_key( get_object_vars( $activity ), array_flip( $keys_to_use ) );
 
+            if ( stwatt_activity_exists( $activity_details['id'] ) ) {
+                $in_db = true;
+            }
+
             $display_arr[] = array(
                 'date' => $activity_details['start_date_local'],
                 'name' => $activity_details['name'],
                 'id' => $activity_details['id'],
-                'in_db' => '',
+                'in_db' => $in_db,
             );
         }
 
