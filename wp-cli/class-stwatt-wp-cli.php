@@ -64,59 +64,62 @@ class STWATT_WP_CLI {
      *  $ wp stwatt get_athlete_activities --id=4334
      *
      *  # Schedule new cron event and pass associative arguments.
-     *  $ wp stwatt get_athlete_activities --id=4334 --before=1632355200 --per_page=50     
-     *
+     *  $ wp stwatt get_athlete_activities --id=4334 --before=1632355200 --per_page=50
      */
     public function get_athlete_activities( $args, $assoc_args ) {
         $prefix = '_stwatt_';
+        $current_year = date( 'Y' );
 
         $assoc_args = array_merge(
             array(
                 'id' => get_option( "{$prefix}athlete_id", 0 ),
                 'before' => strtotime( date( 'Y-m-d' ) ), // today
-                'after' => '',
+                'after' => strtotime( $current_year . '-01-01' ), // first of the year.
                 'page' => 1, // default
-                'per_page' => 30, // default
+                'per_page' => 50, // default
             ),
             $assoc_args
         );
 
         extract( $assoc_args );
-        
-        $activities_count = stwatt()->api_athlete->get_activities_count( $id );
 
-        if ( is_wp_error( $activities_count ) ) {
-            WP_CLI::error( $activities_count->get_error_message() . ': ' . stwatt_wp_error_data($activities_count->get_error_data()) );
-        }        
-        
         $display_arr = array();
+        $all_activities = array();
         $params = array(
             'before' => $before,
             'after' => $after,
             'page' => $page,
             'per_page' => $per_page,
         );
-print_r($params);
-return;        
-        $activities = stwatt()->api_athlete->get_activities( $id, 0, $params );
 
+        while ( true ) {
+            $params['page'] = $page;
+
+            $activities = stwatt()->api_athlete->get_activities( $id, 0, $params );
+
+            if ( is_wp_error( $activities ) ) {
+                break;
+            }
+
+            if ( empty( $activities ) ) {
+                break;
+            }
+
+            $all_activities = array_merge( $all_activities, $activities );
+
+            $page++;
+        }
+        /*
         if ( is_wp_error( $activities ) ) {
-            WP_CLI::error( $activities->get_error_message() );
+            WP_CLI::error( $activities->get_error_message() . ': ' . stwatt_wp_error_data($activities->get_error_data()) );
         }
+        */
 
-        if ( empty( $activities ) ) {
-            WP_CLI::error( 'No activities found.' );
-        }
-
-        foreach ( $activities as $activity ) {
+        foreach ( $all_activities as $activity ) {
             $keys_to_use = array(
                 'name',
-                'distance',
-                'moving_time',
-                'total_elevation_gain',
                 'id',
                 'start_date_local',
-                'gear_id',
             );
 
             // get just the data we need.
