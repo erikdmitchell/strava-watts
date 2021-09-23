@@ -46,7 +46,19 @@ class STWATT_WP_CLI {
         }
     }
 
-    // wp stwatt get_athlete_activities --id=4334
+    /**
+     * List athlete activities
+     *
+     * ## OPTIONS
+     *
+     * [--id=<id>]
+     * : The athlete id
+     *
+     * ## EXAMPLES
+     *
+     * wp stwatt get_athlete_activities
+     * wp stwatt get_athlete_activities --id=4334
+     */
     public function get_athlete_activities( $args, $assoc_args ) {
         $prefix = '_stwatt_';
 
@@ -93,7 +105,6 @@ class STWATT_WP_CLI {
             );
         }
 
-        // WP_CLI::log(count($activities));
         WP_CLI\Utils\format_items( 'table', $display_arr, array( 'date', 'name', 'id' ) );
     }
 
