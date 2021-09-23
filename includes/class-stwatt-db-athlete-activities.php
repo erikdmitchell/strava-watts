@@ -94,35 +94,34 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
             $limit = '';
         }
 
-        $where = implode( ' AND ', $where_params );        
-        
+        $where = implode( ' AND ', $where_params );
+
         $query = "SELECT {$select} FROM $this->table_name WHERE {$where}{$limit}";
 
         return $wpdb->get_results( $query );
     }
-    
-    public function get_summary($args = array()) {
+
+    public function get_summary( $args = array() ) {
         $summary_data = array(
             'time' => 0,
             'distance' => 0,
             'elevation' => 0,
         );
         $activities = $this->get_activities( $args );
-        
-        
-        foreach ($activities as $activity) {
+
+        foreach ( $activities as $activity ) {
             $summary_data['time'] = $summary_data['time'] + $activity->time;
             $summary_data['distance'] = $summary_data['distance'] + $activity->distance;
-            $summary_data['elevation'] = $summary_data['elevation'] + $activity->elevation;    
+            $summary_data['elevation'] = $summary_data['elevation'] + $activity->elevation;
         }
-        
+
         // format.
         $seconds = $summary_data['time'];
         $hours = floor( $seconds / 3600 );
         $mins = floor( $seconds / 60 % 60 );
         $secs = floor( $seconds % 60 );
-        
-        $summary_data['time'] = sprintf( '%02d:%02d:%02d', $hours, $mins, $secs );        
+
+        $summary_data['time'] = sprintf( '%02d:%02d:%02d', $hours, $mins, $secs );
         $summary_data['distance'] = round( round( $summary_data['distance'] * 3.288 ) * 0.000189394 ); // meters to feet, then feet to miles.
         $summary_data['elevation'] = round( $summary_data['elevation'] * 3.288 ); // meters to feet.
 
@@ -131,7 +130,7 @@ class STWATT_DB_Athlete_Activities extends STWATT_DB {
 
     /**
      * Get a single activity.
-     * 
+     *
      * @access public
      * @param int $activity_id (default: 0).
      * @return db object
