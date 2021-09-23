@@ -73,14 +73,23 @@ $expires_at = get_date_from_gmt( date( 'Y-m-d H:i:s', $token_data['expires_at'] 
     </div>
 
     <div class="stwatt-wrapper">
-        <h2>Token Info</h2>
-        <div class="token-details">
-            <div>Expires</div>
-            <div><?php echo $expires_at; ?></div>
-            <div>Last Updated</div>
-            <div><?php echo $token_data['last_updated']; ?></div>
-        </div>
-        <div>Next Run</div>
-        <div><?php echo $next_run; ?></div>        
+        <h2>Token Info (<?php echo get_option( "{$prefix}athlete_id", 0 ); ?>)</h2>
+        <div class="stwatt-layout token-details">
+            <div>
+                <div class="header-text">Expires</div>
+                <div><?php echo $expires_at; ?></div>
+                <?php echo time() >= $token_data['expires_at'] ? 'Expired' : ''; ?>
+            </div>
+            <div>
+                <div class="header-text">Last Updated</div>
+                <div><?php echo $token_data['last_updated']; ?></div>
+            </div>
+            <div>
+                <div class="header-text">Next Run</div>
+                <div><?php echo $next_run; ?></div>  
+            </div>
+        </div>    
+                        stwatt()->auth->update_tokens();
+        <p class="submit"><input type="button" name="update_tokens" id="update_tokens" class="button button-secondary" value="Update Tokens"></p>  
     </div>
 </div>

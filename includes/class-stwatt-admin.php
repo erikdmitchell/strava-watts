@@ -24,7 +24,8 @@ class STWATT_Admin {
      * @return void
      */
     public function scripts_styles() {
-        wp_enqueue_style( 'stwatt-grid-style', STWATT_ASSETS_URL . 'css/grid.css', '', STWATT_VERSION );
+        wp_enqueue_style( 'stwatt-grid-style', STWATT_ASSETS_URL . 'css/grid.css', '', STWATT_VERSION ); // not used?
+        wp_enqueue_style( 'stwatt-admin-style', STWATT_ASSETS_URL . 'css/admin.css', '', STWATT_VERSION );
     }
 
     /**
