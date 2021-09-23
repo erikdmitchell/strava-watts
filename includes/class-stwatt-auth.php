@@ -264,5 +264,28 @@ class STWATT_Auth {
         return 0;
     }
 
+    /**
+     * Get athlete token details.
+     *
+     * @access public
+     * @param int $athlete_id (default: 0)
+     * @return void
+     */
+    public function get_athlete_token_details( $athlete_id = 0 ) {
+        return $this->athlete_token_details( $athlete_id );
+    }
 
+    /**
+     * Query db for athlete token details.
+     *
+     * @access private
+     * @param int $athlete_id (default: 0)
+     * @return void
+     */
+    private function athlete_token_details( $athlete_id = 0 ) {
+        return array(
+            'expires_at' => stwatt()->tokens_db->get_column_by( 'expires_at', 'athlete_id', $athlete_id ),
+            'last_updated' => stwatt()->tokens_db->get_column_by( 'last_updated', 'athlete_id', $athlete_id ),
+        );
+    }
 }
