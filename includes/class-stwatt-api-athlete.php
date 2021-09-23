@@ -74,7 +74,22 @@ class STWATT_API_Athlete {
 
         stwatt()->athletes_db->insert( $insert_data, 'athlete' );
     }
+    
+    public function get_activities( $athlete_id = 0, $id = 0, $params = array() ) {
+        $this->id = $athlete_id;
+        $this->token = $this->get_token();
+                
+        return $this->get_strava_activities( $id, $params );
+    }
 
+    /**
+     * Get activities via the Strava API.
+     * 
+     * @access protected
+     * @param int $id (default: 0)
+     * @param array $params (default: array()).
+     * @return json data
+     */
     protected function get_strava_activities( $id = 0, $params = array() ) {
         if ( $id ) {
             return $this->get_strava_activity( $id );
@@ -85,7 +100,6 @@ class STWATT_API_Athlete {
             'after' => '',
             'page' => 1, // strava default.
             'per_page' => 30, // strava default.
-            'before' => '',
         );
         $params = wp_parse_args( $params, $default_params );
         $param_query = $this->build_query_params( $params );
@@ -113,7 +127,14 @@ class STWATT_API_Athlete {
 
         curl_close( $curl );
 
-        return json_decode( $response );
+        $response = json_decode( $response );
+
+        // check for error, if so return wp error.        
+        if (empty($response) || isset($response->errors)) {
+            return new WP_Error('strava', $response->message, $response->errors);
+        }
+        
+        return $response;
     }
 
     protected function get_strava_activity( $id = 0 ) {
@@ -140,7 +161,14 @@ class STWATT_API_Athlete {
 
         curl_close( $curl );
 
-        return json_decode( $response );
+        $response = json_decode( $response );
+
+        // check for error, if so return wp error.        
+        if (empty($response) || isset($response->errors)) {
+            return new WP_Error('strava', $response->message, $response->errors);
+        }
+        
+        return $response;
     }
 
     private function get_token() {
