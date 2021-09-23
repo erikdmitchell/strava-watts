@@ -309,6 +309,14 @@ class STWATT_API_Athlete {
         return $type;
     }
 
+    /**
+     * Retrieve total number of activities and pages.
+     *
+     * @access public
+     * @param int   $athlete_id (default: 0).
+     * @param array $params (default: array()).
+     * @return array
+     */
     public function get_activities_count( $athlete_id = 0, $params = array() ) {
         $page = 1;
         $activities_count = 0;
@@ -325,20 +333,16 @@ class STWATT_API_Athlete {
 
         while ( true ) {
             $page_count = $page;
-            $params = array(
-                'before' => strtotime( '2021-09-01' ),
-                'after' => strtotime( '2021-01-01' ),
-                'page' => $page,
-                'per_page' => 100,
-            );
+            $params['page'] = $page;
+
             $activities = stwatt()->api_athlete->get_activities( $athlete_id, 0, $params );
 
             if ( is_wp_error( $activities ) ) {
-                break;
+                return $activities;
             }
 
             if ( empty( $activities ) ) {
-                break; // return false?
+                break;
             }
 
             $activities_count = $activities_count + count( $activities );

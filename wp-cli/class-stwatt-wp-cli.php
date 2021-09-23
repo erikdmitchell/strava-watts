@@ -54,10 +54,18 @@ class STWATT_WP_CLI {
      * [--id=<id>]
      * : The athlete id
      *
+     * [--<field>=<value>]
+     * : Associative args for the event.
+     *
      * ## EXAMPLES
      *
-     * wp stwatt get_athlete_activities
-     * wp stwatt get_athlete_activities --id=4334
+     *  # Get athlete activitites
+     *  $ wp stwatt get_athlete_activities
+     *  $ wp stwatt get_athlete_activities --id=4334
+     *
+     *  # Schedule new cron event and pass associative arguments.
+     *  $ wp stwatt get_athlete_activities --id=4334 --before=1632355200 --per_page=50     
+     *
      */
     public function get_athlete_activities( $args, $assoc_args ) {
         $prefix = '_stwatt_';
@@ -65,23 +73,39 @@ class STWATT_WP_CLI {
         $assoc_args = array_merge(
             array(
                 'id' => get_option( "{$prefix}athlete_id", 0 ),
+                'before' => strtotime( date( 'Y-m-d' ) ), // today
+                'after' => '',
+                'page' => 1, // default
+                'per_page' => 30, // default
             ),
             $assoc_args
         );
 
         extract( $assoc_args );
+        
+        $activities_count = stwatt()->api_athlete->get_activities_count( $id );
 
+        if ( is_wp_error( $activities_count ) ) {
+            WP_CLI::error( $activities_count->get_error_message() . ': ' . stwatt_wp_error_data($activities_count->get_error_data()) );
+        }        
+        
         $display_arr = array();
         $params = array(
-            'before' => strtotime( '2021-09-01' ),
-            'after' => '',
-            // 'page' => 1, // strava default.
-            'per_page' => 100, // may be max
+            'before' => $before,
+            'after' => $after,
+            'page' => $page,
+            'per_page' => $per_page,
         );
+print_r($params);
+return;        
         $activities = stwatt()->api_athlete->get_activities( $id, 0, $params );
 
         if ( is_wp_error( $activities ) ) {
-            WP_CLI::Error( $activities->get_error_message() );
+            WP_CLI::error( $activities->get_error_message() );
+        }
+
+        if ( empty( $activities ) ) {
+            WP_CLI::error( 'No activities found.' );
         }
 
         foreach ( $activities as $activity ) {
@@ -102,10 +126,11 @@ class STWATT_WP_CLI {
                 'date' => $activity_details['start_date_local'],
                 'name' => $activity_details['name'],
                 'id' => $activity_details['id'],
+                'in_db' => '',
             );
         }
 
-        WP_CLI\Utils\format_items( 'table', $display_arr, array( 'date', 'name', 'id' ) );
+        WP_CLI\Utils\format_items( 'table', $display_arr, array( 'date', 'name', 'id', 'in_db' ) );
     }
 
 }
