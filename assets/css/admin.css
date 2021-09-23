@@ -1,0 +1,13 @@
+.stwatt-layout {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.stwatt-wrapper .header-text {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stwatt-layout > div {
+    margin-right: 2rem;
+}
