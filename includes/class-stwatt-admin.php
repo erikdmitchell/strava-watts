@@ -15,6 +15,7 @@ class STWATT_Admin {
         add_action( 'admin_enqueue_scripts', array( $this, 'scripts_styles' ) );
         add_action( 'admin_menu', array( $this, 'update_settings' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+        add_action( 'admin_init', array( $this, 'force_update_tokens' ) );
     }
 
     /**
@@ -24,7 +25,8 @@ class STWATT_Admin {
      * @return void
      */
     public function scripts_styles() {
-        wp_enqueue_style( 'stwatt-grid-style', STWATT_ASSETS_URL . 'css/grid.css', '', STWATT_VERSION );
+        wp_enqueue_style( 'stwatt-grid-style', STWATT_ASSETS_URL . 'css/grid.css', '', STWATT_VERSION ); // not used?
+        wp_enqueue_style( 'stwatt-admin-style', STWATT_ASSETS_URL . 'css/admin.css', '', STWATT_VERSION );
     }
 
     /**
@@ -79,6 +81,21 @@ class STWATT_Admin {
             update_option( $prefix . $key, $value );
         }
 
+    }
+    
+    /**
+     * Update tokens.
+     * 
+     * @access public
+     * @return void
+     */
+    public function force_update_tokens() {
+        if (isset($_GET['action']) && 'force_tokens' == $_GET['action']) {
+            stwatt()->auth->update_tokens();
+            
+            wp_redirect( admin_url('options-general.php?page=stwatts-settings&message=Tokens-updated') );
+            exit;
+        }
     }
 }
 

@@ -1,3 +1,22 @@
+<?php
+
+$token_data = stwatt()->auth->get_athlete_token_details( get_option( "{$prefix}athlete_id", 0 ) );
+$cron_jobs = _get_cron_array();
+
+// stwatt_user_token_check
+foreach ( $cron_jobs as $key => $cron_job ) {
+    if ( array_key_exists( 'stwatt_user_token_check', $cron_job ) ) {
+        foreach ( $cron_job as $details ) {
+            // $schedule = $details['schedule'];
+        }
+
+        $next_run = get_date_from_gmt( date( 'Y-m-d H:i:s', $key ), 'Y-m-d H:i:s' );
+    }
+}
+
+$expires_at = get_date_from_gmt( date( 'Y-m-d H:i:s', $token_data['expires_at'] ), 'Y-m-d H:i:s' );
+?>
+
 <div class="wrap">
     <h1>Strava API Settings</h1>
 
@@ -51,5 +70,26 @@
     
             <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
         </form>
+    </div>
+
+    <div class="stwatt-wrapper">
+        <h2>Token Info (<?php echo get_option( "{$prefix}athlete_id", 0 ); ?>)</h2>
+        <div class="stwatt-layout token-details">
+            <div>
+                <div class="header-text">Expires</div>
+                <div><?php echo $expires_at; ?></div>
+                <?php echo time() >= $token_data['expires_at'] ? 'Expired' : ''; ?>
+            </div>
+            <div>
+                <div class="header-text">Last Updated</div>
+                <div><?php echo $token_data['last_updated']; ?></div>
+            </div>
+            <div>
+                <div class="header-text">Next Run</div>
+                <div><?php echo $next_run; ?></div>  
+            </div>
+        </div>    
+
+        <p class="submit"><a href="<?php echo admin_url('options-general.php?page=stwatts-settings&action=force_tokens'); ?>"><input type="button" name="update_tokens" id="update_tokens" class="button button-secondary" value="Update Tokens"></a></p>  
     </div>
 </div>
