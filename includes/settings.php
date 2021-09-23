@@ -90,6 +90,6 @@ $expires_at = get_date_from_gmt( date( 'Y-m-d H:i:s', $token_data['expires_at'] 
             </div>
         </div>    
 
-        <p class="submit"><a href="<?php echo admin_url('options-general.php?page=stwatts-settings&action=force_tokens'); ?>"><input type="button" name="update_tokens" id="update_tokens" class="button button-secondary" value="Update Tokens"></a></p>  
+        <p class="submit"><a href="<?php echo admin_url( 'options-general.php?page=stwatts-settings&action=force_tokens' ); ?>"><input type="button" name="update_tokens" id="update_tokens" class="button button-secondary" value="Update Tokens"></a></p>  
     </div>
 </div>

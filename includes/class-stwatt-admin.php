@@ -82,18 +82,18 @@ class STWATT_Admin {
         }
 
     }
-    
+
     /**
      * Update tokens.
-     * 
+     *
      * @access public
      * @return void
      */
     public function force_update_tokens() {
-        if (isset($_GET['action']) && 'force_tokens' == $_GET['action']) {
+        if ( isset( $_GET['action'] ) && 'force_tokens' == $_GET['action'] ) {
             stwatt()->auth->update_tokens();
-            
-            wp_redirect( admin_url('options-general.php?page=stwatts-settings&message=Tokens-updated') );
+
+            wp_redirect( admin_url( 'options-general.php?page=stwatts-settings&message=Tokens-updated' ) );
             exit;
         }
     }
