@@ -93,12 +93,13 @@ function stwatt_log( $message = '' ) {
     fclose( $file );
 }
 
-function stwatt_wp_error_data($data_obj = '') {
-    if (empty($data_obj) || !isset($data_obj[0]))
+function stwatt_wp_error_data( $data_obj = '' ) {
+    if ( empty( $data_obj ) || ! isset( $data_obj[0] ) ) {
         return;
+    }
 
     $data_obj = $data_obj[0];
-    $output = $data_obj->resource . ', ' . $data_obj->code . ' ' . $data_obj->field;  
-    
+    $output = $data_obj->resource . ', ' . $data_obj->code . ' ' . $data_obj->field;
+
     return $output;
 }
