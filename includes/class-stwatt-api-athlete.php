@@ -74,28 +74,28 @@ class STWATT_API_Athlete {
 
         stwatt()->athletes_db->insert( $insert_data, 'athlete' );
     }
-    
+
     /**
      * Public method to get a list of user activities.
-     * 
+     *
      * @access public
-     * @param int $athlete_id (default: 0)
-     * @param int $id (default: 0)
+     * @param int   $athlete_id (default: 0)
+     * @param int   $id (default: 0)
      * @param array $params (default: array())
      * @return void
      */
     public function get_activities( $athlete_id = 0, $id = 0, $params = array() ) {
         $this->id = $athlete_id;
         $this->token = $this->get_token();
-                
+
         return $this->get_strava_activities( $id, $params );
     }
 
     /**
      * Get activities via the Strava API.
-     * 
+     *
      * @access protected
-     * @param int $id (default: 0)
+     * @param int   $id (default: 0)
      * @param array $params (default: array()).
      * @return json data
      */
@@ -138,15 +138,15 @@ class STWATT_API_Athlete {
 
         $response = json_decode( $response );
 
-        if (empty($response)) {
+        if ( empty( $response ) ) {
             return;
         }
 
-        // check for error, if so return wp error.        
-        if (isset($response->errors)) {
-            return new WP_Error('strava', $response->message, $response->errors);
+        // check for error, if so return wp error.
+        if ( isset( $response->errors ) ) {
+            return new WP_Error( 'strava', $response->message, $response->errors );
         }
-        
+
         return $response;
     }
 
@@ -176,11 +176,11 @@ class STWATT_API_Athlete {
 
         $response = json_decode( $response );
 
-        // check for error, if so return wp error.        
-        if (empty($response) || isset($response->errors)) {
-            return new WP_Error('strava', $response->message, $response->errors);
+        // check for error, if so return wp error.
+        if ( empty( $response ) || isset( $response->errors ) ) {
+            return new WP_Error( 'strava', $response->message, $response->errors );
         }
-        
+
         return $response;
     }
 
@@ -308,50 +308,49 @@ class STWATT_API_Athlete {
 
         return $type;
     }
-    
+
     public function get_activities_count( $athlete_id = 0, $params = array() ) {
         $page = 1;
         $activities_count = 0;
         $page_count = 0;
-        $current_year = date('Y');
+        $current_year = date( 'Y' );
         $default_params = array(
-            'before' => strtotime( date('Y-m-d') ), // today
-            'after' => strtotime( $current_year . '-01-01'), // first of the year.
+            'before' => strtotime( date( 'Y-m-d' ) ), // today
+            'after' => strtotime( $current_year . '-01-01' ), // first of the year.
             'page' => $page,
             'per_page' => 30, // strava default.
         );
         $params = wp_parse_args( $params, $default_params );
         $activities_count_arr = array();
 
-        while (true) {   
-            $page_count = $page;     
+        while ( true ) {
+            $page_count = $page;
             $params = array(
-                'before' => strtotime('2021-09-01'),
-                'after' => strtotime('2021-01-01'),
+                'before' => strtotime( '2021-09-01' ),
+                'after' => strtotime( '2021-01-01' ),
                 'page' => $page,
                 'per_page' => 100,
             );
-            $activities = stwatt()->api_athlete->get_activities( $athlete_id, 0, $params ); 
+            $activities = stwatt()->api_athlete->get_activities( $athlete_id, 0, $params );
 
-            if (is_wp_error( $activities )) {                
+            if ( is_wp_error( $activities ) ) {
                 break;
             }
-         
-            if (empty($activities)) {
+
+            if ( empty( $activities ) ) {
                 break; // return false?
             }
 
+            $activities_count = $activities_count + count( $activities );
 
-            $activities_count = $activities_count + count($activities); 
-            
             $page++;
         }
-        
+
         $activities_count_arr = array(
             'pages' => $page_count,
             'activities_count' => $activities_count,
         );
-        
+
         return $activities_count_arr;
     }
 
