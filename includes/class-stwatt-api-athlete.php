@@ -321,6 +321,7 @@ class STWATT_API_Athlete {
             'per_page' => 30, // strava default.
         );
         $params = wp_parse_args( $params, $default_params );
+        $activities_count_arr = array();
 
         while (true) {   
             $page_count = $page;     
@@ -346,8 +347,12 @@ class STWATT_API_Athlete {
             $page++;
         }
         
-        WP_CLI::log("pages: {$page_count}");  
-        WP_CLI::log("activities: {$activities_count}");
+        $activities_count_arr = array(
+            'pages' => $page_count,
+            'activities_count' => $activities_count,
+        );
+        
+        return $activities_count_arr;
     }
 
 }
