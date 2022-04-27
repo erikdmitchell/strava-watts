@@ -120,7 +120,7 @@ abstract class STWATT_DB {
         global $wpdb;
 
         $column_where = esc_sql( $column_where );
-        $column = esc_sql( $column );
+        $column       = esc_sql( $column );
 
         return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $column_where = %s LIMIT 1;", $column_value ) );
     }
@@ -150,14 +150,19 @@ abstract class STWATT_DB {
         $data = array_intersect_key( $data, $column_formats );
 
         // Reorder $column_formats to match the order of columns given in $data
-        $data_keys = array_keys( $data );
+        $data_keys      = array_keys( $data );
         $column_formats = array_merge( array_flip( $data_keys ), $column_formats );
 
-        $wpdb->insert( $this->table_name, $data, $column_formats );
+        $id = $wpdb->insert( $this->table_name, $data, $column_formats );
 
-        do_action( 'stwatt_post_insert_' . $type, $wpdb->insert_id, $data );
+        // check for wpdb error.
+        if ( false === $id ) {
+            return new WP_Error( 'stwatts', $wpdb->last_error );
+        }
 
-        return $wpdb->insert_id;
+        do_action( 'stwatt_post_insert_' . $type, $id, $data );
+
+        return $id;
     }
 
     /**
@@ -191,7 +196,7 @@ abstract class STWATT_DB {
         $data = array_intersect_key( $data, $column_formats );
 
         // Reorder $column_formats to match the order of columns given in $data
-        $data_keys = array_keys( $data );
+        $data_keys      = array_keys( $data );
         $column_formats = array_merge( array_flip( $data_keys ), $column_formats );
 
         if ( false === $wpdb->update( $this->table_name, $data, array( $where => $row_id ), $column_formats ) ) {
