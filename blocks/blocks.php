@@ -13,21 +13,21 @@ function stwatt_register_blocks() {
     }
 
     // automatically load dependencies and version
-    $asset_file = include( STWATT_ASSETS_PATH . 'build/blocks.asset.php' );
+    $asset_file = include STWATT_ASSETS_PATH . 'build/blocks.asset.php';
 
     $block_slug = 'strava-watts';
     register_block_type(
         'stwatt/' . $block_slug,
         array(
-            'attributes' => array(
+            'attributes'    => array(
                 'athleteId' => array(
-                    'type' => 'number',
+                    'type'    => 'number',
                     'default' => 3,
                 ),
             ),
             'editor_script' => "stwatt-{$block_slug}-block-script",
-            'editor_style' => "stwatt-{$block_slug}-block-editor",
-            'style' => "stwatt-{$block_slug}-block-style",
+            'editor_style'  => "stwatt-{$block_slug}-block-editor",
+            'style'         => "stwatt-{$block_slug}-block-style",
         )
     );
 

@@ -127,7 +127,7 @@ class STWATT_Install {
             PRIMARY KEY (id)
         ) $charset_collate;";
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta( $sql );
 
         update_option( 'stwatt_db_version', STWATT_DB_VERSION );

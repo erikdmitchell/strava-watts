@@ -49,13 +49,13 @@ class STWATT_Admin {
         $path = STWATT_ABSPATH . 'includes/settings.php';
         $args = array(
             'page_url' => admin_url( 'options-general.php?page=stwatts-settings' ),
-            'prefix' => '_stwatt_',
+            'prefix'   => '_stwatt_',
         );
 
         // include.
         if ( file_exists( $path ) ) {
             extract( $args );
-            include( $path );
+            include $path;
         }
     }
 
@@ -70,7 +70,7 @@ class STWATT_Admin {
             return;
         }
 
-        $prefix = '_stwatt_';
+        $prefix   = '_stwatt_';
         $settings = isset( $_POST['stwatt_settings'] ) ? $_POST['stwatt_settings'] : array();
 
         if ( empty( $settings ) ) {

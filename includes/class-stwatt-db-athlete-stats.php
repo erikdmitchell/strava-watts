@@ -27,15 +27,15 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
      */
     public function get_columns() {
         return array(
-            'id' => '%d',
-            'athlete_id' => '%d',
-            'elevation' => '%d',
-            'distance' => '%s',
-            'time' => '%d',
-            'distance_road' => '%s',
-            'distance_cross' => '%s',
-            'distance_mtb' => '%s',
-            'distance_tt' => '%s',
+            'id'              => '%d',
+            'athlete_id'      => '%d',
+            'elevation'       => '%d',
+            'distance'        => '%s',
+            'time'            => '%d',
+            'distance_road'   => '%s',
+            'distance_cross'  => '%s',
+            'distance_mtb'    => '%s',
+            'distance_tt'     => '%s',
             'distance_gravel' => '%s',
         );
     }
@@ -48,14 +48,14 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
      */
     public function get_column_defaults() {
         return array(
-            'athlete_id' => 0,
-            'elevation' => 0,
-            'distance' => 0,
-            'time' => 0,
-            'distance_road' => 0,
-            'distance_cross' => 0,
-            'distance_mtb' => 0,
-            'distance_tt' => 0,
+            'athlete_id'      => 0,
+            'elevation'       => 0,
+            'distance'        => 0,
+            'time'            => 0,
+            'distance_road'   => 0,
+            'distance_cross'  => 0,
+            'distance_mtb'    => 0,
+            'distance_tt'     => 0,
             'distance_gravel' => 0,
         );
     }
@@ -99,9 +99,9 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
 
         // setup data for db.
         $data = array(
-            'elevation' => $activity->elevation,
-            'distance' => $activity->distance,
-            'time' => $activity->time,
+            'elevation'                       => $activity->elevation,
+            'distance'                        => $activity->distance,
+            'time'                            => $activity->time,
             "distance_{$activity->bike_type}" => $activity->distance,
         );
 
@@ -136,7 +136,7 @@ class STWATT_DB_Athlete_Stats extends STWATT_DB {
             return;
         }
 
-        $db_value = $this->get_column_by( $field, 'athlete_id', $athlete_id );
+        $db_value  = $this->get_column_by( $field, 'athlete_id', $athlete_id );
         $new_value = $value + $db_value;
 
         return $new_value;

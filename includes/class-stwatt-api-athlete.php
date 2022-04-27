@@ -34,7 +34,7 @@ class STWATT_API_Athlete {
     public function __construct() {}
 
     public function import_strava_activities( $athlete_id = 0 ) {
-        $this->id = $athlete_id;
+        $this->id    = $athlete_id;
         $this->token = $this->get_token();
 
         $activities = $this->get_strava_activities();
@@ -65,11 +65,11 @@ class STWATT_API_Athlete {
             )
         */
         $insert_data = array(
-            'age' => '',
+            'age'        => '',
             'athlete_id' => $data->id,
             'first_name' => $data->firstname,
-            'gender' => $data->sex,
-            'last_name' => $data->lastname,
+            'gender'     => $data->sex,
+            'last_name'  => $data->lastname,
         );
 
         stwatt()->athletes_db->insert( $insert_data, 'athlete' );
@@ -85,7 +85,7 @@ class STWATT_API_Athlete {
      * @return void
      */
     public function get_activities( $athlete_id = 0, $id = 0, $params = array() ) {
-        $this->id = $athlete_id;
+        $this->id    = $athlete_id;
         $this->token = $this->get_token();
 
         return $this->get_strava_activities( $id, $params );
@@ -105,28 +105,28 @@ class STWATT_API_Athlete {
         }
 
         $default_params = array(
-            'before' => '',
-            'after' => '',
-            'page' => 1, // strava default.
+            'before'   => '',
+            'after'    => '',
+            'page'     => 1, // strava default.
             'per_page' => 30, // strava default.
         );
-        $params = wp_parse_args( $params, $default_params );
-        $param_query = $this->build_query_params( $params );
+        $params         = wp_parse_args( $params, $default_params );
+        $param_query    = $this->build_query_params( $params );
 
         $curl = curl_init();
 
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => "https://www.strava.com/api/v3/athlete/activities?{$param_query}",
+                CURLOPT_URL            => "https://www.strava.com/api/v3/athlete/activities?{$param_query}",
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_ENCODING       => '',
+                CURLOPT_MAXREDIRS      => 10,
+                CURLOPT_TIMEOUT        => 0,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
+                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST  => 'GET',
+                CURLOPT_HTTPHEADER     => array(
                     "Authorization: Bearer {$this->token}",
                 ),
             )
@@ -156,15 +156,15 @@ class STWATT_API_Athlete {
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => "https://www.strava.com/api/v3/activities/{$id}",
+                CURLOPT_URL            => "https://www.strava.com/api/v3/activities/{$id}",
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_ENCODING       => '',
+                CURLOPT_MAXREDIRS      => 10,
+                CURLOPT_TIMEOUT        => 0,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
+                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST  => 'GET',
+                CURLOPT_HTTPHEADER     => array(
                     "Authorization: Bearer {$this->token}",
                 ),
             )
@@ -236,19 +236,19 @@ class STWATT_API_Athlete {
         $activity_details = array_intersect_key( get_object_vars( $activity ), array_flip( $keys_to_use ) );
 
         // get bike type from gear.
-        $gear = $this->get_gear( $activity_details['gear_id'] );
+        $gear                          = $this->get_gear( $activity_details['gear_id'] );
         $activity_details['bike_type'] = $gear->bike_type;
 
         // clean up keys for our db.
         $data = array(
             'activity_id' => $activity_details['id'],
-            'athlete_id' => $this->id,
-            'name' => $activity_details['name'],
-            'distance' => $activity_details['distance'],
-            'time' => $activity_details['moving_time'],
-            'elevation' => $activity_details['total_elevation_gain'],
-            'date' => $activity_details['start_date_local'],
-            'bike_type' => $activity_details['bike_type'],
+            'athlete_id'  => $this->id,
+            'name'        => $activity_details['name'],
+            'distance'    => $activity_details['distance'],
+            'time'        => $activity_details['moving_time'],
+            'elevation'   => $activity_details['total_elevation_gain'],
+            'date'        => $activity_details['start_date_local'],
+            'bike_type'   => $activity_details['bike_type'],
         );
 
         // check for dups.
@@ -271,15 +271,15 @@ class STWATT_API_Athlete {
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => "https://www.strava.com/api/v3/gear/{$id}",
+                CURLOPT_URL            => "https://www.strava.com/api/v3/gear/{$id}",
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_ENCODING       => '',
+                CURLOPT_MAXREDIRS      => 10,
+                CURLOPT_TIMEOUT        => 0,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
+                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST  => 'GET',
+                CURLOPT_HTTPHEADER     => array(
                     "Authorization: Bearer {$this->token}",
                 ),
             )
@@ -333,21 +333,21 @@ class STWATT_API_Athlete {
      * @return array
      */
     public function get_activities_count( $athlete_id = 0, $params = array() ) {
-        $page = 1;
-        $activities_count = 0;
-        $page_count = 0;
-        $current_year = date( 'Y' );
-        $default_params = array(
-            'before' => strtotime( date( 'Y-m-d' ) ), // today
-            'after' => strtotime( $current_year . '-01-01' ), // first of the year.
-            'page' => $page,
+        $page                 = 1;
+        $activities_count     = 0;
+        $page_count           = 0;
+        $current_year         = date( 'Y' );
+        $default_params       = array(
+            'before'   => strtotime( date( 'Y-m-d' ) ), // today
+            'after'    => strtotime( $current_year . '-01-01' ), // first of the year.
+            'page'     => $page,
             'per_page' => 30, // strava default.
         );
-        $params = wp_parse_args( $params, $default_params );
+        $params               = wp_parse_args( $params, $default_params );
         $activities_count_arr = array();
 
         while ( true ) {
-            $page_count = $page;
+            $page_count     = $page;
             $params['page'] = $page;
 
             $activities = stwatt()->api_athlete->get_activities( $athlete_id, 0, $params );
@@ -366,7 +366,7 @@ class STWATT_API_Athlete {
         }
 
         $activities_count_arr = array(
-            'pages' => $page_count,
+            'pages'            => $page_count,
             'activities_count' => $activities_count,
         );
 
