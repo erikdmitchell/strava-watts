@@ -22,11 +22,11 @@ class STWATT_Auth {
      * @return void
      */
     public function auth_button() {
-        $scope = 'read,read_all,activity:read,activity:read_all';
-        $prefix = '_stwatt_';
-        $client_id = get_option( "{$prefix}client_id", '' );
+        $scope        = 'read,read_all,activity:read,activity:read_all';
+        $prefix       = '_stwatt_';
+        $client_id    = get_option( "{$prefix}client_id", '' );
         $redirect_uri = admin_url( 'options-general.php?page=stwatts-settings' );
-        $auth_url = "http://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect_uri}&approval_prompt=force&scope={$scope}";
+        $auth_url     = "http://www.strava.com/oauth/authorize?client_id={$client_id}&response_type=code&redirect_uri={$redirect_uri}&approval_prompt=force&scope={$scope}";
 
         $html = '<a href="' . $auth_url . '" class="button">Authorize</a>';
 
@@ -59,47 +59,37 @@ class STWATT_Auth {
      * @return void
      */
     private function token_exchange( $code = '' ) {
-        $prefix = '_stwatt_';
-        $client_id = get_option( "{$prefix}client_id", '' );
+        $prefix        = '_stwatt_';
+        $client_id     = get_option( "{$prefix}client_id", '' );
         $client_secret = get_option( "{$prefix}client_secret", '' );
-        $redirect_uri = admin_url( 'options-general.php?page=stwatts-settings' );
+        $redirect_uri  = admin_url( 'options-general.php?page=stwatts-settings' );
+        $url           = "https://www.strava.com/oauth/token?client_id={$client_id}&client_secret={$client_secret}&code={$code}&grant_type=authorization_code";
 
-        $curl = curl_init();
-
-        curl_setopt_array(
-            $curl,
+        $response = wp_remote_post(
+            $url,
             array(
-                CURLOPT_URL => "https://www.strava.com/oauth/token?client_id={$client_id}&client_secret={$client_secret}&code={$code}&grant_type=authorization_code",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_FAILONERROR => true, // Required for HTTP error codes to be reported via our call to curl_error($curl)
+                'method'      => 'POST',
+                'timeout'     => 0,
+                'redirection' => 10,
+                'httpversion' => '1.1',
             )
         );
 
-        $response = curl_exec( $curl );
+        if ( is_wp_error( $response ) ) {
+            $error_message = $response->get_error_message();
 
-        if ( curl_errno( $curl ) ) {
-            $error_msg = curl_error( $curl );
-        }
+            stwatt_log( 'Token Exchange error: ' . $error_message );
 
-        curl_close( $curl );
-
-        if ( isset( $error_msg ) ) {
-            echo $error_msg;
+            echo "Something went wrong: $error_message";
 
             return;
         }
-
-        $response_obj = json_decode( $response );
+        
+        $response_obj = json_decode( $response['body'] );
 
         $this->store_token_data( $response_obj );
 
-        stwatt()->api_athlete->add_athlete( $response_obj->athlete );
+        // stwatt()->api_athlete->add_athlete( $response_obj->athlete ); NOT CALLED
     }
 
     /**
@@ -111,24 +101,41 @@ class STWATT_Auth {
      */
     private function store_token_data( $data ) {
         $scope = 'read,read_all,activity:read,activity:read_all';
+
+        if ( empty( $data->refresh_token ) || empty( $data->access_token ) || empty( $data->expires_at ) ) {
+            echo 'missing data'; // make wperror
+            return;
+        }
+
         $insert_data = array(
             'refresh_token' => $data->refresh_token,
-            'access_token' => $data->access_token,
-            'expires_at' => $data->expires_at,
-            'last_updated' => date( 'Y-m-d H:i:s' ),
+            'access_token'  => $data->access_token,
+            'expires_at'    => $data->expires_at,
+            'last_updated'  => date( 'Y-m-d H:i:s' ),
         );
 
         // check if we already have the token data, then we just update the token info.
-        if ( stwatt_is_athlete_authorized( $data->athlete->id ) ) {
+        if ( stwatt_is_athlete_authorized( $data->athlete->id ) || $this->athlete_token_id_exists($data->athlete->id) ) {
             $this->update_token( $data->athlete->id, $insert_data );
         } else {
             $insert_data['athlete_id'] = $data->athlete->id;
-            $insert_data['scope'] = $scope;
+            $insert_data['scope']      = $scope;
 
-            $this->add_token( $insert_data );
+            $insert_id = $this->add_token( $insert_data );
+
+            if ( is_wp_error( $insert_id ) ) {
+                echo $insert_id->get_error_message();
+            }
         }
 
-        wp_redirect( admin_url( 'options-general.php?page=stwatts-settings' ) );
+        wp_redirect( admin_url( 'options-general.php?page=stwatts-settings' ) ); // add success message.
+    }
+
+    private function athlete_token_id_exists($athlete_id = 0) {
+        if ( stwatt()->tokens_db->get_column_by( 'id', 'athlete_id', $athlete_id ) )
+            return true;
+            
+        return false;
     }
 
     /**
@@ -164,18 +171,18 @@ class STWATT_Auth {
      */
     public function update_tokens() {
         stwatt_log( 'Begin token updates' );
-        
+
         // get tokens from db.
         $tokens = stwatt()->tokens_db->get_tokens();
 
         // is token expiration in the past?
         foreach ( $tokens as $token ) {
             // check for null.
-            if (null === $token->access_token) {
+            if ( null === $token->access_token ) {
                 stwatt_log( "{$token->athlete_id} has a NULL token" );
-                return;    
+                return;
             }
-                        
+
             if ( ! $this->is_token_valid( $token->expires_at ) ) {
                 $this->refresh_token( $token->refresh_token, $token->athlete_id );
                 stwatt_log( "{$token->athlete_id} token refreshed" );
@@ -192,8 +199,8 @@ class STWATT_Auth {
      * @return void
      */
     private function refresh_token( $refresh_token = '', $athlete_id = 0 ) {
-        $prefix = '_stwatt_';
-        $client_id = get_option( "{$prefix}client_id", '' );
+        $prefix        = '_stwatt_';
+        $client_id     = get_option( "{$prefix}client_id", '' );
         $client_secret = get_option( "{$prefix}client_secret", '' );
 
         $curl = curl_init();
@@ -201,14 +208,14 @@ class STWATT_Auth {
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_URL => "https://www.strava.com/api/v3/oauth/token?client_id={$client_id}&client_secret={$client_secret}&grant_type=refresh_token&refresh_token={$refresh_token}",
+                CURLOPT_URL            => "https://www.strava.com/api/v3/oauth/token?client_id={$client_id}&client_secret={$client_secret}&grant_type=refresh_token&refresh_token={$refresh_token}",
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_ENCODING       => '',
+                CURLOPT_MAXREDIRS      => 10,
+                CURLOPT_TIMEOUT        => 0,
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST  => 'POST',
             )
         );
 
@@ -221,6 +228,8 @@ class STWATT_Auth {
         curl_close( $curl );
 
         if ( isset( $error_msg ) ) {
+            stwatt_log( 'Refresh Token error: ' . $error_msg );
+
             echo $error_msg;
 
             return;
@@ -230,9 +239,9 @@ class STWATT_Auth {
 
         $token_data = array(
             'refresh_token' => $response_obj->refresh_token,
-            'access_token' => $response_obj->access_token,
-            'expires_at' => $response_obj->expires_at,
-            'last_updated' => date( 'Y-m-d H:i:s' ),
+            'access_token'  => $response_obj->access_token,
+            'expires_at'    => $response_obj->expires_at,
+            'last_updated'  => date( 'Y-m-d H:i:s' ),
         );
 
         // update in db.
@@ -291,7 +300,7 @@ class STWATT_Auth {
      */
     private function athlete_token_details( $athlete_id = 0 ) {
         return array(
-            'expires_at' => stwatt()->tokens_db->get_column_by( 'expires_at', 'athlete_id', $athlete_id ),
+            'expires_at'   => stwatt()->tokens_db->get_column_by( 'expires_at', 'athlete_id', $athlete_id ),
             'last_updated' => stwatt()->tokens_db->get_column_by( 'last_updated', 'athlete_id', $athlete_id ),
         );
     }
