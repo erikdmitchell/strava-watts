@@ -163,12 +163,19 @@ class STWATT_Auth {
      * @return void
      */
     public function update_tokens() {
-        stwatt_log( 'Begin token update via cron' );
+        stwatt_log( 'Begin token updates' );
+        
         // get tokens from db.
         $tokens = stwatt()->tokens_db->get_tokens();
 
         // is token expiration in the past?
         foreach ( $tokens as $token ) {
+            // check for null.
+            if (null === $token->access_token) {
+                stwatt_log( "{$token->athlete_id} has a NULL token" );
+                return;    
+            }
+                        
             if ( ! $this->is_token_valid( $token->expires_at ) ) {
                 $this->refresh_token( $token->refresh_token, $token->athlete_id );
                 stwatt_log( "{$token->athlete_id} token refreshed" );

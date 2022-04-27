@@ -24,6 +24,11 @@ function stwatt_athlete_exists( $athlete_id = 0 ) {
  */
 function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
     if ( stwatt()->athletes_db->get_column_by( 'id', 'athlete_id', $athlete_id ) ) {
+        // check access token as this may be null.
+        if (null === stwatt()->tokens_db->get_column_by( 'access_token', 'athlete_id', $athlete_id )) {
+            return false;    
+        }
+        
         return true;
     }
 
@@ -88,8 +93,15 @@ function stwatt_log( $message = '' ) {
     if ( is_array( $message ) ) {
         $message = json_encode( $message );
     }
-    $file = fopen( STWATT_PATH . 'log.log', 'a' );
+    
+    if (!is_dir(STWATT_UPLOADS_PATH) ) {
+        wp_mkdir_p( STWATT_UPLOADS_PATH );
+    }
+    
+    $file = fopen( STWATT_UPLOADS_PATH . 'log.log', 'a' );
+    
     echo fwrite( $file, "\n" . date( 'Y-m-d h:i:s' ) . ' :: ' . $message );
+    
     fclose( $file );
 }
 
