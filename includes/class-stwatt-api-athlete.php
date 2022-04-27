@@ -206,9 +206,20 @@ class STWATT_API_Athlete {
         return true;
     }
 
+    public function add_activity_to_db( $activity = '' ) {
+        return $this->add_activity( $activity );
+    }
+
+    /**
+     * Add activity to db.
+     *
+     * @access protected
+     * @param string $activity (default: '').
+     * @return bool
+     */
     protected function add_activity( $activity = '' ) {
         if ( empty( $activity ) ) {
-            return;
+            return false;
         }
 
         $keys_to_use = array(
@@ -240,14 +251,18 @@ class STWATT_API_Athlete {
             'bike_type' => $activity_details['bike_type'],
         );
 
-        // we need a check for dups.
+        // check for dups.
+        if ( stwatt_activity_exists( $activity_details['id'] ) ) {
+            return false;
+        }
+
         // add to db.
         stwatt()->athlete_activities_db->insert( $data, 'athlete_activity' );
 
-        // add to athlete stats.
+        // add to athlete stats. MAY NOT NEED (see 0.1.0 project on github).
         stwatt()->athlete_stats_db->update_stats( $data['athlete_id'], $data['activity_id'] );
 
-        return;
+        return true;
     }
 
     public function get_gear( $id = 0 ) {
@@ -309,6 +324,14 @@ class STWATT_API_Athlete {
         return $type;
     }
 
+    /**
+     * Retrieve total number of activities and pages.
+     *
+     * @access public
+     * @param int   $athlete_id (default: 0).
+     * @param array $params (default: array()).
+     * @return array
+     */
     public function get_activities_count( $athlete_id = 0, $params = array() ) {
         $page = 1;
         $activities_count = 0;
@@ -325,20 +348,16 @@ class STWATT_API_Athlete {
 
         while ( true ) {
             $page_count = $page;
-            $params = array(
-                'before' => strtotime( '2021-09-01' ),
-                'after' => strtotime( '2021-01-01' ),
-                'page' => $page,
-                'per_page' => 100,
-            );
+            $params['page'] = $page;
+
             $activities = stwatt()->api_athlete->get_activities( $athlete_id, 0, $params );
 
             if ( is_wp_error( $activities ) ) {
-                break;
+                return $activities;
             }
 
             if ( empty( $activities ) ) {
-                break; // return false?
+                break;
             }
 
             $activities_count = $activities_count + count( $activities );

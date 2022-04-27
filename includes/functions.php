@@ -92,3 +92,36 @@ function stwatt_log( $message = '' ) {
     echo fwrite( $file, "\n" . date( 'Y-m-d h:i:s' ) . ' :: ' . $message );
     fclose( $file );
 }
+
+/**
+ * Cleaner output for WP Error Data from Strava API.
+ *
+ * @access public
+ * @param string $data_obj (default: '').
+ * @return string
+ */
+function stwatt_wp_error_data( $data_obj = '' ) {
+    if ( empty( $data_obj ) || ! isset( $data_obj[0] ) ) {
+        return;
+    }
+
+    $data_obj = $data_obj[0];
+    $output = $data_obj->resource . ', ' . $data_obj->code . ' ' . $data_obj->field;
+
+    return $output;
+}
+
+/**
+ * Checks if activity exists.
+ *
+ * @access public
+ * @param int $activity_id (default: 0)
+ * @return void
+ */
+function stwatt_activity_exists( $activity_id = 0 ) {
+    if ( stwatt()->athlete_activities_db->get_column_by( 'id', 'activity_id', $activity_id ) ) {
+        return true;
+    }
+
+    return false;
+}
