@@ -1,7 +1,7 @@
 <?php
 
 $token_data = stwatt()->auth->get_athlete_token_details( get_option( "{$prefix}athlete_id", 0 ) );
-$cron_jobs = _get_cron_array();
+$cron_jobs  = _get_cron_array();
 
 // stwatt_user_token_check
 foreach ( $cron_jobs as $key => $cron_job ) {
@@ -98,11 +98,11 @@ $expires_at = get_date_from_gmt( date( 'Y-m-d H:i:s', $token_data['expires_at'] 
         <div class="stwatt-layout">
             <div>
     <?php
-foreach(glob(STWATT_UPLOADS_PATH.'*.*') as $file) {
-    $file_url = str_replace(STWATT_UPLOADS_PATH, STWATT_UPLOADS_URL, $file);
+    foreach ( glob( STWATT_UPLOADS_PATH . '*.*' ) as $file ) {
+        $file_url = str_replace( STWATT_UPLOADS_PATH, STWATT_UPLOADS_URL, $file );
 
-    echo "$file_url<br>";
-}        
+        echo "$file_url<br>";
+    }
     ?>
     
     <div id="log-viewer">  
