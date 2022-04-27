@@ -15,7 +15,7 @@ class STWATT_DB_Tokens extends STWATT_DB {
     }
 
     /**
-     * Get columns and formats
+     * Get columns and formats.
      *
      * @access  public
      * @since   0.1.0
@@ -33,7 +33,7 @@ class STWATT_DB_Tokens extends STWATT_DB {
     }
 
     /**
-     * Get default column values
+     * Get default column values.
      *
      * @access  public
      * @since   0.1.0
@@ -49,6 +49,12 @@ class STWATT_DB_Tokens extends STWATT_DB {
         );
     }
 
+    /**
+     * Get all tokens.
+     *
+     * @access  public
+     * @since   0.1.0
+     */
     public function get_tokens() {
         global $wpdb;
 
@@ -56,7 +62,7 @@ class STWATT_DB_Tokens extends STWATT_DB {
     }
 
     /**
-     * Create the table
+     * Create the table.
      *
      * @access  public
      * @since   0.1.0
