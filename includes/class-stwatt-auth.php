@@ -84,7 +84,7 @@ class STWATT_Auth {
 
             return;
         }
-        
+
         $response_obj = json_decode( $response['body'] );
 
         $this->store_token_data( $response_obj );
@@ -115,7 +115,7 @@ class STWATT_Auth {
         );
 
         // check if we already have the token data, then we just update the token info.
-        if ( stwatt_is_athlete_authorized( $data->athlete->id ) || $this->athlete_token_id_exists($data->athlete->id) ) {
+        if ( stwatt_is_athlete_authorized( $data->athlete->id ) || $this->athlete_token_id_exists( $data->athlete->id ) ) {
             $this->update_token( $data->athlete->id, $insert_data );
         } else {
             $insert_data['athlete_id'] = $data->athlete->id;
@@ -131,10 +131,11 @@ class STWATT_Auth {
         wp_redirect( admin_url( 'options-general.php?page=stwatts-settings' ) ); // add success message.
     }
 
-    private function athlete_token_id_exists($athlete_id = 0) {
-        if ( stwatt()->tokens_db->get_column_by( 'id', 'athlete_id', $athlete_id ) )
+    private function athlete_token_id_exists( $athlete_id = 0 ) {
+        if ( stwatt()->tokens_db->get_column_by( 'id', 'athlete_id', $athlete_id ) ) {
             return true;
-            
+        }
+
         return false;
     }
 
