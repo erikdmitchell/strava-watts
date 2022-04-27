@@ -92,4 +92,34 @@ $expires_at = get_date_from_gmt( date( 'Y-m-d H:i:s', $token_data['expires_at'] 
 
         <p class="submit"><a href="<?php echo admin_url( 'options-general.php?page=stwatts-settings&action=force_tokens' ); ?>"><input type="button" name="update_tokens" id="update_tokens" class="button button-secondary" value="Update Tokens"></a></p>  
     </div>
+
+    <div class="stwatt-wrapper">
+        <h2>Logs</h2>
+        <div class="stwatt-layout">
+            <div>
+    <?php
+foreach(glob(STWATT_UPLOADS_PATH.'*.*') as $file) {
+    $file_url = str_replace(STWATT_UPLOADS_PATH, STWATT_UPLOADS_URL, $file);
+
+    echo "$file_url<br>";
+}        
+    ?>
+            </div>
+        </div>
+    </div>
+    
+
 </div>
+
+
+    <div id="log-viewer">  
+        <?php
+        $response = wp_remote_get( 'http://bike.test/wp-content/uploads/stwatts/log.log' );
+
+        if ( is_array( $response ) && ! is_wp_error( $response ) ) {
+            $headers = $response['headers']; // array of http header lines.
+            $body    = $response['body']; // use the content.
+        }
+        ?>
+        <pre><?php echo esc_html( $body ); ?></pre>
+    </div>

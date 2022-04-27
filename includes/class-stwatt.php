@@ -76,6 +76,8 @@ final class STWATT {
         $this->define( 'STWATT_ASSETS_URL', plugin_dir_url( __DIR__ ) . 'assets/' );
         $this->define( 'STWATT_ASSETS_PATH', dirname( STWATT_PLUGIN_FILE ) . '/assets/' );
         $this->define( 'STWATT_DB_VERSION', '0.1.0' ); // may move to db class.
+        $this->define( 'STWATT_UPLOADS_PATH', WP_CONTENT_DIR . '/uploads/stwatts/' );        
+        $this->define( 'STWATT_UPLOADS_URL', WP_CONTENT_URL . '/uploads/stwatts/' );
     }
 
     /**

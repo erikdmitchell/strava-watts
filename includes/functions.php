@@ -88,8 +88,15 @@ function stwatt_log( $message = '' ) {
     if ( is_array( $message ) ) {
         $message = json_encode( $message );
     }
-    $file = fopen( STWATT_PATH . 'log.log', 'a' );
+    
+    if (!is_dir(STWATT_UPLOADS_PATH) ) {
+        wp_mkdir_p( STWATT_UPLOADS_PATH );
+    }
+    
+    $file = fopen( STWATT_UPLOADS_PATH . 'log.log', 'a' );
+    
     echo fwrite( $file, "\n" . date( 'Y-m-d h:i:s' ) . ' :: ' . $message );
+    
     fclose( $file );
 }
 
