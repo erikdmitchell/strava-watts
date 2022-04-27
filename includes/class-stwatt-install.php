@@ -92,7 +92,7 @@ class STWATT_Install {
         $sql[] = "CREATE TABLE stwatt_tokens (
             id int(11) unsigned NOT NULL AUTO_INCREMENT,
             athlete_id int(11) DEFAULT NULL,
-            scope varchar(32) DEFAULT NULL,
+            scope varchar(255) DEFAULT NULL,
             refresh_token varchar(255) DEFAULT NULL, 
             access_token varchar(255) DEFAULT NULL,
             expires_at int(11) DEFAULT NULL, 
