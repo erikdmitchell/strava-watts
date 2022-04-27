@@ -24,6 +24,11 @@ function stwatt_athlete_exists( $athlete_id = 0 ) {
  */
 function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
     if ( stwatt()->athletes_db->get_column_by( 'id', 'athlete_id', $athlete_id ) ) {
+        // check access token as this may be null.
+        if (null === stwatt()->tokens_db->get_column_by( 'access_token', 'athlete_id', $athlete_id )) {
+            return false;    
+        }
+        
         return true;
     }
 

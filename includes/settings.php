@@ -104,14 +104,7 @@ foreach(glob(STWATT_UPLOADS_PATH.'*.*') as $file) {
     echo "$file_url<br>";
 }        
     ?>
-            </div>
-        </div>
-    </div>
     
-
-</div>
-
-
     <div id="log-viewer">  
         <?php
         $response = wp_remote_get( 'http://bike.test/wp-content/uploads/stwatts/log.log' );
@@ -122,4 +115,10 @@ foreach(glob(STWATT_UPLOADS_PATH.'*.*') as $file) {
         }
         ?>
         <pre><?php echo esc_html( $body ); ?></pre>
+    </div>    
+            </div>
+        </div>
     </div>
+    
+
+</div>
