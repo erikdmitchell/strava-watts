@@ -76,7 +76,7 @@ final class STWATT {
         $this->define( 'STWATT_ASSETS_URL', plugin_dir_url( __DIR__ ) . 'assets/' );
         $this->define( 'STWATT_ASSETS_PATH', dirname( STWATT_PLUGIN_FILE ) . '/assets/' );
         $this->define( 'STWATT_DB_VERSION', '0.1.0' ); // may move to db class.
-        $this->define( 'STWATT_UPLOADS_PATH', WP_CONTENT_DIR . '/uploads/stwatts/' );        
+        $this->define( 'STWATT_UPLOADS_PATH', WP_CONTENT_DIR . '/uploads/stwatts/' );
         $this->define( 'STWATT_UPLOADS_URL', WP_CONTENT_URL . '/uploads/stwatts/' );
     }
 
@@ -101,34 +101,34 @@ final class STWATT {
      * @return void
      */
     public function includes() {
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-admin.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-api-athlete.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-athlete-stats.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-auth.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athlete-activities.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athlete-stats.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-athletes.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-db-tokens.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-install.php' );
-        include_once( STWATT_ABSPATH . 'includes/class-stwatt-rest-api.php' );
-        include_once( STWATT_ABSPATH . 'includes/functions.php' );
-        include_once( STWATT_ABSPATH . 'blocks/blocks.php' );
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-admin.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-api-athlete.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-athlete.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-athlete-stats.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-auth.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-db.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-db-athlete-activities.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-db-athlete-stats.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-db-athletes.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-db-tokens.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-install.php';
+        include_once STWATT_ABSPATH . 'includes/class-stwatt-rest-api.php';
+        include_once STWATT_ABSPATH . 'includes/functions.php';
+        include_once STWATT_ABSPATH . 'blocks/blocks.php';
 
         // eventually roll into api class.
-        $this->auth = new STWATT_Auth();
+        $this->auth        = new STWATT_Auth();
         $this->api_athlete = new STWATT_API_Athlete();
 
         // db - would love to clean.
-        $this->athletes_db = new STWATT_DB_Athletes();
-        $this->tokens_db = new STWATT_DB_Tokens();
+        $this->athletes_db           = new STWATT_DB_Athletes();
+        $this->tokens_db             = new STWATT_DB_Tokens();
         $this->athlete_activities_db = new STWATT_DB_Athlete_Activities();
-        $this->athlete_stats_db = new STWATT_DB_Athlete_Stats();
+        $this->athlete_stats_db      = new STWATT_DB_Athlete_Stats();
 
         // load for wp cli.
         if ( defined( 'WP_CLI' ) && WP_CLI ) {
-            include_once( STWATT_ABSPATH . 'wp-cli/class-stwatt-wp-cli.php' );
+            include_once STWATT_ABSPATH . 'wp-cli/class-stwatt-wp-cli.php';
         }
     }
 
@@ -162,11 +162,11 @@ final class STWATT {
     public function frontend_scripts_styles() {
         // wp_enqueue_script( 'stwatt-app', STWATT_ASSETS_URL . '/build/app.js', ['wp-element'], time(), true );
 
-        $build_path = 'assets/build/';
+        $build_path        = 'assets/build/';
         $script_asset_path = STWATT_ASSETS_PATH . 'build/app.asset.php';
-        $script_info = file_exists( $script_asset_path ) ? include $script_asset_path : array(
+        $script_info       = file_exists( $script_asset_path ) ? include $script_asset_path : array(
             'dependencies' => array(),
-            'version' => $this->version,
+            'version'      => $this->version,
         );
 
         wp_enqueue_script( 'stwatt-app', STWATT_ASSETS_URL . 'build/app.js', $script_info['dependencies'], $script_info['version'], true );
