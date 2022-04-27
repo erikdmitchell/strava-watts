@@ -25,10 +25,10 @@ function stwatt_athlete_exists( $athlete_id = 0 ) {
 function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
     if ( stwatt()->athletes_db->get_column_by( 'id', 'athlete_id', $athlete_id ) ) {
         // check access token as this may be null.
-        if (null === stwatt()->tokens_db->get_column_by( 'access_token', 'athlete_id', $athlete_id )) {
-            return false;    
+        if ( null === stwatt()->tokens_db->get_column_by( 'access_token', 'athlete_id', $athlete_id ) ) {
+            return false;
         }
-        
+
         return true;
     }
 
@@ -43,7 +43,7 @@ function stwatt_is_athlete_authorized( $athlete_id = 0 ) {
  * @return athlete object
  */
 function stwatt_athlete( $athlete_id = 0 ) {
-    $prefix = '_stwatt_';
+    $prefix     = '_stwatt_';
     $athlete_id = intval( $athlete_id );
 
     if ( ! $athlete_id ) {
@@ -93,15 +93,15 @@ function stwatt_log( $message = '' ) {
     if ( is_array( $message ) ) {
         $message = json_encode( $message );
     }
-    
-    if (!is_dir(STWATT_UPLOADS_PATH) ) {
+
+    if ( ! is_dir( STWATT_UPLOADS_PATH ) ) {
         wp_mkdir_p( STWATT_UPLOADS_PATH );
     }
-    
+
     $file = fopen( STWATT_UPLOADS_PATH . 'log.log', 'a' );
-    
+
     echo fwrite( $file, "\n" . date( 'Y-m-d h:i:s' ) . ' :: ' . $message );
-    
+
     fclose( $file );
 }
 
@@ -118,7 +118,7 @@ function stwatt_wp_error_data( $data_obj = '' ) {
     }
 
     $data_obj = $data_obj[0];
-    $output = $data_obj->resource . ', ' . $data_obj->code . ' ' . $data_obj->field;
+    $output   = $data_obj->resource . ', ' . $data_obj->code . ' ' . $data_obj->field;
 
     return $output;
 }
