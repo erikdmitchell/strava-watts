@@ -206,9 +206,20 @@ class STWATT_API_Athlete {
         return true;
     }
 
+    public function add_activity_to_db( $activity = '' ) {
+        return $this->add_activity( $activity );
+    }
+
+    /**
+     * Add activity to db.
+     *
+     * @access protected
+     * @param string $activity (default: '').
+     * @return bool
+     */
     protected function add_activity( $activity = '' ) {
         if ( empty( $activity ) ) {
-            return;
+            return false;
         }
 
         $keys_to_use = array(
@@ -242,7 +253,7 @@ class STWATT_API_Athlete {
 
         // check for dups.
         if ( stwatt_activity_exists( $activity_details['id'] ) ) {
-            return;
+            return false;
         }
 
         // add to db.
@@ -251,7 +262,7 @@ class STWATT_API_Athlete {
         // add to athlete stats. MAY NOT NEED (see 0.1.0 project on github).
         stwatt()->athlete_stats_db->update_stats( $data['athlete_id'], $data['activity_id'] );
 
-        return;
+        return true;
     }
 
     public function get_gear( $id = 0 ) {

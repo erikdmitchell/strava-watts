@@ -45,7 +45,7 @@ class STWATT_WP_CLI {
             WP_CLI::error( 'There was an error importing activities.' );
         }
     }
-
+    // add param to add to db
     /**
      * List athlete activities
      *
@@ -53,6 +53,9 @@ class STWATT_WP_CLI {
      *
      * [--id=<id>]
      * : The athlete id
+     *
+     * [--insert]
+     * : Activities will be inserted into the db.
      *
      * [--<field>=<value>]
      * : Associative args for the event.
@@ -77,6 +80,7 @@ class STWATT_WP_CLI {
                 'after' => strtotime( $current_year . '-01-01' ), // first of the year.
                 'page' => 1, // default
                 'per_page' => 50, // default
+                'insert' => 0,
             ),
             $assoc_args
         );
@@ -85,6 +89,7 @@ class STWATT_WP_CLI {
 
         $display_arr = array();
         $all_activities = array();
+        $inserted_activites = 0;
         $params = array(
             'before' => $before,
             'after' => $after,
@@ -109,14 +114,13 @@ class STWATT_WP_CLI {
 
             $page++;
         }
-        /*
+        
         if ( is_wp_error( $activities ) ) {
             WP_CLI::error( $activities->get_error_message() . ': ' . stwatt_wp_error_data($activities->get_error_data()) );
         }
-        */
 
         foreach ( $all_activities as $activity ) {
-            $in_db = false;
+            $in_db = 'no';
             $keys_to_use = array(
                 'name',
                 'id',
@@ -127,7 +131,10 @@ class STWATT_WP_CLI {
             $activity_details = array_intersect_key( get_object_vars( $activity ), array_flip( $keys_to_use ) );
 
             if ( stwatt_activity_exists( $activity_details['id'] ) ) {
-                $in_db = true;
+                $in_db = 'yes';
+            } elseif ( $insert ) {
+                $inserted = stwatt()->api_athlete->add_activity_to_db($activity);
+                $inserted_activites++;
             }
 
             $display_arr[] = array(
@@ -139,6 +146,7 @@ class STWATT_WP_CLI {
         }
 
         WP_CLI\Utils\format_items( 'table', $display_arr, array( 'date', 'name', 'id', 'in_db' ) );
+        WP_CLI::success( $inserted_activites . ' inserted into the db.' );
     }
 
 }
