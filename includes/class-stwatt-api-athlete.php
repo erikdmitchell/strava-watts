@@ -112,42 +112,31 @@ class STWATT_API_Athlete {
         );
         $params         = wp_parse_args( $params, $default_params );
         $param_query    = $this->build_query_params( $params );
+        $url = "https://www.strava.com/api/v3/athlete/activities?{$param_query}";
+        
+        $response = wp_remote_get( $url, array(
+            'method'      => 'GET',
+            'timeout'     => 0,
+            'redirection' => 10,
+            'httpversion' => '1.1',            
+            'headers' => array(
+                'Authorization' => 'Bearer' . $this->token,
+            ),            
+        ) );
 
-        $curl = curl_init();
+        if ( is_wp_error( $response ) ) {
+            $error_message = $response->get_error_message();
 
-        curl_setopt_array(
-            $curl,
-            array(
-                CURLOPT_URL            => "https://www.strava.com/api/v3/athlete/activities?{$param_query}",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING       => '',
-                CURLOPT_MAXREDIRS      => 10,
-                CURLOPT_TIMEOUT        => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST  => 'GET',
-                CURLOPT_HTTPHEADER     => array(
-                    "Authorization: Bearer {$this->token}",
-                ),
-            )
-        );
+            stwatt_log( 'Get Athlete Activities error: ' . $error_message );
 
-        $response = curl_exec( $curl );
+            echo "Something went wrong: $error_message";
 
-        curl_close( $curl );
-
-        $response = json_decode( $response );
-
-        if ( empty( $response ) ) {
             return;
         }
 
-        // check for error, if so return wp error.
-        if ( isset( $response->errors ) ) {
-            return new WP_Error( 'strava', $response->message, $response->errors );
-        }
+        $response_obj = json_decode( $response['body'] );
 
-        return $response;
+        return $response_obj; 
     }
 
     protected function get_strava_activity( $id = 0 ) {
