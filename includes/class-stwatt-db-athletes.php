@@ -22,12 +22,12 @@ class STWATT_DB_Athletes extends STWATT_DB {
      */
     public function get_columns() {
         return array(
-            'id' => '%d',
-            'age' => '%s',
+            'id'         => '%d',
+            'age'        => '%s',
             'athlete_id' => '%d',
             'first_name' => '%s',
-            'gender' => '%s',
-            'last_name' => '%s',
+            'gender'     => '%s',
+            'last_name'  => '%s',
         );
     }
 
@@ -39,11 +39,11 @@ class STWATT_DB_Athletes extends STWATT_DB {
      */
     public function get_column_defaults() {
         return array(
-            'age' => '',
+            'age'        => '',
             'athlete_id' => 0,
             'first_name' => '',
-            'gender' => '',
-            'last_name' => '',
+            'gender'     => '',
+            'last_name'  => '',
         );
     }
 
@@ -59,16 +59,16 @@ class STWATT_DB_Athletes extends STWATT_DB {
         global $wpdb;
 
         $defaults = array(
-            'number' => 20,
-            'offset' => 0,
+            'number'     => 20,
+            'offset'     => 0,
             'athlete_id' => 0,
-            'age' => '',
-            'gender' => '',
-            'orderby' => 'first_name',
-            'order' => 'DESC',
+            'age'        => '',
+            'gender'     => '',
+            'orderby'    => 'first_name',
+            'order'      => 'DESC',
         );
 
-        $args  = wp_parse_args( $args, $defaults );
+        $args = wp_parse_args( $args, $defaults );
 
         if ( $args['number'] < 1 ) {
             $args['number'] = 999999999999;

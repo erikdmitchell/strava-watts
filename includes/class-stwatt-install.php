@@ -92,7 +92,7 @@ class STWATT_Install {
         $sql[] = "CREATE TABLE stwatt_tokens (
             id int(11) unsigned NOT NULL AUTO_INCREMENT,
             athlete_id int(11) DEFAULT NULL,
-            scope varchar(32) DEFAULT NULL,
+            scope varchar(255) DEFAULT NULL,
             refresh_token varchar(255) DEFAULT NULL, 
             access_token varchar(255) DEFAULT NULL,
             expires_at int(11) DEFAULT NULL, 
@@ -127,7 +127,7 @@ class STWATT_Install {
             PRIMARY KEY (id)
         ) $charset_collate;";
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta( $sql );
 
         update_option( 'stwatt_db_version', STWATT_DB_VERSION );

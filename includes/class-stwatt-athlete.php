@@ -42,9 +42,9 @@ class STWATT_Athlete {
      * @return void
      */
     public function __construct( $id = 0 ) {
-        $this->id = $id;
+        $this->id         = $id;
         $this->activities = $this->get_activities();
-        $this->stats = $this->get_stats();
+        $this->stats      = $this->get_stats();
     }
 
     /**

@@ -7,8 +7,8 @@ function stwatt_athlete_rest_api_endpoints() {
         $namespace,
         '/athlete',
         array(
-            'methods' => WP_REST_Server::READABLE,
-            'callback' => 'stwatt_rest_route_athlete',
+            'methods'             => WP_REST_Server::READABLE,
+            'callback'            => 'stwatt_rest_route_athlete',
             'permission_callback' => '__return_true',
         ),
     );
@@ -37,13 +37,13 @@ function stwatt_athlete_rest_api_endpoints() {
         $namespace,
         '/athlete/(?P<athlete_id>.+)/activities',
         array(
-            'methods' => WP_REST_Server::READABLE,
-            'callback' => 'stwatt_rest_route_athlete_activities',
+            'methods'             => WP_REST_Server::READABLE,
+            'callback'            => 'stwatt_rest_route_athlete_activities',
             'permission_callback' => '__return_true',
-            'args' => array(
+            'args'                => array(
                 'athlete_id' => array(
                     'required' => false,
-                    'type' => 'int',
+                    'type'     => 'int',
                 ),
             ),
         )
@@ -54,13 +54,13 @@ function stwatt_athlete_rest_api_endpoints() {
         $namespace,
         '/athlete/(?P<athlete_id>.+)/summary',
         array(
-            'methods' => WP_REST_Server::READABLE,
-            'callback' => 'stwatt_rest_route_athlete_summary',
+            'methods'             => WP_REST_Server::READABLE,
+            'callback'            => 'stwatt_rest_route_athlete_summary',
             'permission_callback' => '__return_true',
-            'args' => array(
+            'args'                => array(
                 'athlete_id' => array(
                     'required' => false,
-                    'type' => 'int',
+                    'type'     => 'int',
                 ),
             ),
         )
@@ -78,8 +78,8 @@ function stwatt_rest_route_athlete( $request ) {
 function stwatt_rest_route_athlete_activities( $request ) {
     $args = array(
         'athlete_id' => intval( $request['athlete_id'] ),
-        'date' => $request['date'], // optional
-        'stats' => $request['stats'], // optional
+        'date'       => $request['date'], // optional
+        'stats'      => $request['stats'], // optional
     );
 
     $response = stwatt_athlete_activities( $args );
@@ -90,8 +90,8 @@ function stwatt_rest_route_athlete_activities( $request ) {
 function stwatt_rest_route_athlete_summary( $request ) {
     $args = array(
         'athlete_id' => intval( $request['athlete_id'] ),
-        'date' => $request['date'], // optional
-        'stats' => $request['stats'], // optional
+        'date'       => $request['date'], // optional
+        'stats'      => $request['stats'], // optional
     );
 
     $response = stwatt_athlete_activities_summary( $args );
@@ -107,7 +107,7 @@ function stwatt_athlete_activities_summary( $args = array() ) {
     $default_args = array(
         'athlete_id' => get_option( "{$prefix}athlete_id", 0 ),
     );
-    $args = wp_parse_args( $args, $default_args );
+    $args         = wp_parse_args( $args, $default_args );
 
     // activities db call.
     return stwatt()->athlete_activities_db->get_summary( $args );
@@ -119,7 +119,7 @@ function stwatt_athlete_activities( $args = array() ) {
     $default_args = array(
         'athlete_id' => get_option( "{$prefix}athlete_id", 0 ),
     );
-    $args = wp_parse_args( $args, $default_args );
+    $args         = wp_parse_args( $args, $default_args );
 
     // activities db call.
     return stwatt()->athlete_activities_db->get_activities( $args );
