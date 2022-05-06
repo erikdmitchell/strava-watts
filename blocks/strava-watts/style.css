@@ -1,0 +1,83 @@
+#computer-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;    
+    border: 15px solid #000;
+    border-radius: 15px;
+    width: 25%;  
+    padding: 0;
+    margin: 0;
+}
+
+.computer-wrapper .computer {
+    width: 100%;
+    background: #c0c0c0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-style: normal;
+    color: #000;  
+}
+
+.computer-row {
+    flex: 1;
+    border-bottom: 1px solid #858585;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: center;
+}
+
+.computer-row:last-child {
+    border-bottom: none;
+}
+
+.computer .data-label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-align: right;
+}
+
+.data.align-center {
+    text-align: center;
+}
+
+.data.text-uppercase {
+    text-transform: uppercase;
+}
+
+.computer-wrapper .buttons {
+    background: #000;
+    color: gray;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+}
+
+.computer-wrapper .buttons button {
+    min-width: 85px;
+    border: 1px solid;
+    border-color: #353535;
+    background: #353535;
+    color: #fff;   
+}
+
+.computer-wrapper .buttons button:hover {
+    cursor: pointer;
+}
+
+.computer-wrapper .buttons button:active {
+  background-color: #353535;
+  transform: translateY(1px);
+}
+
+.computer-wrapper .powered-by {
+    width: 100%;
+    background: #000;
+    padding-top: 10px;
+    text-align: right;
+    line-height: 1;
+}
+
+.computer-wrapper .powered-by img {
+    height: 25px;
+}
